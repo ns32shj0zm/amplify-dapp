@@ -1,0 +1,64 @@
+.lt-header
+    width: 100%
+    box-sizing: border-box
+    position: absolute
+    z-index: 1
+
+    .main
+        max-width: 1024px
+        width: 100%
+        margin: 0 auto
+        justifyContentSpaceBetween()
+        padding: 15px 20px
+        box-sizing: border-box
+
+    .left
+        width: 278px
+
+        .logo
+            width: 100px
+            height: 25px
+            background: url('./img/logo.png') no-repeat
+            background-size: 100% auto
+            cursor: pointer
+
+    .nav
+        display: flex
+        font-size: 22px
+
+        div
+            margin: 0 30px
+            cursor pointer
+
+            &.cur
+                color: #2c73ed
+
+                &:after
+                    content: ' '
+                    display: block
+                    height: 1px
+                    width: 90%
+                    background: #2c73ed
+                    margin: 0 auto
+
+    .right
+        display: flex
+        line-height: 25px
+        height: 25px
+        width: 278px
+
+        .login
+            font-size: 22px
+
+        .lang
+            font-size: 22px
+            line-height: 25px
+            height: 25px
+
+            span
+                cursor: pointer
+                color: rgba(#373737, 0.5)
+                margin: 0 5px
+
+                &.cur
+                    color: #373737

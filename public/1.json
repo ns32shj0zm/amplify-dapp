@@ -1,0 +1,17 @@
+{
+  "id": 0,
+  "tokenSign": "string",
+  "bottomPlatform": "string",
+  "url": "string",
+  "buckwalletio": "string",
+  "gasLimit": 0,
+  "address": "string",
+  "logo": "string",
+  "companyName": "string",
+  "personName": "string",
+  "personJob": "string",
+  "personWechat": "string",
+  "personTel": 0,
+  "personEmail": "string",
+  "createTime": "2019-10-31T03:10:46.032Z"
+}

@@ -1,0 +1,51 @@
+.page-app
+    background: url('./img/bg_banner.png') no-repeat top center
+
+    .lt-main
+        .header
+            max-width: 1000px
+            margin: 0 auto
+
+            .block
+                background: #fff
+                max-width 908px
+                margin: 0 auto
+                justifyContentSpaceBetween()
+
+            .progress
+                position: relative
+                margin: 34px auto 0
+                padding: 0 20px 20px
+
+                @media screen and (max-width: 900px)
+                    margin-top: 24px
+
+                .text
+                    justifyContentSpaceBetween()
+                    font-size: 16px
+                    font-weight: 400
+                    margin: 0 0 10px
+
+                    @media screen and (max-width: 900px)
+                        font-size: 14px
+
+                .bar
+                    height: 10px
+                    background: #d4e1ef
+                    border-radius: 5px
+                    overflow hidden
+
+                    div
+                        width: 0
+                        height: 10px
+                        background: #ffc87a
+                        border-radius: 5px
+
+        .content
+            display: flex
+
+            .block
+                flex: 1
+
+                .blockItem
+                    border: 1px solid #ddd

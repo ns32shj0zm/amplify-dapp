@@ -1,0 +1,74 @@
+.footer
+    padding: 59px 20px
+    background: rgb(233, 244, 255)
+    font-size: 24px
+    color: #000
+
+    .layou-content
+        max-width: 1024px
+        margin: 0 auto
+
+        @media screen and (max-width: 900px)
+            max-width: 100%
+
+    .title
+        height: 40px
+
+        img
+            max-height: 70%
+
+    .contact
+        width: 220px
+        display: flex
+
+        @media screen and (max-width: 900px)
+            display: flex
+            width: 100%
+
+        .item
+            width: 40px
+            height: @width
+            position: relative
+            margin: 14px 30px 0 0
+
+            img
+                cursor: pointer
+                position: absolute
+                top: 50%
+                left: 50%
+                transform: translate(-50%, -50%)
+
+                &.email
+                    width: 40px
+
+                &.twitter
+                    height: 40px
+
+    .copyright
+        font-size: 20px
+        margin: 14px 0
+
+        p
+            margin: 0 0 10px
+
+    .footer-content
+        display: flex
+
+        @media screen and (max-width: 900px)
+            flex-direction: column
+
+    .footer-content__item
+        flex: 0 0 auto
+
+        &:nth-child(2)
+            margin: 0 100px
+            @media screen and (max-width: 900px)
+                margin: 40px 0
+
+
+        &:nth-child(1)
+            flex: 1 1 100%
+
+    .pyImg
+        height: 40px
+        margin: 14px 0 0

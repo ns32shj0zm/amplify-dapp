@@ -1,0 +1,44 @@
+{
+    "version": "2.0.2",
+    "compilerOptions": {
+        "lib": [
+            "dom",
+            "dom.iterable",
+            "esnext"
+        ],
+        "target": "es5",
+        "module": "esnext",
+        "moduleResolution": "node",
+        "allowJs": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "strict": true,
+        "strictNullChecks": true,
+        "skipLibCheck": true,
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "noImplicitAny": false, // eslint 提示警告
+        "rootDir": "./src",
+        "outDir": "./dist",
+        "sourceMap": true,
+        "jsx": "react",
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["src/*"]
+        }
+    },
+    "exclude": [
+        "node_modules",
+        "dist",
+        "dll",
+        "config",
+        ".history"
+    ],
+    "include": [
+        "src/**/*",
+        "src/app/*.d.ts"
+    ]
+}

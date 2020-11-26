@@ -1,0 +1,271 @@
+.page-home
+    .home
+        overflow: hidden
+
+    .layou-content
+        max-width: 1024px
+        margin: 120px auto 0
+
+        @media screen and (max-width: 900px)
+            max-width: 100%
+
+    .home-content
+        position: relative
+
+        .ba-lr
+            position: absolute
+            z-index: -1
+            max-width: 38%
+
+        .ba-l
+            left: 0
+            top: 184px
+            bottom: 60px
+
+        .ba-r
+            right: 0
+            top: 50%
+            transform: translateY(-50%)
+
+    .home-title
+        text-align: center
+        font-size: 34px
+        font-weight: 500
+        color: #000
+        padding: 76px 20px 50px
+
+    .home-title__big
+        line-height: 44px
+
+    .home-title__little
+        font-size: 18px
+        font-weight: normal
+        color: #979797
+        margin-top: 5px
+
+    .super-list
+        display: flex
+        text-align: center
+        padding-bottom: 46px
+
+    .super-list__item
+        flex: 1
+        padding: 60px 30px
+        padding-bottom: 30px
+        border-radius: 6px
+        box-shadow: 0 0 4px -1px #000
+
+        &:nth-child(2)
+            margin: 0 20px
+
+        .img
+            margin-bottom: 59px
+
+        .title
+            font-size: 24px
+            margin-bottom: 20px
+            font-weight: 500
+            font-family: 'Source Han Sans CN'
+
+        .text
+            font-size: 16px
+            text-align: left
+            line-height: 20px
+            letter-spacing: 1px
+            color: #828282
+
+    .B2B2C
+        padding: 0 50px
+
+    .B2B2C-img
+        max-width: 100%
+        max-height: 100%
+
+    .qingsuang
+        display: flex
+        margin-top: 129px
+
+    .qingsuang-text
+        flex: 0 0 40%
+        margin-right: 30px
+
+        h4
+            padding-top: 60px
+            font-weight: 500
+            font-size: 36px
+            font-family: 'Source Han Sans CN'
+
+        .text
+            padding-top: 30px
+            line-height: 30px
+            color: #979797
+            font-size: 18px
+
+    .qingsuang-img
+        flex: 1 1 100%
+
+        img
+            max-width: 100%
+
+    .ampt
+        margin-top: 92px
+        margin-bottom: 46px
+        padding: 117px 20px 60px
+        background: url('./img/ampt.png') no-repeat
+        background-size: 100% 100%
+        text-align: center
+
+        h3
+            font-size: 34px
+            color: #000
+            font-weight: 500
+
+        .text
+            margin: 0 auto
+            padding-top: 50px
+            width: 70%
+            line-height: 36px
+            font-size: 24px
+            color: #5e6392
+
+    .text__btn
+        margin-top: 90px
+
+        span
+            display: inline-block
+            width: 400px
+            max-width: 70%
+            padding: 20px 0
+            border-radius: 6px
+            background-color: #5b87f7
+            text-align: center
+            color: #fff
+            font-size: 30px
+            letter-spacing: 2px
+            cursor: pointer
+
+    @media screen and (max-width: 900px)
+        .home-content
+            .ba-lr
+                display: none
+
+        .pdlr
+            padding: 0 20px
+            box-sizing: border-box
+
+        .super-list, .qingsuang
+            flex-direction: column
+
+        .super-list__item:nth-child(2)
+            margin: 20px 0
+
+        .ampt
+            h3, .text
+                width: 95%
+                font-size: 20px
+
+        .qingsuang-text
+            .text
+                padding-top: 30px
+                padding-bottom: 10px
+
+.banner
+    display: flex
+    flex-direction: column
+    padding-top: 15px
+    padding-bottom: 110px
+    background: url('./img/bg_top.png') no-repeat
+    background-size: 100% 100%
+    box-sizing: border-box
+
+    .logo
+        width: 100px
+
+.banner__top
+    display: flex
+    flex: 0 0 auto
+    width: 100%
+    padding: 0 20px
+    justify-content: space-between
+    align-items: center
+    margin-bottom: 40px
+    box-sizing: border-box
+
+.banner__content
+    position: relative
+    flex: 1 1 100%
+    width: 100%
+    padding: 0 20px
+    box-sizing: border-box
+
+    .img
+        position: absolute
+        top: 0
+        right: 0
+        max-width: 490px
+
+.content__text
+    display: inline-block
+    max-width: 100%
+    margin: 10px 0 0
+
+    .logo_text
+        font-size: 48px
+        height: 50px
+        letter-spacing: 2px
+        color: #000
+        font-weight: 500
+
+    .logo_text__little
+        padding-top: 5px
+        font-size: 30px
+        letter-spacing: 2px
+        color: #000
+        font-weight: 400
+
+    .logo_text__desc
+        padding-top: 20px
+        font-size: 22px
+        line-height: 30px
+        color: #090748
+        width: 525px
+        max-width: 100%
+        font-weight: 400
+
+    .logo_text__btn
+        margin-top: 60px
+
+        a
+            display: inline-block
+            width: 400px
+            max-width: 70%
+            border-radius: 6px
+            background-color: #5b87f7
+            text-align: center
+            color: #fff
+            font-size: 30px
+            letter-spacing: 2px
+            cursor: pointer
+            text-decoration: none
+            line-height: 70px
+
+@media screen and (max-width: 900px)
+    .banner
+        background-image: url('./img/bg_top_2.png')
+
+    .banner__content .img
+        display: none
+
+    .content__text
+        text-align: center
+        margin-top: 30px
+
+        .logo_text
+            font-size: 30px
+            margin: 0 0 15px
+
+        .logo_text__little
+            font-size: 20px
+
+        .logo_text__desc
+            font-size: 20px

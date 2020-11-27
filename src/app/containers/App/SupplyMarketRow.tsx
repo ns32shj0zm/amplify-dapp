@@ -6,6 +6,7 @@ import Switch from '@material-ui/core/Switch'
 type IProps = {
     details: any
     handleClick(): void
+    handleSwitchClick(): void
 }
 
 const StyledSwitch = withStyles({
@@ -56,7 +57,7 @@ function SupplyMarketRow(props: IProps): JSX.Element {
                 <StyledSwitch
                     checked={props.details.isEnterMarket}
                     onChange={() => {
-                        // setEnterMarketDialogOpen(true)
+                        props?.handleSwitchClick()
                     }}
                 />
             </td>

@@ -65,7 +65,7 @@ const Header: React.FunctionComponent<IProps> = (props: IProps): React.ReactElem
                             English
                         </span>
                     </div>
-                    <Login />
+                    {pathname !== '/' ? <Login /> : null}
                 </div>
             </div>
         </header>

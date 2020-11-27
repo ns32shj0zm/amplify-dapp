@@ -2,15 +2,40 @@
     background: url('./img/bg_banner.png') no-repeat top center
 
     .lt-main
+        padding: 148px 0 0
+
         .header
             max-width: 1000px
             margin: 0 auto
 
             .block
-                background: #fff
-                max-width 908px
+                max-width: 908px
                 margin: 0 auto
                 justifyContentSpaceBetween()
+                background: #FFFFFF
+                box-shadow: 0px 4px 4px 2px rgba(0, 0, 0, 0.05)
+                border-radius: 8px
+
+                .blockItem
+                    &.supply
+                        padding: 0 0 0 100px
+
+                        .blockNumber
+                            color: #369bff
+
+                    &.borrow
+                        padding: 0 100px 0 0
+
+                        .blockNumber
+                            color: #12ce80
+
+                    .blockTitle
+                        padding: 72px 0 0
+                        color: rgba(#000, 0.65)
+                        font-size: 18px
+
+                    .blockNumber
+                        font-size: 26px
 
             .progress
                 position: relative
@@ -24,7 +49,7 @@
                     justifyContentSpaceBetween()
                     font-size: 16px
                     font-weight: 400
-                    margin: 0 0 10px
+                    margin: 0 0 12px
 
                     @media screen and (max-width: 900px)
                         font-size: 14px
@@ -33,7 +58,8 @@
                     height: 10px
                     background: #d4e1ef
                     border-radius: 5px
-                    overflow hidden
+                    overflow: hidden
+                    margin: 0 0 80px
 
                     div
                         width: 0
@@ -43,9 +69,84 @@
 
         .content
             display: flex
+            max-width: 1200px
+            margin: 0 auto
 
             .block
                 flex: 1
+                padding: 0 30px 30px
 
                 .blockItem
-                    border: 1px solid #ddd
+                    margin: 30px 0 0
+
+                    .blockTitle
+                        display: flex
+                        margin: 0 0 20px
+
+                        @media screen and (max-width: 900px)
+                            justify-content: space-between
+
+                        span
+                            font-size: 24px
+                            font-weight: bold
+                            padding: 0 20px 0 0
+                            height: 26px
+                            line-height: @height
+
+                            @media screen and (max-width: 900px)
+                                font-size: 16px
+
+                        i
+                            flex: 1
+                            display: inline-block
+                            position: relative
+
+                            @media screen and (max-width: 900px)
+                                display: none
+
+                            &:after
+                                content: ' '
+                                display: block
+                                height: 2px
+                                background: #E6E6E6
+                                width: 100%
+                                position: absolute
+                                top: 50%
+                                transform: translate(0, -50%)
+
+                    .blockMain
+                        background: #FFFFFF
+                        box-shadow: 0px 4px 4px 2px rgba(0, 0, 0, 0.1)
+                        border-radius: 4px
+                        padding: 20px
+
+                .blockAccount
+                    background: #FFFFFF
+                    box-shadow: 0px 4px 4px 2px rgba(0, 0, 0, 0.1)
+                    border-radius: 4px
+                    padding: 20px
+
+                    .blockTitle
+                        font-size: 24px
+                        font-weight: bold
+                        padding: 0 20px 20px 0
+                        height: 26px
+                        line-height: @height
+
+                .table
+                    width: 100%
+
+                    thead
+                        background: #F8F8F8
+                        height: 40px
+                        line-height: 40px
+
+                        th
+                            padding: 0 5px
+
+                    tbody
+                        tr
+                            border-bottom: 1px solid #F8F8F8
+
+                            td
+                                padding: 15px 0

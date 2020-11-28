@@ -238,13 +238,23 @@ function Home(props: IProps): JSX.Element {
                         </div>
                     </div>
                 </Spin>
-                <SupplyDialog generalDetails={generalDetails} selectedMarketDetails={selectedMarketDetails} ref={SupplyDialogRef} />
-                <BorrowDialog generalDetails={generalDetails} selectedMarketDetails={selectedMarketDetails} ref={BorrowDialogRef} account={account} />
+                <SupplyDialog
+                    generalDetails={generalDetails}
+                    selectedMarketDetails={selectedMarketDetails}
+                    ref={SupplyDialogRef}
+                    handleUpdateData={() => updateData()}
+                />
+                <BorrowDialog
+                    generalDetails={generalDetails}
+                    selectedMarketDetails={selectedMarketDetails}
+                    ref={BorrowDialogRef}
+                    handleUpdateData={() => updateData()}
+                />
                 <EnterMarketDialog
                     generalDetails={generalDetails}
                     selectedMarketDetails={selectedMarketDetails}
                     ref={EnterMarketDialogRef}
-                    account={account}
+                    handleUpdateData={() => updateData()}
                 />
             </div>
         </Layout>

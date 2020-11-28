@@ -38,7 +38,7 @@ const DialogBorrowLimitSection = (props: { generalDetails: GeneralDetails; newBo
                 </div>
             </div>
             <div className="content">
-                <div className="label">{`Borrow Limit`}</div>
+                <div className="label">{`Borrow Limit Used`}</div>
                 <div className="value">
                     <span>{`${zeroStringIfNullish(props.generalDetails.totalBorrowLimitUsedPercent?.toFixed(2), 2)}%`}</span>
                     {/* {newBorrowLimit1 ? (
@@ -53,7 +53,7 @@ const DialogBorrowLimitSection = (props: { generalDetails: GeneralDetails; newBo
     )
 }
 
-const DialogMarketInfoSection = (props: IDetails): JSX.Element => {
+const DialogMarketInfoSection = (props: { selectedMarketDetails: SelectedMarketDetails }): JSX.Element => {
     return (
         <div className="listItem">
             <div className="title">Market Info</div>
@@ -190,14 +190,14 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
                     </div>
                     <DialogSupplyRatesSection selectedMarketDetails={props.selectedMarketDetails} />
                     <DialogBorrowLimitSection generalDetails={props.generalDetails} newBorrowLimit={newBorrowLimit1} />
-                    <DialogMarketInfoSection generalDetails={props.generalDetails} selectedMarketDetails={props.selectedMarketDetails} />
+                    <DialogMarketInfoSection selectedMarketDetails={props.selectedMarketDetails} />
                     {props.selectedMarketDetails.underlyingAllowance?.isGreaterThan(0) &&
                     props.selectedMarketDetails.underlyingAllowance?.isGreaterThanOrEqualTo(+supplyAmount) ? (
                         <Button
                             disabled={!supplyAmount || !!supplyValidationMessage}
                             onClick={async () => {
                                 setLoading(true)
-                                await handleSupply(
+                                const res = await handleSupply(
                                     props.selectedMarketDetails.underlyingAddress,
                                     props.selectedMarketDetails.pTokenAddress,
                                     supplyAmount,
@@ -206,6 +206,10 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
                                     globalInfo.library,
                                     gasPrice
                                 )
+                                if (res) {
+                                    props.handleUpdateData()
+                                    setSupplyDialogOpen(false)
+                                }
                                 setLoading(false)
                             }}
                         >
@@ -216,13 +220,17 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
                             loading={loading}
                             onClick={async () => {
                                 setLoading(true)
-                                await handleEnable(
+                                const res = await handleEnable(
                                     props.selectedMarketDetails.underlyingAddress,
                                     props.selectedMarketDetails.pTokenAddress,
                                     props.selectedMarketDetails.symbol,
                                     globalInfo.library,
                                     gasPrice
                                 )
+                                if (res) {
+                                    props.handleUpdateData()
+                                    setSupplyDialogOpen(false)
+                                }
                                 setLoading(false)
                             }}
                         >
@@ -250,12 +258,12 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
                     </div>
                     <DialogSupplyRatesSection selectedMarketDetails={props.selectedMarketDetails} />
                     <DialogBorrowLimitSection generalDetails={props.generalDetails} newBorrowLimit={newBorrowLimit2} />
-                    <DialogMarketInfoSection generalDetails={props.generalDetails} selectedMarketDetails={props.selectedMarketDetails} />
+                    <DialogMarketInfoSection selectedMarketDetails={props.selectedMarketDetails} />
                     <Button
                         disabled={!withdrawAmount || !!withdrawValidationMessage}
                         onClick={async () => {
                             setLoading(true)
-                            await handleWithdraw(
+                            const res = await handleWithdraw(
                                 props.selectedMarketDetails.underlyingAddress,
                                 props.selectedMarketDetails.pTokenAddress,
                                 withdrawAmount,
@@ -264,6 +272,10 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
                                 globalInfo.library,
                                 gasPrice
                             )
+                            if (res) {
+                                props.handleUpdateData()
+                                setSupplyDialogOpen(false)
+                            }
                             setLoading(false)
                         }}
                     >

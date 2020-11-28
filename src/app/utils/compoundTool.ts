@@ -447,12 +447,14 @@ export const handleEnable = async (underlyingAddress, pTokenAddress, symbol, lib
         message.success({
             content: `Transaction sent: ${tx.hash}`
         })
+        return true
     } catch (e) {
         console.log(e)
         message.destroy()
         message.error({
             content: `Error: ${JSON.stringify(e)}`
         })
+        return false
     }
 }
 
@@ -483,11 +485,13 @@ export const handleWithdraw = async (underlyingAddress, pTokenAddress, amount, d
         message.success({
             content: `Transaction sent: ${tx.hash}`
         })
+        return true
     } catch (e) {
         message.destroy()
         message.error({
             content: `Error: ${JSON.stringify(e)}`
         })
+        return false
     }
 }
 
@@ -516,12 +520,14 @@ export const handleSupply = async (underlyingAddress, pTokenAddress, amount, dec
         message.success({
             content: `Transaction sent: ${tx.hash}`
         })
+        return true
     } catch (e) {
         console.log(e)
         message.destroy()
         message.error({
             content: `Error: ${JSON.stringify(e)}`
         })
+        return false
     }
 }
 
@@ -577,12 +583,14 @@ export const handleRepay = async (walletAddress, underlyingAddress, pTokenAddres
         message.success({
             content: `Transaction sent: ${tx.hash}`
         })
+        return true
     } catch (e) {
         console.log(e)
         message.destroy()
         message.error({
             content: `Error: ${JSON.stringify(e)}`
         })
+        return false
     }
 }
 
@@ -611,12 +619,14 @@ export const handleBorrow = async (underlyingAddress, pTokenAddress, amount, dec
         message.success({
             content: `Transaction sent: ${tx.hash}`
         })
+        return true
     } catch (e) {
         console.log(e)
         message.destroy()
         message.error({
             content: `Error: ${JSON.stringify(e)}`
         })
+        return false
     }
 }
 
@@ -639,12 +649,14 @@ export const handleExitMarket = async (pTokenAddress, library, gasPrice) => {
         message.success({
             content: `Transaction sent: ${tx.hash}`
         })
+        return true
     } catch (e) {
         console.log(e)
         message.destroy()
         message.error({
             content: `Error: ${JSON.stringify(e)}`
         })
+        return false
     }
 }
 
@@ -666,11 +678,13 @@ export const handleEnterMarket = async (pTokenAddress, library, gasPrice) => {
         message.success({
             content: `Transaction sent: ${tx.hash}`
         })
+        return true
     } catch (e) {
         console.log(e)
         message.destroy()
         message.error({
             content: `Error: ${JSON.stringify(e)}`
         })
+        return false
     }
 }

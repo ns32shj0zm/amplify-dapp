@@ -211,7 +211,7 @@ const BorrowDialog = forwardRef((props: IDetails, ref) => {
                         disabled={!borrowAmount || !!borrowValidationMessage}
                         onClick={async () => {
                             setLoading(true)
-                            await handleBorrow(
+                            const res = await handleBorrow(
                                 props.selectedMarketDetails.underlyingAddress,
                                 props.selectedMarketDetails.pTokenAddress,
                                 borrowAmount,
@@ -220,6 +220,10 @@ const BorrowDialog = forwardRef((props: IDetails, ref) => {
                                 globalInfo.library,
                                 gasPrice
                             )
+                            if (res) {
+                                props.handleUpdateData()
+                                setBorrowDialogOpen(false)
+                            }
                             setLoading(false)
                         }}
                     >
@@ -279,7 +283,7 @@ const BorrowDialog = forwardRef((props: IDetails, ref) => {
                             disabled={!repayAmount || !!repayValidationMessage}
                             onClick={async () => {
                                 setLoading(true)
-                                await handleRepay(
+                                const res = await handleRepay(
                                     globalInfo.account,
                                     props.selectedMarketDetails.underlyingAddress,
                                     props.selectedMarketDetails.pTokenAddress,
@@ -290,6 +294,10 @@ const BorrowDialog = forwardRef((props: IDetails, ref) => {
                                     globalInfo.library,
                                     gasPrice
                                 )
+                                if (res) {
+                                    props.handleUpdateData()
+                                    setBorrowDialogOpen(false)
+                                }
                                 setLoading(false)
                             }}
                         >
@@ -299,13 +307,17 @@ const BorrowDialog = forwardRef((props: IDetails, ref) => {
                         <Button
                             onClick={async () => {
                                 setLoading(true)
-                                await handleEnable(
+                                const res = await handleEnable(
                                     props.selectedMarketDetails.underlyingAddress,
                                     props.selectedMarketDetails.pTokenAddress,
                                     props.selectedMarketDetails.symbol,
                                     globalInfo.library,
                                     gasPrice
                                 )
+                                if (res) {
+                                    props.handleUpdateData()
+                                    setBorrowDialogOpen(false)
+                                }
                                 setLoading(false)
                             }}
                         >

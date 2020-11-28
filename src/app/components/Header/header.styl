@@ -12,55 +12,114 @@
         padding: 15px 20px
         box-sizing: border-box
 
-    .left
+        @media screen and (max-width: 1200px)
+            display: none
+
+        .left
+
+            .logo
+                width: 100px
+                height: 25px
+                background: url('./img/logo.png') no-repeat
+                background-size: 100% auto
+                cursor: pointer
+
+        .nav
+            display: flex
+            font-size: 22px
+            position: absolute
+            top: 50%
+            left: 50%
+            transform: translate(-50%, -50%)
+
+            div
+                margin: 0 30px
+                cursor pointer
+
+                &.cur
+                    color: #2c73ed
+
+                    &:after
+                        content: ' '
+                        display: block
+                        height: 1px
+                        width: 90%
+                        background: #2c73ed
+                        margin: 0 auto
+
+        .right
+            display: flex
+            line-height: 25px
+            height: 25px
+
+            .login
+                font-size: 22px
+
+            .lang
+                font-size: 22px
+                line-height: 25px
+                height: 25px
+
+                span
+                    cursor: pointer
+                    color: rgba(#373737, 0.5)
+                    margin: 0 5px
+
+                    &.cur
+                        color: #373737
+    .mobile
+        display: none
+        
+        @media screen and (max-width: 1200px)
+            justifyContentSpaceBetween()
+            padding: 10px
+            background: #fff;
+            box-shadow: rgb(238, 238, 238) 0px 2px 5px 2px;
 
         .logo
             width: 100px
-            height: 25px
+            height: 24px
             background: url('./img/logo.png') no-repeat
             background-size: 100% auto
             cursor: pointer
 
-    .nav
-        display: flex
-        font-size: 22px
-        position: absolute
-        top: 50%
-        left: 50%
-        transform: translate(-50%, -50%)
+        .right
+            display: flex
+            line-height: 24px
+            height: 24px
 
-        div
-            margin: 0 30px
-            cursor pointer
+            .lang
+                font-size: 16px
+                line-height: 24px
+                height: 24px
 
-            &.cur
-                color: #2c73ed
+                span
+                    cursor: pointer
+                    color: rgba(#373737, 0.5)
+                    margin: 0 5px
 
-                &:after
-                    content: ' '
-                    display: block
-                    height: 1px
-                    width: 90%
-                    background: #2c73ed
-                    margin: 0 auto
+                    &.cur
+                        color: #373737
 
-    .right
-        display: flex
-        line-height: 25px
-        height: 25px
+            .icon
+                height: 24px
+                width: 30px
+                background: url(./img/menu.png) no-repeat center
+                background-size: 24px auto
+                border: 1px solid #ddd
+                border-radius: 4px
+                margin: 0 0 0 10px
+
+.Drawer
+    .ant-drawer-body
+        padding: 10px
 
         .login
-            font-size: 22px
+            border: 1px solid rgba(#000, .05)
+            border-radius: 10px
+            text-align: center
+            padding: 5px 10px
 
-        .lang
-            font-size: 22px
-            line-height: 25px
-            height: 25px
-
-            span
-                cursor: pointer
-                color: rgba(#373737, 0.5)
-                margin: 0 5px
-
-                &.cur
-                    color: #373737
+        .item
+            padding: 10px
+            border-bottom: 1px solid rgba(#000, .05)

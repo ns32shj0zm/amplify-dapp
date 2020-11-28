@@ -4,13 +4,6 @@
     font-size: 24px
     color: #000
 
-    .layou-content
-        max-width: 1024px
-        margin: 0 auto
-
-        @media screen and (max-width: 900px)
-            max-width: 100%
-
     .title
         height: 40px
 
@@ -21,7 +14,7 @@
         width: 220px
         display: flex
 
-        @media screen and (max-width: 900px)
+        @media screen and (max-width: 1200px)
             display: flex
             width: 100%
 
@@ -52,9 +45,14 @@
             margin: 0 0 10px
 
     .footer-content
+        max-width: 1024px
+        margin: 0 auto
+
+        @media screen and (max-width: 1200px)
+            max-width: 100%
         display: flex
 
-        @media screen and (max-width: 900px)
+        @media screen and (max-width: 1200px)
             flex-direction: column
 
     .footer-content__item
@@ -62,7 +60,7 @@
 
         &:nth-child(2)
             margin: 0 100px
-            @media screen and (max-width: 900px)
+            @media screen and (max-width: 1200px)
                 margin: 40px 0
 
 

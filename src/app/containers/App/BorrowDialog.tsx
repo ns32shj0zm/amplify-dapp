@@ -170,7 +170,7 @@ const BorrowDialog = forwardRef((props: IDetails, ref) => {
     }
 
     return props.selectedMarketDetails.symbol ? (
-        <Modal visible={borrowDialogOpen} onCancel={() => setBorrowDialogOpen(false)} footer={null} wrapClassName="modal">
+        <Modal visible={borrowDialogOpen} onCancel={() => setBorrowDialogOpen(false)} footer={null} wrapClassName="modal" centered>
             <Spin spinning={loading}>
                 <div className="modalTitle">{`${props.selectedMarketDetails.symbol}`}</div>
                 <div className="tab">

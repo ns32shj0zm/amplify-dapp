@@ -1,0 +1,86 @@
+.appHeader
+    max-width: 1000px
+    margin: 0 auto
+    @media screen and (max-width: 1200px)
+        margin: 10px
+
+    .block
+        max-width: 908px
+        margin: 0 auto
+        justifyContentSpaceBetween()
+        background: #FFFFFF
+        box-shadow: 0px 4px 4px 2px rgba(0, 0, 0, 0.05)
+        border-radius: 8px
+
+        @media screen and (max-width: 1200px)
+            display: block
+            position relative
+
+            .blockItem
+                padding: 0 !important
+                position: absolute
+                left: 180px
+
+                &.supply
+                    top: 20px
+
+                &.borrow
+                    bottom: 20px
+
+                .blockTitle
+                    padding: 0
+                    font-size: 16px
+
+        .blockItem
+            &.supply
+                padding: 0 0 0 100px
+
+                .blockNumber
+                    color: #369bff
+
+            &.borrow
+                padding: 0 100px 0 0
+
+                .blockNumber
+                    color: #12ce80
+
+            .blockTitle
+                padding: 72px 0 0
+                color: rgba(#000, 0.65)
+                font-size: 18px
+
+            .blockNumber
+                font-size: 26px
+
+    .progress
+        position: relative
+        margin: 34px auto 0
+        padding: 0 20px 20px
+
+        @media screen and (max-width: 1200px)
+            margin-top: 24px
+
+        .text
+            justifyContentSpaceBetween()
+            font-size: 16px
+            font-weight: 400
+            margin: 0 0 12px
+
+            @media screen and (max-width: 1200px)
+                font-size: 14px
+
+        .bar
+            height: 10px
+            background: #d4e1ef
+            border-radius: 5px
+            overflow: hidden
+            margin: 0 0 80px
+
+            @media screen and (max-width: 1200px)
+                margin: 0
+
+            div
+                width: 0
+                height: 10px
+                background: #ffc87a
+                border-radius: 5px

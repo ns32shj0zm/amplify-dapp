@@ -1,7 +1,9 @@
 import * as React from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import classnames from 'classnames'
+import { Drawer } from 'antd'
 import { useWeb3React } from '@web3-react/core'
 import { injected } from '../../general/connectors'
 import { useEagerConnect, useInactiveListener } from '../../general/hooks'
@@ -39,6 +41,7 @@ const Header: React.FunctionComponent<IProps> = (props: IProps): React.ReactElem
         props.history.replace(`?lng=${l}`)
     }
     const { pathname } = props.history.location
+    const [visible, setVisible] = useState(false)
 
     return (
         <header className="lt-header">
@@ -60,7 +63,7 @@ const Header: React.FunctionComponent<IProps> = (props: IProps): React.ReactElem
                         <span className={classnames({ cur: i18n.language === 'zh_CN' })} onClick={() => changLng('zh_CN')}>
                             中文
                         </span>
-                        |
+                        <span>|</span>
                         <span className={classnames({ cur: i18n.language === 'en_US' })} onClick={() => changLng('en_US')}>
                             English
                         </span>
@@ -68,6 +71,30 @@ const Header: React.FunctionComponent<IProps> = (props: IProps): React.ReactElem
                     {pathname !== '/' ? <Login /> : null}
                 </div>
             </div>
+            <div className="mobile">
+                <div className="logo" onClick={() => jump('/')}></div>
+                <div className="right">
+                    <div className="lang">
+                        <span className={classnames({ cur: i18n.language === 'zh_CN' })} onClick={() => changLng('zh_CN')}>
+                            中文
+                        </span>
+                        <span>|</span>
+                        <span className={classnames({ cur: i18n.language === 'en_US' })} onClick={() => changLng('en_US')}>
+                            En
+                        </span>
+                    </div>
+                    <div className="icon" onClick={() => setVisible(true)}></div>
+                </div>
+            </div>
+            <Drawer placement="right" closable={false} onClose={() => setVisible(false)} visible={visible} width={150} className="Drawer">
+                {pathname !== '/' ? <Login /> : null}
+                <div className={classnames('item', { cur: /app/gi.test(pathname) })} onClick={() => jump('/app')}>
+                    App
+                </div>
+                <div className={classnames('item', { cur: /governance/gi.test(pathname) })} onClick={() => jump('/governance')}>
+                    Governance
+                </div>
+            </Drawer>
         </header>
     )
 }

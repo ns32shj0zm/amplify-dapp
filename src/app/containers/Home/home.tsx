@@ -69,7 +69,7 @@ function Home(props: IProps): JSX.Element {
                         </p>
                         <p className="logo_text__btn">
                             <a href={`amplify_${i18n.language}.pdf`} target="__blank">
-                                {t('白皮书')}
+                                {t('Whitepaper')}
                             </a>
                         </p>
                     </div>

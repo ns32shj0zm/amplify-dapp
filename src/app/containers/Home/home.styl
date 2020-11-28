@@ -4,13 +4,11 @@
 
     .layou-content
         max-width: 1024px
-        margin: 120px auto 0
-
-        @media screen and (max-width: 900px)
-            max-width: 100%
+        margin: 0 auto
 
     .home-content
         position: relative
+        padding: 0 0 100px
 
         .ba-lr
             position: absolute
@@ -33,6 +31,9 @@
         font-weight: 500
         color: #000
         padding: 76px 20px 50px
+
+        @media screen and (max-width: 1200px)
+            padding: 50px 20px
 
     .home-title__big
         line-height: 44px
@@ -84,16 +85,25 @@
     .qingsuang
         display: flex
         margin-top: 129px
+        @media screen and (max-width: 1200px)
+            margin-top: 50px
 
     .qingsuang-text
         flex: 0 0 40%
         margin-right: 30px
+
+        @media screen and (max-width: 1200px)
+            margin: 0
 
         h4
             padding-top: 60px
             font-weight: 500
             font-size: 36px
             font-family: 'Source Han Sans CN'
+
+            @media screen and (max-width: 1200px)
+                font-size: 34px
+                padding-top: 0
 
         .text
             padding-top: 30px
@@ -114,6 +124,10 @@
         background: url('./img/ampt.png') no-repeat
         background-size: 100% 100%
         text-align: center
+
+        @media screen and (max-width: 1200px)
+            padding: 50px 20px
+            margin-bottom: 0
 
         h3
             font-size: 34px
@@ -144,7 +158,10 @@
             letter-spacing: 2px
             cursor: pointer
 
-    @media screen and (max-width: 900px)
+            @media screen and (max-width: 1200px)
+                font-size: 22px
+
+    @media screen and (max-width: 1200px)
         .home-content
             .ba-lr
                 display: none
@@ -160,7 +177,7 @@
             margin: 20px 0
 
         .ampt
-            h3, .text
+            .text
                 width: 95%
                 font-size: 20px
 
@@ -177,6 +194,9 @@
     background: url('./img/bg_top.png') no-repeat
     background-size: 100% 100%
     box-sizing: border-box
+
+    @media screen and (max-width: 1200px)
+        padding-bottom: 50px
 
     .logo
         width: 100px
@@ -195,19 +215,22 @@
     position: relative
     flex: 1 1 100%
     width: 100%
-    padding: 0 20px
+    padding: 120px 20px 0
     box-sizing: border-box
+
+    @media screen and (max-width: 1200px)
+        padding: 50px 10px 0
 
     .img
         position: absolute
-        top: 0
+        top: 120px
         right: 0
         max-width: 490px
 
 .content__text
     display: inline-block
     max-width: 100%
-    margin: 10px 0 0
+    margin: 10px auto 0
 
     .logo_text
         font-size: 48px
@@ -231,6 +254,8 @@
         width: 525px
         max-width: 100%
         font-weight: 400
+        @media screen and (max-width: 1200px)
+            width: auto
 
     .logo_text__btn
         margin-top: 60px
@@ -249,7 +274,10 @@
             text-decoration: none
             line-height: 70px
 
-@media screen and (max-width: 900px)
+            @media screen and (max-width: 1200px)
+                font-size: 22px
+
+@media screen and (max-width: 1200px)
     .banner
         background-image: url('./img/bg_top_2.png')
 

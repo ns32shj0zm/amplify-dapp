@@ -10,16 +10,15 @@ import { useWeb3React } from '@web3-react/core'
 import Layout from '../../components/Layout'
 import Header from '../../components/Header'
 import * as compoundTool from '../../utils/compoundTool'
-import { zeroStringIfNullish, compareSymbol } from '../../general/helpers'
+import { compareSymbol } from '../../general/helpers'
 import SupplyMarketRow from './SupplyMarketRow'
 import BorrowMarketRow from './BorrowMarketRow'
 import SupplyDialog from './SupplyDialog'
 import BorrowDialog from './BorrowDialog'
 import EnterMarketDialog from './EnterMarketDialog'
-import Circle from './Circle'
 import basicAction from '../../actions/baseAction'
+import AppHeader from './Header'
 import { SelectedMarketDetails } from './type'
-
 import './app.styl'
 
 type IProps = RouteComponentProps
@@ -74,30 +73,7 @@ function Home(props: IProps): JSX.Element {
         <Layout className={classnames('page-app')}>
             <Header />
             <div className="lt-main">
-                <div className="header">
-                    <div className="block">
-                        <div className="blockItem supply">
-                            <div className="blockTitle">Your Supply Balance</div>
-                            <div className="blockNumber">{`$${zeroStringIfNullish(generalDetails.totalSupplyBalance?.toFixed(2), 2)}`}</div>
-                        </div>
-                        <Circle percentNum={zeroStringIfNullish(generalDetails.netApy?.times(100).toFixed(2), 2)} />
-                        <div className="blockItem borrow">
-                            <div className="blockTitle">Your Borrow Balance</div>
-                            <div className="blockNumber">{`$${zeroStringIfNullish(generalDetails.totalBorrowBalance?.toFixed(2), 2)}`}</div>
-                        </div>
-                    </div>
-                    <div className="progress">
-                        <div className="text">
-                            <div className="left">
-                                {t('Your Borrow Limit')}:{`(${zeroStringIfNullish(generalDetails.totalBorrowLimitUsedPercent?.toFixed(2), 2)}% Used)`}
-                            </div>
-                            <div className="right">{`$${zeroStringIfNullish(generalDetails.totalBorrowLimit?.toFixed(2), 2)}`}</div>
-                        </div>
-                        <div className="bar">
-                            <div style={{ width: `${zeroStringIfNullish(generalDetails.totalBorrowLimitUsedPercent?.toFixed(2), 2)}%` }}></div>
-                        </div>
-                    </div>
-                </div>
+                <AppHeader generalDetails={generalDetails} />
                 <Spin spinning={loading}>
                     <div className="content">
                         <div className="block left">

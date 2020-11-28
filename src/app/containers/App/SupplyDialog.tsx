@@ -149,7 +149,7 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
     }))
 
     return props.selectedMarketDetails.symbol ? (
-        <Modal visible={supplyDialogOpen} onCancel={() => setSupplyDialogOpen(false)} footer={null} wrapClassName="modal">
+        <Modal visible={supplyDialogOpen} onCancel={() => setSupplyDialogOpen(false)} footer={null} wrapClassName="modal" centered>
             <Spin spinning={loading}>
                 <div className="modalTitle">{`${props.selectedMarketDetails.symbol}`}</div>
                 <div className="tab">

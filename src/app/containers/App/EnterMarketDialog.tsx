@@ -42,7 +42,7 @@ const EnterMarketDialog = forwardRef((props: IDetails, ref) => {
     }))
 
     return props.selectedMarketDetails.symbol ? (
-        <Modal visible={enterMarketDialogOpen} onCancel={() => setEnterMarketDialogOpen(false)} footer={null} wrapClassName="modal">
+        <Modal visible={enterMarketDialogOpen} onCancel={() => setEnterMarketDialogOpen(false)} footer={null} wrapClassName="modal" centered>
             <Spin spinning={loading}>
                 <div className="modalTitle">{`${props.selectedMarketDetails.isEnterMarket ? 'Disable' : 'Enable'} as Collateral`}</div>
                 <div className="tabContent">

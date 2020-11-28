@@ -1,8 +1,9 @@
 .percentLoop
-    position: relative
-    width: 168px
-    height: 168px
-    margin: 20px
+    padding: 20px
+
+    .main
+        display: inline
+        position: relative
 
     .loop-pie-line
         position: absolute
@@ -52,7 +53,11 @@
         .num
             font-size: 24px
             text-align: center
+            @media screen and (max-width: 1200px)
+                font-size: 18px
 
         .text
             font-size: 18px
             text-align: center
+            @media screen and (max-width: 1200px)
+                font-size: 16px

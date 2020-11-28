@@ -8,7 +8,7 @@ const Footer = (): JSX.Element => {
     const [t] = useTranslation()
     return (
         <div className="footer">
-            <div className="layou-content footer-content">
+            <div className="footer-content">
                 <div className="footer-content__item">
                     <div className="title">
                         <img src={require('./img/logo_1.png')} alt="" />

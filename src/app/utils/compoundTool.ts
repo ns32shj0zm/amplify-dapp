@@ -64,6 +64,7 @@ export async function getMarkets(library, account): Promise<any> {
         const isEnterMarket = enteredMarkets.includes(pTokenAddress)
 
         const collateralFactor = await getCollateralFactor(library, comptrollerAddress, pTokenAddress)
+        console.log(symbol, +supplyAndBorrowBalance?.supplyBalance, +collateralFactor)
         totalBorrowLimit = totalBorrowLimit.plus(isEnterMarket ? supplyAndBorrowBalance?.supplyBalance.times(collateralFactor) : 0)
 
         const supplyApy = await getSupplyApy(library, pTokenAddress)

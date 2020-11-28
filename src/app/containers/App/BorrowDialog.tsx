@@ -126,6 +126,8 @@ const BorrowDialog = forwardRef((props: IDetails, ref) => {
     const handleBorrowAmountChange = (amount): void => {
         setBorrowAmount(amount)
 
+        console.log(amount, +props.selectedMarketDetails.underlyingPrice, +props.generalDetails.totalBorrowLimit)
+
         if (amount <= 0) {
             setBorrowValidationMessage('Amount must be > 0')
         } else if (amount * +props.selectedMarketDetails.underlyingPrice > +props.generalDetails.totalBorrowLimit) {

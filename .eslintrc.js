@@ -52,6 +52,7 @@ module.exports = {
         // React相关校验规则
         // 'react/jsx-indent': [2, 4],
         'react/jsx-no-undef': [2, { allowGlobals: true }],
-        'react/display-name': 0
+        'react/display-name': 0,
+        '@typescript-eslint/no-empty-function': 0
     }
 }

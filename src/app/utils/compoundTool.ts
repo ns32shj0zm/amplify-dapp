@@ -1,13 +1,34 @@
 import Compound from '@compound-finance/compound-js/dist/nodejs/src/index.js'
-import { chainIdToName, ethDummyAddress } from '../general/constants'
-import { eX, convertToLargeNumberRepresentation, zeroStringIfNullish } from '../general/helpers'
+import * as compoundConstants from '@compound-finance/compound-js/dist/nodejs/src/constants.js'
 import { MaxUint256 } from '@ethersproject/constants'
 import { BigNumber } from 'bignumber.js'
+import { message } from 'antd'
+import { chainIdToName, ethDummyAddress } from '../general/constants'
+import { eX, convertToLargeNumberRepresentation, zeroStringIfNullish } from '../general/helpers'
+
 BigNumber.config({ EXPONENTIAL_AT: 1e9 })
 
 const blockTime = 13.5 // seconds
+const gasLimit = '250000'
+const gasLimitSupplyDai = '535024'
+const gasLimitSupplySnx = '450000'
+const gasLimitSupplySusd = '450000'
+const gasLimitWithdrawDai = '550000'
+const gasLimitWithdrawSnx = '550000'
+const gasLimitWithdrawSusd = '550000'
+const gasLimitWithdraw = '450000'
+const gasLimitEnable = '70000'
+const gasLimitEnableDai = '66537'
+const gasLimitBorrow = '702020'
+const gasLimitBorrowDai = '729897'
+const gasLimitRepayDai = '535024'
+const gasLimitRepaySusd = '400000'
+const gasLimitEnterMarket = '112020'
+const comptrollerAddress = '0x54188bBeDD7b68228fa89CbDDa5e3e930459C6c6'
+const priceFeedAddress = '0xe23874df0276AdA49D58751E8d6E088581121f1B'
+const maxiMillionAddress = '0xE0a38ab2951B6525C33f20D5E637Ab24DFEF9bcB'
 
-export async function getMarkets(library, priceFeedAddress, account, comptrollerAddress): Promise<any> {
+export async function getMarkets(library, account): Promise<any> {
     let totalSupplyBalance = new BigNumber(0)
     let totalBorrowBalance = new BigNumber(0)
     let allMarketsTotalSupplyBalance = new BigNumber(0)
@@ -87,7 +108,7 @@ export async function getMarkets(library, priceFeedAddress, account, comptroller
             try {
                 return await getMarketDetails(library, pTokenAddress, priceFeedAddress, account, enteredMarkets, comptrollerAddress)
             } catch (ex) {
-                console.log(`Error getting ${pTokenAddress}: ${ex.message}`, ex)
+                // console.log(`Error getting ${pTokenAddress}: ${ex.message}`, ex)
                 return {}
             }
         })
@@ -402,4 +423,254 @@ export async function getMarketTotalBorrowInTokenUnit(library, tokenAddress, dec
     )
 
     return eX(totalBorrows.toString(), -1 * decimals)
+}
+
+export const getMaxAmount = (symbol, walletBalance, gasPrice): BigNumber => {
+    if (symbol === 'ETH') {
+        return walletBalance.minus(eX(gasPrice.times(gasLimit), -18))
+    } else {
+        return walletBalance
+    }
+}
+
+/* 存款部分 */
+export const handleEnable = async (underlyingAddress, pTokenAddress, symbol, library, gasPrice) => {
+    try {
+        const tx = await Compound.eth.trx(underlyingAddress, 'approve', [pTokenAddress, MaxUint256], {
+            network: chainIdToName[parseInt(library.provider.chainId)],
+            provider: library.provider,
+            gasLimit: Number(symbol === 'DAI' ? gasLimitEnableDai : gasLimitEnable),
+            gasPrice: gasPrice.toString(),
+            abi: compoundConstants.abi.cErc20
+        })
+        message.destroy()
+        message.success({
+            content: `Transaction sent: ${tx.hash}`
+        })
+    } catch (e) {
+        console.log(e)
+        message.destroy()
+        message.error({
+            content: `Error: ${JSON.stringify(e)}`
+        })
+    }
+}
+
+export const handleWithdraw = async (underlyingAddress, pTokenAddress, amount, decimals, symbol, library, gasPrice) => {
+    const options = {
+        network: chainIdToName[parseInt(library.provider.chainId)],
+        provider: library.provider,
+        gasLimit: Number(
+            symbol === 'DAI'
+                ? gasLimitWithdrawDai
+                : symbol === 'SNX'
+                ? gasLimitWithdrawSnx
+                : symbol === 'sUSD'
+                ? gasLimitWithdrawSusd
+                : gasLimitWithdraw
+        ),
+        gasPrice: gasPrice.toString(),
+        abi: underlyingAddress === ethDummyAddress ? compoundConstants.abi.cEther : compoundConstants.abi.cErc20
+    }
+    try {
+        const tx = await Compound.eth.trx(
+            pTokenAddress,
+            'redeemUnderlying',
+            [eX(amount, decimals).toString()], // [optional] parameters
+            options // [optional] call options, provider, network, ethers.js "overrides"
+        )
+        message.destroy()
+        message.success({
+            content: `Transaction sent: ${tx.hash}`
+        })
+    } catch (e) {
+        message.destroy()
+        message.error({
+            content: `Error: ${JSON.stringify(e)}`
+        })
+    }
+}
+
+export const handleSupply = async (underlyingAddress, pTokenAddress, amount, decimals, symbol, library, gasPrice) => {
+    const parameters: Array<any> = []
+    const options: any = {
+        network: chainIdToName[parseInt(library.provider.chainId)],
+        provider: library.provider,
+        gasLimit: Number(
+            symbol === 'DAI' ? gasLimitSupplyDai : symbol === 'SNX' ? gasLimitSupplySnx : symbol === 'sUSD' ? gasLimitSupplySusd : gasLimit
+        ),
+        gasPrice: gasPrice.toString()
+    }
+
+    if (underlyingAddress === ethDummyAddress) {
+        options.value = eX(amount, 18).toString()
+        options.abi = compoundConstants.abi.cEther
+    } else {
+        parameters.push(eX(amount, decimals).toString())
+        options.abi = compoundConstants.abi.cErc20
+    }
+
+    try {
+        const tx = await Compound.eth.trx(pTokenAddress, 'mint', parameters, options)
+        message.destroy()
+        message.success({
+            content: `Transaction sent: ${tx.hash}`
+        })
+    } catch (e) {
+        console.log(e)
+        message.destroy()
+        message.error({
+            content: `Error: ${JSON.stringify(e)}`
+        })
+    }
+}
+
+/* 借贷部分 */
+export const handleRepay = async (walletAddress, underlyingAddress, pTokenAddress, amount, isFullRepay, decimals, symbol, library, gasPrice) => {
+    const parameters: Array<any> = []
+    const options: any = {
+        network: chainIdToName[parseInt(library.provider.chainId)],
+        provider: library.provider,
+        gasLimit: symbol === 'DAI' ? gasLimitRepayDai : symbol === 'sUSD' ? gasLimitRepaySusd : gasLimit,
+        gasPrice: gasPrice.toString()
+    }
+
+    try {
+        let tx
+        if (underlyingAddress === ethDummyAddress) {
+            parameters.push(walletAddress)
+            parameters.push(pTokenAddress)
+            options.value = eX(amount, 18).toString()
+            tx = await Compound.eth.trx(
+                maxiMillionAddress,
+                {
+                    constant: false,
+                    inputs: [
+                        { internalType: 'address', name: 'borrower', type: 'address' },
+                        { internalType: 'address', name: 'cEther_', type: 'address' }
+                    ],
+                    name: 'repayBehalfExplicit',
+                    outputs: [],
+                    payable: true,
+                    stateMutability: 'payable',
+                    type: 'function'
+                } as any,
+                [walletAddress, pTokenAddress],
+                options
+            )
+        } else {
+            if (isFullRepay) {
+                parameters.push('0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff') //-1 (i.e. 2256 - 1)
+            } else {
+                parameters.push(eX(amount, decimals).toString())
+            }
+            options.abi = compoundConstants.abi.cErc20
+            tx = await Compound.eth.trx(
+                pTokenAddress,
+                'repayBorrow',
+                parameters, // [optional] parameters
+                options // [optional] call options, provider, network, ethers.js "overrides"
+            )
+        }
+
+        message.destroy()
+        message.success({
+            content: `Transaction sent: ${tx.hash}`
+        })
+    } catch (e) {
+        console.log(e)
+        message.destroy()
+        message.error({
+            content: `Error: ${JSON.stringify(e)}`
+        })
+    }
+}
+
+export const handleBorrow = async (underlyingAddress, pTokenAddress, amount, decimals, symbol, library, gasPrice) => {
+    const options: any = {
+        network: chainIdToName[parseInt(library.provider.chainId)],
+        provider: library.provider,
+        gasLimit: symbol === 'DAI' ? gasLimitBorrowDai : gasLimitBorrow,
+        gasPrice: gasPrice.toString()
+    }
+
+    if (underlyingAddress === ethDummyAddress) {
+        options.abi = compoundConstants.abi.cEther
+    } else {
+        options.abi = compoundConstants.abi.cErc20
+    }
+
+    try {
+        const tx = await Compound.eth.trx(
+            pTokenAddress,
+            'borrow',
+            [eX(amount, decimals).toString()], // [optional] parameters
+            options // [optional] call options, provider, network, ethers.js "overrides"
+        )
+        message.destroy()
+        message.success({
+            content: `Transaction sent: ${tx.hash}`
+        })
+    } catch (e) {
+        console.log(e)
+        message.destroy()
+        message.error({
+            content: `Error: ${JSON.stringify(e)}`
+        })
+    }
+}
+
+/* 授权部分 */
+export const handleExitMarket = async (pTokenAddress, library, gasPrice) => {
+    try {
+        const tx = await Compound.eth.trx(
+            comptrollerAddress,
+            'exitMarket',
+            [pTokenAddress], // [optional] parameters
+            {
+                network: chainIdToName[parseInt(library.provider.chainId)],
+                provider: library.provider,
+                gasLimitEnterMarket,
+                gasPrice: gasPrice.toString(),
+                abi: compoundConstants.abi.Comptroller
+            } as any
+        )
+        message.destroy()
+        message.success({
+            content: `Transaction sent: ${tx.hash}`
+        })
+    } catch (e) {
+        console.log(e)
+        message.destroy()
+        message.error({
+            content: `Error: ${JSON.stringify(e)}`
+        })
+    }
+}
+
+export const handleEnterMarket = async (pTokenAddress, library, gasPrice) => {
+    try {
+        const tx = await Compound.eth.trx(
+            comptrollerAddress,
+            'enterMarkets',
+            [[pTokenAddress]], // [optional] parameters
+            {
+                network: chainIdToName[parseInt(library.provider.chainId)],
+                provider: library.provider,
+                gasLimitEnterMarket,
+                gasPrice: gasPrice.toString(),
+                abi: compoundConstants.abi.Comptroller
+            } as any
+        )
+        message.destroy()
+        message.success({
+            content: `Transaction sent: ${tx.hash}`
+        })
+    } catch (e) {
+        console.log(e)
+        message.destroy()
+        message.error({
+            content: `Error: ${JSON.stringify(e)}`
+        })
+    }
 }

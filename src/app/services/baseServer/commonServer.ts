@@ -1,32 +1,23 @@
 import { request } from '../../utils/request'
 import { AxiosResponse } from 'axios'
-import { ConfigInterface, responseInterface} from 'swr'
 
-export interface IGetAuthorSales {
-    errCode: number
-    errMsg: string
+export interface IGasPrice {
+    fast: number
+    fastest: number
+    safeLow: number
+    average: number
+    block_time: number
+    blockNum: number
+    speed: number
+    safeLowWait: number
+    avgWait: number
+    fastWait: number
+    fastestWait: number
+    gasPriceRange: { [key: string]: number }
 }
 
-// 登录帐号
-export function login(data): Promise<AxiosResponse<IGetAuthorSales>> {
-    return request('https://cnodejs.org/api/v1/topics', {
-        // return request(`/112`, {
-        method: 'GET',
-        params: {
-            ...data
-        }
+export function updateGasPrice(): Promise<AxiosResponse<IGasPrice>> {
+    return request('https://ethgasstation.info/api/ethgasAPI.json', {
+        method: 'GET'
     })
-}
-
-// 注册帐号
-export function register(data): Promise<AxiosResponse<IGetAuthorSales>> {
-    return request(`/111`, {
-        method: 'POST',
-        data
-    })
-}
-
-// 查询账户余款表格
-export function userInfo(data): Promise<AxiosResponse<IGetAuthorSales>> {
-    return request(`/user/getmember`)
 }

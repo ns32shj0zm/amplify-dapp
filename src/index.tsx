@@ -7,6 +7,7 @@ import 'dayjs/locale/zh-cn'
 import { ConfigProvider } from 'antd'
 import store, { history } from './app/store'
 import AppRouter from './app/router'
+import 'antd/dist/antd.css';
 import './assets/stylus/index.styl'
 import './app/utils/i18n'
 

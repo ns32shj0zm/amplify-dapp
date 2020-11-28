@@ -1,7 +1,6 @@
-import React, { useEffect, useState, forwardRef, useImperativeHandle, useRef } from 'react'
-import { Row, Col, Card, Table, Button } from 'react-bootstrap'
-import { withStyles } from '@material-ui/core/styles'
-import Switch from '@material-ui/core/Switch'
+import React, { useState, forwardRef, useImperativeHandle } from 'react'
+import { useSelector } from 'react-redux'
+import { Input, Button, Modal, Spin } from 'antd'
 import Dialog from '@material-ui/core/Dialog'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
@@ -23,111 +22,16 @@ import ArrowRightIcon from '@material-ui/icons/ArrowRight'
 import InfoIcon from '@material-ui/icons/Info'
 import Tooltip from '@material-ui/core/Tooltip'
 import * as colors from '@material-ui/core/colors'
-import { eX, convertToLargeNumberRepresentation, zeroStringIfNullish } from '../../general/helpers'
-import Compound from '@compound-finance/compound-js/dist/nodejs/src/index.js'
-import compoundConstants from '@compound-finance/compound-js/dist/nodejs/src/constants.js'
+import { zeroStringIfNullish } from '../../general/helpers'
+import { IRootState } from '../../reducers/RootState'
+import { IDetails, SelectedMarketDetails, GeneralDetails } from './type'
+import { handleExitMarket, handleEnterMarket } from '../../utils/compoundTool'
+import './dialog.styl'
 
-import { chainIdToName, ethDummyAddress } from '../../general/constants'
-
-type IProps = {
-    details: any
-    handleClick(): void
-}
-
-const DialogBorrowLimitSection = props => {
-    return (
-        <div>
-            <ListSubheader style={{ fontSize: '80%', fontWeight: 'bold' }}>Borrow Limit</ListSubheader>
-            <ListItem>
-                <ListItemText secondary={`Borrow Limit`} />
-                <ListItemSecondaryAction style={{ margin: '0px 15px 0px 0px' }}>
-                    <span>{`$${props.generalDetails.totalBorrowLimit?.toFixed(2)}`}</span>
-                    {props.newBorrowLimit ? (
-                        <span>
-                            <ArrowRightIcon style={{ color: colors.lightBlue[500] }} />
-                            {`$${zeroStringIfNullish(props.newBorrowLimit?.toFixed(2), 2)}`}
-                        </span>
-                    ) : null}
-                </ListItemSecondaryAction>
-            </ListItem>
-            <ListItem>
-                <ListItemText secondary={`Borrow Limit Used`} />
-                <ListItemSecondaryAction style={{ margin: '0px 15px 0px 0px' }}>
-                    <span>{`${zeroStringIfNullish(props.generalDetails.totalBorrowLimitUsedPercent?.toFixed(2), 2)}%`}</span>
-                    {props.newBorrowLimit ? (
-                        <span>
-                            <ArrowRightIcon style={{ color: colors.lightBlue[500] }} />
-                            <span
-                                style={{
-                                    color: props.generalDetails.totalBorrowBalance?.div(props.newBorrowLimit).isGreaterThan(1)
-                                        ? colors.red[500]
-                                        : null
-                                }}
-                            >
-                                {`${zeroStringIfNullish(
-                                    props.generalDetails.totalBorrowBalance?.div(props.newBorrowLimit).times(100).toFixed(2),
-                                    2
-                                )}%`}
-                            </span>
-                        </span>
-                    ) : null}
-                </ListItemSecondaryAction>
-            </ListItem>
-        </div>
-    )
-}
-
-const EnterMarketDialog = forwardRef((props: any, ref) => {
+const EnterMarketDialog = forwardRef((props: IDetails, ref) => {
     const [enterMarketDialogOpen, setEnterMarketDialogOpen] = useState(false)
-    const [txSnackbarOpen, setTxSnackbarOpen] = useState(false)
-    const [txSnackbarMessage, setTxSnackbarMessage] = useState('')
-    const gasLimitEnterMarket = '112020'
-
-    const handleExitMarket = async (pTokenAddress, setTxSnackbarMessage, setTxSnackbarOpen) => {
-        try {
-            const tx = await Compound.eth.trx(
-                generalDetails.comptrollerAddress,
-                'exitMarket',
-                [pTokenAddress], // [optional] parameters
-                {
-                    network: chainIdToName[parseInt(library.provider.chainId)],
-                    provider: library.provider,
-                    gasLimitEnterMarket,
-                    gasPrice: globalState.gasPrice.toString(),
-                    abi: compoundConstants.abi.Comptroller
-                } // [optional] call options, provider, network, ethers.js "overrides"
-            )
-            console.log('tx', JSON.stringify(tx))
-            setTxSnackbarMessage(`Transaction sent: ${tx.hash}`)
-        } catch (e) {
-            setTxSnackbarMessage(`Error: ${JSON.stringify(e)}`)
-        }
-
-        setTxSnackbarOpen(true)
-    }
-
-    const handleEnterMarket = async (pTokenAddress, setTxSnackbarMessage, setTxSnackbarOpen) => {
-        try {
-            const tx = await Compound.eth.trx(
-                generalDetails.comptrollerAddress,
-                'enterMarkets',
-                [[pTokenAddress]], // [optional] parameters
-                {
-                    network: chainIdToName[parseInt(library.provider.chainId)],
-                    provider: library.provider,
-                    gasLimitEnterMarket,
-                    gasPrice: globalState.gasPrice.toString(),
-                    abi: compoundConstants.abi.Comptroller
-                } // [optional] call options, provider, network, ethers.js "overrides"
-            )
-            console.log('tx', JSON.stringify(tx))
-            setTxSnackbarMessage(`Transaction sent: ${tx.hash}`)
-        } catch (e) {
-            setTxSnackbarMessage(`Error: ${JSON.stringify(e)}`)
-        }
-
-        setTxSnackbarOpen(true)
-    }
+    const { gasPrice, globalInfo } = useSelector((store: IRootState) => store.base)
+    const [loading, setLoading] = useState(false)
 
     useImperativeHandle(ref, () => ({
         show: () => {
@@ -138,72 +42,85 @@ const EnterMarketDialog = forwardRef((props: any, ref) => {
         }
     }))
 
-    return (
-        <Dialog open={enterMarketDialogOpen} onClose={() => setEnterMarketDialogOpen(false)}>
-            <DialogTitle>{`${props.selectedMarketDetails.isEnterMarket ? 'Disable' : 'Enable'} as Collateral`}</DialogTitle>
-            <DialogContent>
-                {props.selectedMarketDetails.symbol && (
-                    <List>
+    return props.selectedMarketDetails.symbol ? (
+        <Modal visible={enterMarketDialogOpen} onCancel={() => setEnterMarketDialogOpen(false)} footer={null} wrapClassName="modal">
+            <div className="modalTitle">{`${props.selectedMarketDetails.isEnterMarket ? 'Disable' : 'Enable'} as Collateral`}</div>
+            {props.selectedMarketDetails.symbol && (
+                <List>
+                    <ListItem>
+                        {props.selectedMarketDetails.isEnterMarket ? (
+                            <Typography>
+                                This asset is required to support your borrowed assets. Either repay borrowed assets, or supply another asset as
+                                collateral.
+                            </Typography>
+                        ) : (
+                            <Typography>
+                                Each asset used as collateral increases your borrowing limit. Be careful, this can subject the asset to being seized
+                                in liquidation.
+                            </Typography>
+                        )}
+                    </ListItem>
+                    <div className="listItem">
+                        <ListSubheader style={{ fontSize: '80%', fontWeight: 'bold' }}>Borrow Limit</ListSubheader>
                         <ListItem>
-                            {props.selectedMarketDetails.isEnterMarket ? (
-                                <Typography>
-                                    This asset is required to support your borrowed assets. Either repay borrowed assets, or supply another asset as
-                                    collateral.
-                                </Typography>
-                            ) : (
-                                <Typography>
-                                    Each asset used as collateral increases your borrowing limit. Be careful, this can subject the asset to being
-                                    seized in liquidation.
-                                </Typography>
-                            )}
+                            <ListItemText secondary={`Borrow Limit`} />
+                            <ListItemSecondaryAction style={{ margin: '0px 15px 0px 0px' }}>
+                                <span>{`$${props.generalDetails.totalBorrowLimit?.toFixed(2)}`}</span>
+                                {props.newBorrowLimit ? (
+                                    <span>
+                                        <ArrowRightIcon style={{ color: colors.lightBlue[500] }} />
+                                        {`$${zeroStringIfNullish(props.newBorrowLimit?.toFixed(2), 2)}`}
+                                    </span>
+                                ) : null}
+                            </ListItemSecondaryAction>
                         </ListItem>
-                        <DialogBorrowLimitSection generalDetails={props.generalDetails} />
                         <ListItem>
-                            {props.selectedMarketDetails.isEnterMarket ? (
-                                <Button
-                                    variant="primary"
-                                    size="lg"
-                                    block
-                                    onClick={() => {
-                                        handleExitMarket(props.selectedMarketDetails.pTokenAddress, setTxSnackbarMessage, setTxSnackbarOpen)
-                                    }}
-                                >
-                                    {`Disable ${props.selectedMarketDetails.symbol} as Collateral`}
-                                </Button>
-                            ) : (
-                                <Button
-                                    variant="primary"
-                                    size="lg"
-                                    block
-                                    onClick={() => {
-                                        handleEnterMarket(props.selectedMarketDetails.pTokenAddress, setTxSnackbarMessage, setTxSnackbarOpen)
-                                    }}
-                                >
-                                    {`Use ${props.selectedMarketDetails.symbol} as Collateral`}
-                                </Button>
-                            )}
+                            <ListItemText secondary={`Borrow Limit Used`} />
+                            <ListItemSecondaryAction style={{ margin: '0px 15px 0px 0px' }}>
+                                <span>{`${zeroStringIfNullish(props.generalDetails.totalBorrowLimitUsedPercent?.toFixed(2), 2)}%`}</span>
+                                {props.newBorrowLimit ? (
+                                    <span>
+                                        <ArrowRightIcon style={{ color: colors.lightBlue[500] }} />
+                                        <span
+                                            style={{
+                                                color: props.generalDetails.totalBorrowBalance?.div(props.newBorrowLimit).isGreaterThan(1)
+                                                    ? colors.red[500]
+                                                    : null
+                                            }}
+                                        >
+                                            {`${zeroStringIfNullish(
+                                                props.generalDetails.totalBorrowBalance?.div(props.newBorrowLimit).times(100).toFixed(2),
+                                                2
+                                            )}%`}
+                                        </span>
+                                    </span>
+                                ) : null}
+                            </ListItemSecondaryAction>
                         </ListItem>
-                    </List>
-                )}
-            </DialogContent>
-            <Snackbar
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'center'
-                }}
-                open={txSnackbarOpen}
-                autoHideDuration={5000}
-                onClose={(event, reason) => {
-                    if (reason === 'clickaway') {
-                        return
-                    }
-                    setTxSnackbarOpen(false)
-                }}
-                message={txSnackbarMessage}
-                action={null}
-            />
-        </Dialog>
-    )
+                    </div>
+                    <ListItem>
+                        {props.selectedMarketDetails.isEnterMarket ? (
+                            <Button
+                                onClick={() => {
+                                    handleExitMarket(props.selectedMarketDetails.pTokenAddress, globalInfo.library, gasPrice)
+                                }}
+                            >
+                                {`Disable ${props.selectedMarketDetails.symbol} as Collateral`}
+                            </Button>
+                        ) : (
+                            <Button
+                                onClick={() => {
+                                    handleEnterMarket(props.selectedMarketDetails.pTokenAddress, globalInfo.library, gasPrice)
+                                }}
+                            >
+                                {`Use ${props.selectedMarketDetails.symbol} as Collateral`}
+                            </Button>
+                        )}
+                    </ListItem>
+                </List>
+            )}
+        </Modal>
+    ) : null
 })
 
 export default EnterMarketDialog

@@ -1,0 +1,112 @@
+.modal
+    .ant-modal-body
+        padding: 0
+
+    .modalTitle
+        height: 50px
+        line-height: @height
+        font-size: 18px
+        font-weight: bold
+        color: #4F5F6F
+        padding: 0 20px
+
+    .tab
+        display: flex
+
+        .item
+            flex: 1
+            text-align: center
+            background: #F7F7F7
+            height: 44px
+            line-height: @height
+            font-size: 14px
+            cursor: pointer
+
+            &.cur
+                background: #5B87F7
+                color: #fff
+
+    .tabContent
+        padding: 20px 30px
+
+        .input
+            border: 1px solid #5B87F7
+            box-shadow: 0px 1px 1px 0px rgba(4, 4, 4, 0.09)
+            height: 50px
+            position: relative
+            display: flex
+
+            &:before
+                width: 46px
+                content: ' '
+                display: block
+                background: #5B87F7 url('./img/input.png') no-repeat center
+
+            input
+                background: #fff
+                width: auto
+                flex: 1
+                color: #5B87F7
+                font-size: 32px
+                text-align: center
+                border-radius: 0
+                padding: 0 10px
+
+            .label
+                color: #5B87F7
+                font-size: 16px
+                background: #fff
+                line-height: @height
+                padding: 0 0 0 15px
+
+                @media screen and (max-width: 1200px)
+                    display: none
+
+            .max
+                color: #5F5F5F
+                font-size: 12px
+                background: #fff
+                line-height: @height
+                padding: 0 15px 0 0
+
+        .inputInfo
+            clear: both
+            padding: 10px 0 5px
+            font-size: 12px
+
+            .msg
+                color: red
+                float: left
+
+            .balance
+                float: right
+                color: #5B87F7
+
+        .listItem
+            .title
+                height: 14px
+                font-size: 12px
+                font-weight: 400
+                color: #373737
+                line-height: @height
+                padding: 15px 0 10px
+
+            .content
+                border-bottom: 1px solid #F8F8F8
+                padding: 8px 0
+                justifyContentSpaceBetween()
+                font-size: 15px;
+                color: #000
+                margin: 4px 0 0
+
+        .ant-btn
+            width: 266px;
+            height: 50px;
+            background: #5B87F7;
+            margin: 20px auto 0
+            color: #fff
+            display: block
+            font-size: 18px
+
+            &:disabled
+                background: rgba( #5B87F7, .5)

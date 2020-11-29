@@ -27,7 +27,10 @@ function Home(props: IProps): JSX.Element {
     const [t] = useTranslation()
     const dispatch = useDispatch()
     const { account, library } = useWeb3React()
-    const [allMarketDetails, setAllMarketDetails] = useState<any>([])
+    const [mySupplyDetails, setMySupplyDetails] = useState<any>([])
+    const [myBorrowDetails, setMyBorrowDetails] = useState<any>([])
+    const [supplyMarketDetails, setSupplyMarketDetails] = useState<any>([])
+    const [borrowMarketDetails, setBorrowMarketDetails] = useState<any>([])
     const [generalDetails, setGeneralDetails] = useState<any>({})
     const [loading, setLoading] = useState(false)
     const SupplyDialogRef = useRef<any>(null)
@@ -48,7 +51,11 @@ function Home(props: IProps): JSX.Element {
         await dispatch(basicAction.updateGasPrice())
         const details = await compoundTool.getMarkets(library, account)
         const allMarketDetails = details.allMarketDetails.sort(compareSymbol)
-        setAllMarketDetails(allMarketDetails)
+        console.log(allMarketDetails)
+        setMySupplyDetails(allMarketDetails.filter(item => item.supplyBalance?.toNumber() > 0))
+        setSupplyMarketDetails(allMarketDetails.filter(item => item.supplyBalance?.toNumber() <= 0))
+        setMyBorrowDetails(allMarketDetails.filter(item => item.borrowBalance?.toNumber() > 0))
+        setBorrowMarketDetails(allMarketDetails.filter(item => item.borrowBalance?.toNumber() <= 0))
         setGeneralDetails(details.generalDetails)
         setLoading(false)
     }
@@ -71,37 +78,36 @@ function Home(props: IProps): JSX.Element {
 
     return (
         <Layout className={classnames('page-app')}>
-            <Header />
-            <div className="lt-main">
-                <AppHeader generalDetails={generalDetails} />
-                <Spin spinning={loading}>
+            <Spin spinning={loading} size="large">
+                <Header />
+                <div className="lt-main">
+                    <AppHeader generalDetails={generalDetails} />
                     <div className="content">
                         <div className="block left">
-                            <div className="blockAccount">
-                                <div className="blockTitle">
-                                    <span>当前存款</span>
-                                    <i></i>
-                                </div>
-                                <div className="blockMain">
-                                    <Table className="table" responsive hover style={{ marginBottom: '0px' }}>
-                                        <thead>
-                                            <tr>
-                                                <th>Asset</th>
-                                                <th></th>
-                                                <th>
-                                                    <div>APY</div>
-                                                </th>
-                                                <th>You Supplied</th>
-                                                <th>Wallet</th>
-                                                <th>
-                                                    <div>Use As Collateral</div>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {allMarketDetails
-                                                .filter(item => item.supplyBalance?.toNumber() > 0)
-                                                .map((details, index) => (
+                            {mySupplyDetails.length ? (
+                                <div className="blockItem blockAccount">
+                                    <div className="blockTitle">
+                                        <span>当前存款</span>
+                                        <i></i>
+                                    </div>
+                                    <div className="blockMain">
+                                        <Table responsive hover>
+                                            <thead>
+                                                <tr>
+                                                    <th>Asset</th>
+                                                    <th></th>
+                                                    <th>
+                                                        <div>APY</div>
+                                                    </th>
+                                                    <th>You Supplied</th>
+                                                    <th>Wallet</th>
+                                                    <th>
+                                                        <div>Use As Collateral</div>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {mySupplyDetails.map((details, index) => (
                                                     <SupplyMarketRow
                                                         key={index}
                                                         details={details}
@@ -109,35 +115,35 @@ function Home(props: IProps): JSX.Element {
                                                         handleSwitchClick={() => handleShowEnterMarket(details)}
                                                     />
                                                 ))}
-                                        </tbody>
-                                    </Table>
+                                            </tbody>
+                                        </Table>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="blockItem">
-                                <div className="blockTitle">
-                                    <span>存款市场</span>
-                                    <i></i>
-                                </div>
-                                <div className="blockMain">
-                                    <Table className="table" responsive hover style={{ marginBottom: '0px' }}>
-                                        <thead>
-                                            <tr>
-                                                <th>Asset</th>
-                                                <th></th>
-                                                <th>
-                                                    <div>APY</div>
-                                                </th>
-                                                <th>You Supplied</th>
-                                                <th>Wallet</th>
-                                                <th>
-                                                    <div>Use As Collateral</div>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {allMarketDetails
-                                                .filter(item => item.supplyBalance?.toNumber() <= 0)
-                                                .map((details, index) => (
+                            ) : null}
+                            {supplyMarketDetails.length ? (
+                                <div className="blockItem">
+                                    <div className="blockTitle">
+                                        <span>存款市场</span>
+                                        <i></i>
+                                    </div>
+                                    <div className="blockMain">
+                                        <Table responsive hover>
+                                            <thead>
+                                                <tr>
+                                                    <th>Asset</th>
+                                                    <th></th>
+                                                    <th>
+                                                        <div>APY</div>
+                                                    </th>
+                                                    <th>You Supplied</th>
+                                                    <th>Wallet</th>
+                                                    <th>
+                                                        <div>Use As Collateral</div>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {supplyMarketDetails.map((details, index) => (
                                                     <SupplyMarketRow
                                                         key={index}
                                                         details={details}
@@ -145,94 +151,95 @@ function Home(props: IProps): JSX.Element {
                                                         handleSwitchClick={() => handleShowEnterMarket(details)}
                                                     />
                                                 ))}
-                                        </tbody>
-                                    </Table>
+                                            </tbody>
+                                        </Table>
+                                    </div>
                                 </div>
-                            </div>
+                            ) : null}
                         </div>
                         <div className="block right">
-                            <div className="blockAccount">
-                                <div className="blockTitle">
-                                    <span>当前贷款</span>
-                                    <i></i>
-                                </div>
-                                <div className="blockMain">
-                                    <Table className="table" responsive hover style={{ marginBottom: '0px' }}>
-                                        <thead>
-                                            <tr>
-                                                <th>Asset</th>
-                                                <th></th>
-                                                <th>APY</th>
-                                                <th>You Borrowed</th>
-                                                <th>Total Borrowed</th>
-                                                <th>Wallet</th>
-                                                <th>
-                                                    <div>Liquidity</div>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {allMarketDetails
-                                                .filter(item => item.borrowBalance?.toNumber() > 0)
-                                                .map((details, index) => (
+                            {myBorrowDetails.length ? (
+                                <div className="blockItem blockAccount">
+                                    <div className="blockTitle">
+                                        <span>当前贷款</span>
+                                        <i></i>
+                                    </div>
+                                    <div className="blockMain">
+                                        <Table responsive hover>
+                                            <thead>
+                                                <tr>
+                                                    <th>Asset</th>
+                                                    <th></th>
+                                                    <th>APY</th>
+                                                    <th>You Borrowed</th>
+                                                    <th>Total Borrowed</th>
+                                                    <th>Wallet</th>
+                                                    <th>
+                                                        <div>Liquidity</div>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {myBorrowDetails.map((details, index) => (
                                                     <BorrowMarketRow key={index} details={details} handleClick={() => handleShowBorrow(details)} />
                                                 ))}
-                                        </tbody>
-                                    </Table>
+                                            </tbody>
+                                        </Table>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="blockItem">
-                                <div className="blockTitle">
-                                    <span>贷款市场</span>
-                                    <i></i>
-                                </div>
-                                <div className="blockMain">
-                                    <Table className="table" responsive hover style={{ marginBottom: '0px' }}>
-                                        <thead>
-                                            <tr>
-                                                <th>Asset</th>
-                                                <th></th>
-                                                <th>APY</th>
-                                                <th>You Borrowed</th>
-                                                <th>Total Borrowed</th>
-                                                <th>Wallet</th>
-                                                <th>
-                                                    <div>Liquidity</div>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {allMarketDetails
-                                                .filter(item => item.borrowBalance?.toNumber() <= 0)
-                                                .map((details, index) => (
+                            ) : null}
+                            {borrowMarketDetails.length ? (
+                                <div className="blockItem">
+                                    <div className="blockTitle">
+                                        <span>贷款市场</span>
+                                        <i></i>
+                                    </div>
+                                    <div className="blockMain">
+                                        <Table responsive hover>
+                                            <thead>
+                                                <tr>
+                                                    <th>Asset</th>
+                                                    <th></th>
+                                                    <th>APY</th>
+                                                    <th>You Borrowed</th>
+                                                    <th>Total Borrowed</th>
+                                                    <th>Wallet</th>
+                                                    <th>
+                                                        <div>Liquidity</div>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {borrowMarketDetails.map((details, index) => (
                                                     <BorrowMarketRow key={index} details={details} handleClick={() => handleShowBorrow(details)} />
                                                 ))}
-                                        </tbody>
-                                    </Table>
+                                            </tbody>
+                                        </Table>
+                                    </div>
                                 </div>
-                            </div>
+                            ) : null}
                         </div>
                     </div>
-                </Spin>
-                <SupplyDialog
-                    generalDetails={generalDetails}
-                    selectedMarketDetails={selectedMarketDetails}
-                    ref={SupplyDialogRef}
-                    handleUpdateData={() => updateData()}
-                />
-                <BorrowDialog
-                    generalDetails={generalDetails}
-                    selectedMarketDetails={selectedMarketDetails}
-                    ref={BorrowDialogRef}
-                    handleUpdateData={() => updateData()}
-                />
-                <EnterMarketDialog
-                    generalDetails={generalDetails}
-                    selectedMarketDetails={selectedMarketDetails}
-                    ref={EnterMarketDialogRef}
-                    handleUpdateData={() => updateData()}
-                />
-            </div>
+                    <SupplyDialog
+                        generalDetails={generalDetails}
+                        selectedMarketDetails={selectedMarketDetails}
+                        ref={SupplyDialogRef}
+                        handleUpdateData={() => updateData()}
+                    />
+                    <BorrowDialog
+                        generalDetails={generalDetails}
+                        selectedMarketDetails={selectedMarketDetails}
+                        ref={BorrowDialogRef}
+                        handleUpdateData={() => updateData()}
+                    />
+                    <EnterMarketDialog
+                        generalDetails={generalDetails}
+                        selectedMarketDetails={selectedMarketDetails}
+                        ref={EnterMarketDialogRef}
+                        handleUpdateData={() => updateData()}
+                    />
+                </div>
+            </Spin>
         </Layout>
     )
 }

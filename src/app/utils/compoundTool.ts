@@ -28,6 +28,10 @@ const comptrollerAddress = '0x54188bBeDD7b68228fa89CbDDa5e3e930459C6c6'
 const priceFeedAddress = '0xe23874df0276AdA49D58751E8d6E088581121f1B'
 const maxiMillionAddress = '0xE0a38ab2951B6525C33f20D5E637Ab24DFEF9bcB'
 
+// const comptrollerAddress = '0xf47dD16553A934064509C40DC5466BBfB999528B'
+// const priceFeedAddress = '0x21A6297114853aEF193c83FC0271dEf69EA1b93d'
+// const maxiMillionAddress = '0xf859A1AD94BcF445A406B892eF0d3082f4174088'
+
 export async function getMarkets(library, account): Promise<any> {
     let totalSupplyBalance = new BigNumber(0)
     let totalBorrowBalance = new BigNumber(0)
@@ -64,7 +68,6 @@ export async function getMarkets(library, account): Promise<any> {
         const isEnterMarket = enteredMarkets.includes(pTokenAddress)
 
         const collateralFactor = await getCollateralFactor(library, comptrollerAddress, pTokenAddress)
-        console.log(symbol, +supplyAndBorrowBalance?.supplyBalance, +collateralFactor)
         totalBorrowLimit = totalBorrowLimit.plus(isEnterMarket ? supplyAndBorrowBalance?.supplyBalance.times(collateralFactor) : 0)
 
         const supplyApy = await getSupplyApy(library, pTokenAddress)

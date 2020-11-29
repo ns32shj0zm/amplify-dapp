@@ -5,7 +5,8 @@
         background: rgb(233, 244, 255)
 
     .lt-main
-        padding: 148px 0 0
+        padding: 100px 0 0
+
         @media screen and (max-width: 1200px)
             padding: 45px 0 0
 
@@ -20,12 +21,14 @@
             .block
                 flex: 1
                 padding: 0 30px 30px
+                width: 100%
+                box-sizing: border-box
 
                 @media screen and (max-width: 1200px)
-                    padding 0 10px
+                    padding: 0 10px
 
                 .blockItem
-                    margin: 30px 0 0
+                    margin: 0 0 30px
 
                     .blockTitle
                         display: flex
@@ -66,35 +69,51 @@
                         background: #FFFFFF
                         box-shadow: 0px 4px 4px 2px rgba(0, 0, 0, 0.1)
                         border-radius: 4px
-                        padding: 20px
+                        padding: 15px
+                        width: 100%
+                        box-sizing: border-box
 
                 .blockAccount
-                    background: #FFFFFF
-                    box-shadow: 0px 4px 4px 2px rgba(0, 0, 0, 0.1)
-                    border-radius: 4px
-                    padding: 20px
+                    position: relative
 
                     .blockTitle
-                        font-size: 24px
-                        font-weight: bold
-                        padding: 0 20px 20px 0
-                        height: 26px
-                        line-height: @height
+                        position: absolute
+                        top: 14px
+                        left 30px
 
-                .table
+                        i
+                            display: none
+
+                        @media screen and (max-width: 1200px)
+                            position: relative
+                            top: 0
+                            left 0
+
+                    .blockMain
+                        padding-top: 56px
+
+                .table-responsive
                     width: 100%
+                    overflow-x: auto
 
-                    thead
-                        background: #F8F8F8
-                        height: 40px
-                        line-height: 40px
+                    .table
+                        width: 100%
 
-                        th
-                            padding: 0 5px
+                        thead
+                            background: #F8F8F8
+                            height: 40px
+                            line-height: 40px
 
-                    tbody
-                        tr
-                            border-bottom: 1px solid #F8F8F8
+                            th
+                                padding: 0 5px
+                                white-space: nowrap
+                                text-align: center
 
-                            td
-                                padding: 15px 0
+                        tbody
+                            tr
+                                border-bottom: 1px solid #F8F8F8
+
+                                td
+                                    padding: 15px 0
+                                    white-space: nowrap
+                                    text-align: center

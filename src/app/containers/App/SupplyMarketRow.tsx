@@ -31,7 +31,7 @@ function SupplyMarketRow(props: IProps): JSX.Element {
             }}
         >
             <td>
-                <img className="rounded-circle" style={{ width: '40px' }} src={props.details.logoSource} alt="" />
+                <img className="rounded-circle" style={{ width: '40px' }} src={`/${props.details.symbol}.png`} alt="" />
             </td>
             <td>
                 <h6 className="mb-1">{props.details.symbol}</h6>

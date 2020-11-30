@@ -21,6 +21,7 @@ portfinder.getPort(
     },
     (err, port) => {
         app.use(compress())
+        app.use('/', express.static('./public/static'))
 
         const devMiddleware = webpackDevMiddleware(compiler, {
             lazy: false,

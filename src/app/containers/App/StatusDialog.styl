@@ -44,142 +44,79 @@
             span
                 background: url('./img/dot2.png') no-repeat left center
 
-        .sk-circle-bounce
+        .loadEffect
             width: 110px
-            height: @width
+            height: 110px
             position: relative
-            margin: 0 auto 50px
-
-        .sk-circle-bounce .sk-child
-            width: 100%
-            height: 100%
-            position: absolute
-            left: 0
-            top: 0
-
-        .sk-circle-bounce .sk-child:before
-            content: ''
-            display: block
             margin: 0 auto
-            width: 15px
-            height: 15px
-            background-color: #20BBED
-            border-radius: 100px
-            -webkit-animation: sk-circle-bounce-delay 1.2s infinite ease-in-out both
-            animation: sk-circle-bounce-delay 1.2s infinite ease-in-out both
+            margin-bottom: 50px
 
-        .sk-circle-bounce .sk-circle-2
-            -webkit-transform: rotate(30deg)
-            transform: rotate(30deg)
+        .loadEffect span
+            display: inline-block
+            width: 16px
+            height: 16px
+            border-radius: 50%
+            background: #20BBED
+            position: absolute
+            -webkit-animation: load 1.04s ease infinite
 
-        .sk-circle-bounce .sk-circle-3
-            -webkit-transform: rotate(60deg)
-            transform: rotate(60deg)
+        @keyframes load
+            0%
+                opacity: 1
 
-        .sk-circle-bounce .sk-circle-4
-            -webkit-transform: rotate(90deg)
-            transform: rotate(90deg)
+            100%
+                opacity: 0.2
 
-        .sk-circle-bounce .sk-circle-5
-            -webkit-transform: rotate(120deg)
-            transform: rotate(120deg)
+        .loadEffect span:nth-child(1)
+            left: 0
+            top: 50%
+            margin-top: -8px
+            -webkit-animation-delay: 0.13s
 
-        .sk-circle-bounce .sk-circle-6
-            -webkit-transform: rotate(150deg)
-            transform: rotate(150deg)
+        .loadEffect span:nth-child(2)
+            left: 14px
+            top: 14px
+            -webkit-animation-delay: 0.26s
 
-        .sk-circle-bounce .sk-circle-7
-            -webkit-transform: rotate(180deg)
-            transform: rotate(180deg)
+        .loadEffect span:nth-child(3)
+            left: 50%
+            top: 0
+            margin-left: -8px
+            -webkit-animation-delay: 0.39s
 
-        .sk-circle-bounce .sk-circle-8
-            -webkit-transform: rotate(210deg)
-            transform: rotate(210deg)
+        .loadEffect span:nth-child(4)
+            top: 14px
+            right: 14px
+            -webkit-animation-delay: 0.52s
 
-        .sk-circle-bounce .sk-circle-9
-            -webkit-transform: rotate(240deg)
-            transform: rotate(240deg)
+        .loadEffect span:nth-child(5)
+            right: 0
+            top: 50%
+            margin-top: -8px
+            -webkit-animation-delay: 0.65s
 
-        .sk-circle-bounce .sk-circle-10
-            -webkit-transform: rotate(270deg)
-            transform: rotate(270deg)
+        .loadEffect span:nth-child(6)
+            right: 14px
+            bottom: 14px
+            -webkit-animation-delay: 0.78s
 
-        .sk-circle-bounce .sk-circle-11
-            -webkit-transform: rotate(300deg)
-            transform: rotate(300deg)
+        .loadEffect span:nth-child(7)
+            bottom: 0
+            left: 50%
+            margin-left: -8px
+            -webkit-animation-delay: 0.91s
 
-        .sk-circle-bounce .sk-circle-12
-            -webkit-transform: rotate(330deg)
-            transform: rotate(330deg)
+        .loadEffect span:nth-child(8)
+            bottom: 14px
+            left: 14px
+            -webkit-animation-delay: 1.04s
 
-        .sk-circle-bounce .sk-circle-2:before
-            -webkit-animation-delay: -1.1s
-            animation-delay: -1.1s
-
-        .sk-circle-bounce .sk-circle-3:before
-            -webkit-animation-delay: -1s
-            animation-delay: -1s
-
-        .sk-circle-bounce .sk-circle-4:before
-            -webkit-animation-delay: -0.9s
-            animation-delay: -0.9s
-
-        .sk-circle-bounce .sk-circle-5:before
-            -webkit-animation-delay: -0.8s
-            animation-delay: -0.8s
-
-        .sk-circle-bounce .sk-circle-6:before
-            -webkit-animation-delay: -0.7s
-            animation-delay: -0.7s
-
-        .sk-circle-bounce .sk-circle-7:before
-            -webkit-animation-delay: -0.6s
-            animation-delay: -0.6s
-
-        .sk-circle-bounce .sk-circle-8:before
-            -webkit-animation-delay: -0.5s
-            animation-delay: -0.5s
-
-        .sk-circle-bounce .sk-circle-9:before
-            -webkit-animation-delay: -0.4s
-            animation-delay: -0.4s
-
-        .sk-circle-bounce .sk-circle-10:before
-            -webkit-animation-delay: -0.3s
-            animation-delay: -0.3s
-
-        .sk-circle-bounce .sk-circle-11:before
-            -webkit-animation-delay: -0.2s
-            animation-delay: -0.2s
-
-        .sk-circle-bounce .sk-circle-12:before
-            -webkit-animation-delay: -0.1s
-            animation-delay: -0.1s
-
-        @keyframes sk-circle-bounce-delay
-            0%, 80%, 100%
-                -webkit-transform: scale(0)
-                transform: scale(0)
-
-            40%
-                -webkit-transform: scale(1)
-                transform: scale(1)
-
-        @keyframes sk-circle-bounce-delay
-            0%, 80%, 100%
-                -webkit-transform: scale(0)
-                transform: scale(0)
-
-            40%
-                -webkit-transform: scale(1)
-                transform: scale(1)
-    
     .pending
         .statusText
             span
                 background: url('./img/dot3.png') no-repeat left center
 
-        .sk-circle-bounce .sk-child:before
+        .loadEffect span
             background-color: #2abb9c
 
     .error
@@ -191,7 +128,7 @@
             height: 110px
             width: @height
             margin: 0 auto 50px
-            
+
         .statusText
             span
                 background: url('./img/dot4.png') no-repeat left center

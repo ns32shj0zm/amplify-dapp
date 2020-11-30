@@ -43,10 +43,10 @@ const DialogBorrowLimitSection2 = (props: {
             <div className="content">
                 <div className="label">{`Borrow Balance`}</div>
                 <div className="value">
-                    <span>{`$${props.generalDetails.totalBorrowBalance?.toFixed(2)}`}</span>
-                    &gt;
+                    <span className="number">{`$${props.generalDetails.totalBorrowBalance?.toFixed(2)}`}</span>
+                    <span className="icon"></span>
                     {props.borrowAmount || props.repayAmount ? (
-                        <span>
+                        <span className="number">
                             {`$${zeroStringIfNullish(
                                 getNewBorrowBalance(
                                     props.generalDetails.totalBorrowBalance,
@@ -57,16 +57,18 @@ const DialogBorrowLimitSection2 = (props: {
                                 2
                             )}`}
                         </span>
-                    ) : null}
+                    ) : (
+                        `0.00%`
+                    )}
                 </div>
             </div>
             <div className="content">
                 <div className="label">{`Borrow Limit Used`}</div>
                 <div className="value">
-                    <span>{`${zeroStringIfNullish(props.generalDetails.totalBorrowLimitUsedPercent?.toFixed(2), 2)}%`}</span>
-                    &gt;
+                    <span className="number">{`${zeroStringIfNullish(props.generalDetails.totalBorrowLimitUsedPercent?.toFixed(2), 2)}%`}</span>
+                    <span className="icon"></span>
                     {props.borrowAmount || props.repayAmount ? (
-                        <span>
+                        <span className="number">
                             {`${zeroStringIfNullish(
                                 getNewBorrowBalance(
                                     props.generalDetails.totalBorrowBalance,
@@ -80,7 +82,9 @@ const DialogBorrowLimitSection2 = (props: {
                                 2
                             )}%`}
                         </span>
-                    ) : null}
+                    ) : (
+                        `0.00%`
+                    )}
                 </div>
             </div>
         </div>
@@ -100,7 +104,7 @@ const DialogMarketInfoSection = (props: { selectedMarketDetails: SelectedMarketD
             <div className="content">
                 <div className="label">% of Supply Borrowed</div>
                 <div className="value">
-                    <span>
+                    <span className="number">
                         {`${zeroStringIfNullish(
                             props.selectedMarketDetails.marketTotalBorrowInTokenUnit
                                 ?.div(props.selectedMarketDetails.marketTotalBorrowInTokenUnit.plus(props.selectedMarketDetails.underlyingAmount))
@@ -181,7 +185,10 @@ const BorrowDialog = forwardRef((props: IDetails, ref) => {
                 centered
                 destroyOnClose={true}
             >
-                <div className="modalTitle">{`${props.selectedMarketDetails.symbol}`}</div>
+                <div className="modalTitle">
+                    <img src={`/${props.selectedMarketDetails.symbol}.png`} alt="" />
+                    <span>{`${props.selectedMarketDetails.symbol}`}</span>
+                </div>
                 <div className="tab">
                     <div className={classnames('item', { cur: tabValue === 0 })} onClick={() => setTabValue(0)}>
                         Borrow

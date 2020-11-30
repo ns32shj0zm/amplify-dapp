@@ -21,7 +21,9 @@ const DialogSupplyRatesSection = (props: { selectedMarketDetails: SelectedMarket
             <div className="title">Rate</div>
             <div className="content">
                 <div className="label">{`Supply APY`}</div>
-                <div className="value">{`${props.selectedMarketDetails?.supplyApy?.times(100).toFixed(2)}%`}</div>
+                <div className="value">
+                    <span className="number">{`${props.selectedMarketDetails?.supplyApy?.times(100).toFixed(2)}%`}</span>
+                </div>
             </div>
         </div>
     )
@@ -35,19 +37,21 @@ const DialogBorrowLimitSection = (props: { generalDetails: GeneralDetails; newBo
             <div className="content">
                 <div className="label">{`Borrow Limit`}</div>
                 <div className="value">
-                    <span>{`$${props.generalDetails.totalBorrowLimit?.toFixed(2)}`}</span>
-                    &gt;
-                    {newBorrowLimit ? <span>{`$${zeroStringIfNullish(newBorrowLimit?.toFixed(2), 2)}`}</span> : null}
+                    <span className="number">{`$${props.generalDetails.totalBorrowLimit?.toFixed(2)}`}</span>
+                    <span className="icon"></span>
+                    {newBorrowLimit ? <span className="number">{`$${zeroStringIfNullish(newBorrowLimit?.toFixed(2), 2)}`}</span> : `0.00%`}
                 </div>
             </div>
             <div className="content">
                 <div className="label">{`Borrow Limit Used`}</div>
                 <div className="value">
-                    <span>{`${zeroStringIfNullish(props.generalDetails.totalBorrowLimitUsedPercent?.toFixed(2), 2)}%`}</span>
-                    &gt;
-                    {newBorrowLimit
-                        ? `${zeroStringIfNullish(props.generalDetails.totalBorrowBalance?.div(newBorrowLimit).times(100).toFixed(2), 2)}%`
-                        : null}
+                    <span className="number">{`${zeroStringIfNullish(props.generalDetails.totalBorrowLimitUsedPercent?.toFixed(2), 2)}%`}</span>
+                    <span className="icon"></span>
+                    <span className="number">
+                        {newBorrowLimit
+                            ? `${zeroStringIfNullish(props.generalDetails.totalBorrowBalance?.div(newBorrowLimit).times(100).toFixed(2), 2)}%`
+                            : `0.00%`}
+                    </span>
                 </div>
             </div>
         </div>
@@ -61,13 +65,13 @@ const DialogMarketInfoSection = (props: { selectedMarketDetails: SelectedMarketD
             <div className="content">
                 <div className="label">Loan-to-Value</div>
                 <div className="value">
-                    <span>{`${props.selectedMarketDetails?.collateralFactor?.times(100).toFixed(0)}%`}</span>
+                    <span className="number">{`${props.selectedMarketDetails?.collateralFactor?.times(100).toFixed(0)}%`}</span>
                 </div>
             </div>
             <div className="content">
                 <div className="label">{`% of Supply Borrowed`}</div>
                 <div className="value">
-                    <span>
+                    <span className="number">
                         {`${zeroStringIfNullish(
                             props.selectedMarketDetails?.marketTotalBorrowInTokenUnit
                                 ?.div(props.selectedMarketDetails?.marketTotalBorrowInTokenUnit.plus(props.selectedMarketDetails?.underlyingAmount))
@@ -159,7 +163,10 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
                 centered
                 destroyOnClose={true}
             >
-                <div className="modalTitle">{`${props.selectedMarketDetails.symbol}`}</div>
+                <div className="modalTitle">
+                    <img src={`/${props.selectedMarketDetails.symbol}.png`} alt="" />
+                    <span>{`${props.selectedMarketDetails.symbol}`}</span>
+                </div>
                 <div className="tab">
                     <div className={classnames('item', { cur: tabValue === 0 })} onClick={() => setTabValue(0)}>
                         Supply

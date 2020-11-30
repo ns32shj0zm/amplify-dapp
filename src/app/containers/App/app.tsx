@@ -77,10 +77,10 @@ function Home(props: IProps): JSX.Element {
 
     return (
         <Layout className={classnames('page-app')}>
-            <Spin spinning={loading} size="large">
-                <Header />
-                <div className="lt-main">
-                    <AppHeader generalDetails={generalDetails} />
+            <Header />
+            <div className="lt-main">
+                <AppHeader generalDetails={generalDetails} />
+                <Spin spinning={loading} size="large">
                     <div className="content">
                         <div className="block left">
                             {mySupplyDetails.length ? (
@@ -219,26 +219,26 @@ function Home(props: IProps): JSX.Element {
                             ) : null}
                         </div>
                     </div>
-                    <SupplyDialog
-                        generalDetails={generalDetails}
-                        selectedMarketDetails={selectedMarketDetails}
-                        ref={SupplyDialogRef}
-                        handleUpdateData={() => updateData()}
-                    />
-                    <BorrowDialog
-                        generalDetails={generalDetails}
-                        selectedMarketDetails={selectedMarketDetails}
-                        ref={BorrowDialogRef}
-                        handleUpdateData={() => updateData()}
-                    />
-                    <EnterMarketDialog
-                        generalDetails={generalDetails}
-                        selectedMarketDetails={selectedMarketDetails}
-                        ref={EnterMarketDialogRef}
-                        handleUpdateData={() => updateData()}
-                    />
-                </div>
-            </Spin>
+                </Spin>
+                <SupplyDialog
+                    generalDetails={generalDetails}
+                    selectedMarketDetails={selectedMarketDetails}
+                    ref={SupplyDialogRef}
+                    handleUpdateData={() => updateData()}
+                />
+                <BorrowDialog
+                    generalDetails={generalDetails}
+                    selectedMarketDetails={selectedMarketDetails}
+                    ref={BorrowDialogRef}
+                    handleUpdateData={() => updateData()}
+                />
+                <EnterMarketDialog
+                    generalDetails={generalDetails}
+                    selectedMarketDetails={selectedMarketDetails}
+                    ref={EnterMarketDialogRef}
+                    handleUpdateData={() => updateData()}
+                />
+            </div>
         </Layout>
     )
 }

@@ -1,12 +1,13 @@
-import React, { useState, forwardRef, useImperativeHandle } from 'react'
+import React, { useState, forwardRef, useImperativeHandle, useRef } from 'react'
 import { useSelector } from 'react-redux'
-import { Input, Button, Modal, Spin } from 'antd'
+import { Input, Button, Modal } from 'antd'
 import classnames from 'classnames'
 import { BigNumber } from 'bignumber.js'
 import { eX, zeroStringIfNullish } from '../../general/helpers'
 import { IRootState } from '../../reducers/RootState'
 import { IDetails, SelectedMarketDetails, GeneralDetails } from './type'
 import { getMaxAmount, handleEnable, handleWithdraw, handleSupply } from '../../utils/compoundTool'
+import StatusDialog from './StatusDialog'
 import './dialog.styl'
 
 const TabPanel = (props: any): JSX.Element | null => {
@@ -27,6 +28,7 @@ const DialogSupplyRatesSection = (props: { selectedMarketDetails: SelectedMarket
 }
 
 const DialogBorrowLimitSection = (props: { generalDetails: GeneralDetails; newBorrowLimit: BigNumber }): JSX.Element => {
+    const { newBorrowLimit } = props
     return (
         <div className="listItem">
             <div className="title">Limit</div>
@@ -34,19 +36,18 @@ const DialogBorrowLimitSection = (props: { generalDetails: GeneralDetails; newBo
                 <div className="label">{`Borrow Limit`}</div>
                 <div className="value">
                     <span>{`$${props.generalDetails.totalBorrowLimit?.toFixed(2)}`}</span>
-                    {/* {newBorrowLimit1 ? <span>{`$${zeroStringIfNullish(newBorrowLimit1?.toFixed(2), 2)}`}</span> : null} */}
+                    &gt;
+                    {newBorrowLimit ? <span>{`$${zeroStringIfNullish(newBorrowLimit?.toFixed(2), 2)}`}</span> : null}
                 </div>
             </div>
             <div className="content">
                 <div className="label">{`Borrow Limit Used`}</div>
                 <div className="value">
                     <span>{`${zeroStringIfNullish(props.generalDetails.totalBorrowLimitUsedPercent?.toFixed(2), 2)}%`}</span>
-                    {/* {newBorrowLimit1 ? (
-                            {`${zeroStringIfNullish(
-                                props.generalDetails.totalBorrowBalance?.div(newBorrowLimit1).times(100).toFixed(2),
-                                2
-                            )}%`}
-                    ) : null} */}
+                    &gt;
+                    {newBorrowLimit
+                        ? `${zeroStringIfNullish(props.generalDetails.totalBorrowBalance?.div(newBorrowLimit).times(100).toFixed(2), 2)}%`
+                        : null}
                 </div>
             </div>
         </div>
@@ -91,7 +92,7 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
     const [withdrawValidationMessage, setWithdrawValidationMessage] = useState('')
     const [supplyDialogOpen, setSupplyDialogOpen] = useState(false)
     const { gasPrice, globalInfo } = useSelector((store: IRootState) => store.base)
-    const [loading, setLoading] = useState(false)
+    const StatusDialogRef = useRef<any>(null)
 
     const handleSupplyAmountChange = (amount): void => {
         setSupplyAmount(amount)
@@ -149,8 +150,15 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
     }))
 
     return props.selectedMarketDetails.symbol ? (
-        <Modal visible={supplyDialogOpen} onCancel={() => setSupplyDialogOpen(false)} footer={null} wrapClassName="modal" centered>
-            <Spin spinning={loading}>
+        <>
+            <Modal
+                visible={supplyDialogOpen}
+                onCancel={() => setSupplyDialogOpen(false)}
+                footer={null}
+                wrapClassName="modal"
+                centered
+                destroyOnClose={true}
+            >
                 <div className="modalTitle">{`${props.selectedMarketDetails.symbol}`}</div>
                 <div className="tab">
                     <div className={classnames('item', { cur: tabValue === 0 })} onClick={() => setTabValue(0)}>
@@ -196,7 +204,8 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
                         <Button
                             disabled={!supplyAmount || !!supplyValidationMessage}
                             onClick={async () => {
-                                setLoading(true)
+                                setSupplyDialogOpen(false)
+                                StatusDialogRef.current.show({ type: 'loading', title: '确认交易', text: '请在钱包中确认' })
                                 const res = await handleSupply(
                                     props.selectedMarketDetails.underlyingAddress,
                                     props.selectedMarketDetails.pTokenAddress,
@@ -204,34 +213,38 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
                                     props.selectedMarketDetails.decimals,
                                     props.selectedMarketDetails.symbol,
                                     globalInfo.library,
-                                    gasPrice
+                                    gasPrice,
+                                    () => StatusDialogRef.current.reset({ type: 'pending', title: '确认交易', text: '等待钱包确认，请稍后' })
                                 )
                                 if (res) {
                                     props.handleUpdateData()
-                                    setSupplyDialogOpen(false)
+                                    StatusDialogRef.current.hide({ type: 'confirm', title: '确认交易', text: '确认交易' })
+                                } else {
+                                    StatusDialogRef.current.hide({ type: 'error', title: '交易错误', text: '交易错误' })
                                 }
-                                setLoading(false)
                             }}
                         >
                             Supply
                         </Button>
                     ) : (
                         <Button
-                            loading={loading}
                             onClick={async () => {
-                                setLoading(true)
+                                setSupplyDialogOpen(false)
+                                StatusDialogRef.current.show({ type: 'loading', title: '确认交易', text: '请在钱包中确认' })
                                 const res = await handleEnable(
                                     props.selectedMarketDetails.underlyingAddress,
                                     props.selectedMarketDetails.pTokenAddress,
                                     props.selectedMarketDetails.symbol,
                                     globalInfo.library,
-                                    gasPrice
+                                    gasPrice,
+                                    () => StatusDialogRef.current.reset({ type: 'pending', title: '确认交易', text: '等待钱包确认，请稍后' })
                                 )
                                 if (res) {
                                     props.handleUpdateData()
-                                    setSupplyDialogOpen(false)
+                                    StatusDialogRef.current.hide({ type: 'confirm', title: '确认交易', text: '确认交易' })
+                                } else {
+                                    StatusDialogRef.current.hide({ type: 'error', title: '交易错误', text: '交易错误' })
                                 }
-                                setLoading(false)
                             }}
                         >
                             Access To Wallet
@@ -262,7 +275,8 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
                     <Button
                         disabled={!withdrawAmount || !!withdrawValidationMessage}
                         onClick={async () => {
-                            setLoading(true)
+                            setSupplyDialogOpen(false)
+                            StatusDialogRef.current.show({ type: 'loading', title: '确认交易', text: '请在钱包中确认' })
                             const res = await handleWithdraw(
                                 props.selectedMarketDetails.underlyingAddress,
                                 props.selectedMarketDetails.pTokenAddress,
@@ -270,20 +284,23 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
                                 props.selectedMarketDetails.decimals,
                                 props.selectedMarketDetails.symbol,
                                 globalInfo.library,
-                                gasPrice
+                                gasPrice,
+                                () => StatusDialogRef.current.reset({ type: 'pending', title: '确认交易', text: '等待钱包确认，请稍后' })
                             )
                             if (res) {
                                 props.handleUpdateData()
-                                setSupplyDialogOpen(false)
+                                StatusDialogRef.current.hide({ type: 'confirm', title: '确认交易', text: '确认交易' })
+                            } else {
+                                StatusDialogRef.current.hide({ type: 'error', title: '交易错误', text: '交易错误' })
                             }
-                            setLoading(false)
                         }}
                     >
                         Withdraw
                     </Button>
                 </TabPanel>
-            </Spin>
-        </Modal>
+            </Modal>
+            <StatusDialog ref={StatusDialogRef} />
+        </>
     ) : null
 })
 

@@ -437,8 +437,18 @@ export const getMaxAmount = (symbol, walletBalance, gasPrice): BigNumber => {
     }
 }
 
+/* 获取交易状态 */
+const getTransactionStatus = async (library, hash) => {
+    const res = await library.getTransactionReceipt(hash)
+    if (!res) {
+        await getTransactionStatus(library, hash)
+    } else {
+        return res
+    }
+}
+
 /* 存款部分 */
-export const handleEnable = async (underlyingAddress, pTokenAddress, symbol, library, gasPrice) => {
+export const handleEnable = async (underlyingAddress, pTokenAddress, symbol, library, gasPrice, callback) => {
     try {
         const tx = await Compound.eth.trx(underlyingAddress, 'approve', [pTokenAddress, MaxUint256], {
             network: chainIdToName[parseInt(library.provider.chainId)],
@@ -447,22 +457,17 @@ export const handleEnable = async (underlyingAddress, pTokenAddress, symbol, lib
             gasPrice: gasPrice.toString(),
             abi: compoundConstants.abi.cErc20
         })
-        message.destroy()
-        message.success({
-            content: `Transaction sent: ${tx.hash}`
-        })
+        if (callback) {
+            callback()
+        }
+        await getTransactionStatus(library, tx.hash)
         return true
     } catch (e) {
-        console.log(e)
-        message.destroy()
-        message.error({
-            content: `Error: ${JSON.stringify(e)}`
-        })
         return false
     }
 }
 
-export const handleWithdraw = async (underlyingAddress, pTokenAddress, amount, decimals, symbol, library, gasPrice) => {
+export const handleWithdraw = async (underlyingAddress, pTokenAddress, amount, decimals, symbol, library, gasPrice, callback) => {
     const options = {
         network: chainIdToName[parseInt(library.provider.chainId)],
         provider: library.provider,
@@ -485,21 +490,17 @@ export const handleWithdraw = async (underlyingAddress, pTokenAddress, amount, d
             [eX(amount, decimals).toString()], // [optional] parameters
             options // [optional] call options, provider, network, ethers.js "overrides"
         )
-        message.destroy()
-        message.success({
-            content: `Transaction sent: ${tx.hash}`
-        })
+        if (callback) {
+            callback()
+        }
+        await getTransactionStatus(library, tx.hash)
         return true
     } catch (e) {
-        message.destroy()
-        message.error({
-            content: `Error: ${JSON.stringify(e)}`
-        })
         return false
     }
 }
 
-export const handleSupply = async (underlyingAddress, pTokenAddress, amount, decimals, symbol, library, gasPrice) => {
+export const handleSupply = async (underlyingAddress, pTokenAddress, amount, decimals, symbol, library, gasPrice, callback) => {
     const parameters: Array<any> = []
     const options: any = {
         network: chainIdToName[parseInt(library.provider.chainId)],
@@ -520,23 +521,29 @@ export const handleSupply = async (underlyingAddress, pTokenAddress, amount, dec
 
     try {
         const tx = await Compound.eth.trx(pTokenAddress, 'mint', parameters, options)
-        message.destroy()
-        message.success({
-            content: `Transaction sent: ${tx.hash}`
-        })
+        if (callback) {
+            callback()
+        }
+        await getTransactionStatus(library, tx.hash)
         return true
     } catch (e) {
-        console.log(e)
-        message.destroy()
-        message.error({
-            content: `Error: ${JSON.stringify(e)}`
-        })
         return false
     }
 }
 
 /* 借贷部分 */
-export const handleRepay = async (walletAddress, underlyingAddress, pTokenAddress, amount, isFullRepay, decimals, symbol, library, gasPrice) => {
+export const handleRepay = async (
+    walletAddress,
+    underlyingAddress,
+    pTokenAddress,
+    amount,
+    isFullRepay,
+    decimals,
+    symbol,
+    library,
+    gasPrice,
+    callback
+) => {
     const parameters: Array<any> = []
     const options: any = {
         network: chainIdToName[parseInt(library.provider.chainId)],
@@ -582,23 +589,17 @@ export const handleRepay = async (walletAddress, underlyingAddress, pTokenAddres
                 options // [optional] call options, provider, network, ethers.js "overrides"
             )
         }
-
-        message.destroy()
-        message.success({
-            content: `Transaction sent: ${tx.hash}`
-        })
+        if (callback) {
+            callback()
+        }
+        await getTransactionStatus(library, tx.hash)
         return true
     } catch (e) {
-        console.log(e)
-        message.destroy()
-        message.error({
-            content: `Error: ${JSON.stringify(e)}`
-        })
         return false
     }
 }
 
-export const handleBorrow = async (underlyingAddress, pTokenAddress, amount, decimals, symbol, library, gasPrice) => {
+export const handleBorrow = async (underlyingAddress, pTokenAddress, amount, decimals, symbol, library, gasPrice, callback) => {
     const options: any = {
         network: chainIdToName[parseInt(library.provider.chainId)],
         provider: library.provider,
@@ -619,23 +620,18 @@ export const handleBorrow = async (underlyingAddress, pTokenAddress, amount, dec
             [eX(amount, decimals).toString()], // [optional] parameters
             options // [optional] call options, provider, network, ethers.js "overrides"
         )
-        message.destroy()
-        message.success({
-            content: `Transaction sent: ${tx.hash}`
-        })
+        if (callback) {
+            callback()
+        }
+        await getTransactionStatus(library, tx.hash)
         return true
     } catch (e) {
-        console.log(e)
-        message.destroy()
-        message.error({
-            content: `Error: ${JSON.stringify(e)}`
-        })
         return false
     }
 }
 
 /* 授权部分 */
-export const handleExitMarket = async (pTokenAddress, library, gasPrice) => {
+export const handleExitMarket = async (pTokenAddress, library, gasPrice, callback) => {
     try {
         const tx = await Compound.eth.trx(
             comptrollerAddress,
@@ -649,22 +645,17 @@ export const handleExitMarket = async (pTokenAddress, library, gasPrice) => {
                 abi: compoundConstants.abi.Comptroller
             } as any
         )
-        message.destroy()
-        message.success({
-            content: `Transaction sent: ${tx.hash}`
-        })
+        if (callback) {
+            callback()
+        }
+        await getTransactionStatus(library, tx.hash)
         return true
     } catch (e) {
-        console.log(e)
-        message.destroy()
-        message.error({
-            content: `Error: ${JSON.stringify(e)}`
-        })
         return false
     }
 }
 
-export const handleEnterMarket = async (pTokenAddress, library, gasPrice) => {
+export const handleEnterMarket = async (pTokenAddress, library, gasPrice, callback) => {
     try {
         const tx = await Compound.eth.trx(
             comptrollerAddress,
@@ -678,17 +669,12 @@ export const handleEnterMarket = async (pTokenAddress, library, gasPrice) => {
                 abi: compoundConstants.abi.Comptroller
             } as any
         )
-        message.destroy()
-        message.success({
-            content: `Transaction sent: ${tx.hash}`
-        })
+        if (callback) {
+            callback()
+        }
+        await getTransactionStatus(library, tx.hash)
         return true
     } catch (e) {
-        console.log(e)
-        message.destroy()
-        message.error({
-            content: `Error: ${JSON.stringify(e)}`
-        })
         return false
     }
 }

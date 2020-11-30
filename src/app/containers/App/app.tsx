@@ -51,7 +51,6 @@ function Home(props: IProps): JSX.Element {
         await dispatch(basicAction.updateGasPrice())
         const details = await compoundTool.getMarkets(library, account)
         const allMarketDetails = details.allMarketDetails.sort(compareSymbol)
-        console.log(allMarketDetails)
         setMySupplyDetails(allMarketDetails.filter(item => item.supplyBalance?.toNumber() > 0))
         setSupplyMarketDetails(allMarketDetails.filter(item => item.supplyBalance?.toNumber() <= 0))
         setMyBorrowDetails(allMarketDetails.filter(item => item.borrowBalance?.toNumber() > 0))

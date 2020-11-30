@@ -47,7 +47,7 @@ const Header: React.FunctionComponent<IProps> = (props: IProps): React.ReactElem
         <header className="lt-header">
             <div className="main">
                 <div className="left">
-                    <div className="logo" onClick={() => jump('/')}></div>
+                    <div className="logo" onClick={() => (window.location.href = 'https://ampt.tech/')}></div>
                 </div>
                 {/* {props.children} */}
                 <div className="nav">

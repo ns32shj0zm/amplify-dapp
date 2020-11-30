@@ -1,10 +1,11 @@
-import React, { useState, forwardRef, useImperativeHandle } from 'react'
+import React, { useState, forwardRef, useImperativeHandle, useRef } from 'react'
 import { useSelector } from 'react-redux'
-import { Input, Button, Modal, Spin } from 'antd'
+import { Button, Modal } from 'antd'
 import { zeroStringIfNullish } from '../../general/helpers'
 import { IRootState } from '../../reducers/RootState'
-import { IDetails, SelectedMarketDetails, GeneralDetails } from './type'
+import { IDetails, GeneralDetails } from './type'
 import { handleExitMarket, handleEnterMarket } from '../../utils/compoundTool'
+import StatusDialog from './StatusDialog'
 import './dialog.styl'
 
 const DialogBorrowLimitSection = (props: { generalDetails: GeneralDetails }): JSX.Element => {
@@ -30,7 +31,7 @@ const DialogBorrowLimitSection = (props: { generalDetails: GeneralDetails }): JS
 const EnterMarketDialog = forwardRef((props: IDetails, ref) => {
     const [enterMarketDialogOpen, setEnterMarketDialogOpen] = useState(false)
     const { gasPrice, globalInfo } = useSelector((store: IRootState) => store.base)
-    const [loading, setLoading] = useState(false)
+    const StatusDialogRef = useRef<any>(null)
 
     useImperativeHandle(ref, () => ({
         show: () => {
@@ -42,8 +43,8 @@ const EnterMarketDialog = forwardRef((props: IDetails, ref) => {
     }))
 
     return props.selectedMarketDetails.symbol ? (
-        <Modal visible={enterMarketDialogOpen} onCancel={() => setEnterMarketDialogOpen(false)} footer={null} wrapClassName="modal" centered>
-            <Spin spinning={loading}>
+        <>
+            <Modal visible={enterMarketDialogOpen} onCancel={() => setEnterMarketDialogOpen(false)} footer={null} wrapClassName="modal" centered>
                 <div className="modalTitle">{`${props.selectedMarketDetails.isEnterMarket ? 'Disable' : 'Enable'} as Collateral`}</div>
                 <div className="tabContent">
                     <div className="text">
@@ -56,13 +57,17 @@ const EnterMarketDialog = forwardRef((props: IDetails, ref) => {
                     {props.selectedMarketDetails.isEnterMarket ? (
                         <Button
                             onClick={async () => {
-                                setLoading(true)
-                                const res = await handleExitMarket(props.selectedMarketDetails.pTokenAddress, globalInfo.library, gasPrice)
+                                setEnterMarketDialogOpen(false)
+                                StatusDialogRef.current.show({ type: 'loading', title: '确认交易', text: '请在钱包中确认' })
+                                const res = await handleExitMarket(props.selectedMarketDetails.pTokenAddress, globalInfo.library, gasPrice, () =>
+                                    StatusDialogRef.current.reset({ type: 'pending', title: '确认交易', text: '等待钱包确认，请稍后' })
+                                )
                                 if (res) {
                                     props.handleUpdateData()
-                                    setEnterMarketDialogOpen(false)
+                                    StatusDialogRef.current.hide({ type: 'confirm', title: '确认交易', text: '确认交易' })
+                                } else {
+                                    StatusDialogRef.current.hide({ type: 'error', title: '交易错误', text: '交易错误' })
                                 }
-                                setLoading(false)
                             }}
                         >
                             {`Disable ${props.selectedMarketDetails.symbol} as Collateral`}
@@ -70,21 +75,26 @@ const EnterMarketDialog = forwardRef((props: IDetails, ref) => {
                     ) : (
                         <Button
                             onClick={async () => {
-                                setLoading(true)
-                                const res = await handleEnterMarket(props.selectedMarketDetails.pTokenAddress, globalInfo.library, gasPrice)
+                                setEnterMarketDialogOpen(false)
+                                StatusDialogRef.current.show({ type: 'loading', title: '确认交易', text: '请在钱包中确认' })
+                                const res = await handleEnterMarket(props.selectedMarketDetails.pTokenAddress, globalInfo.library, gasPrice, () =>
+                                    StatusDialogRef.current.reset({ type: 'pending', title: '确认交易', text: '等待钱包确认，请稍后' })
+                                )
                                 if (res) {
                                     props.handleUpdateData()
-                                    setEnterMarketDialogOpen(false)
+                                    StatusDialogRef.current.hide({ type: 'confirm', title: '确认交易', text: '确认交易' })
+                                } else {
+                                    StatusDialogRef.current.hide({ type: 'error', title: '交易错误', text: '交易错误' })
                                 }
-                                setLoading(false)
                             }}
                         >
                             {`Use ${props.selectedMarketDetails.symbol} as Collateral`}
                         </Button>
                     )}
                 </div>
-            </Spin>
-        </Modal>
+            </Modal>
+            <StatusDialog ref={StatusDialogRef} />
+        </>
     ) : null
 })
 

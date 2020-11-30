@@ -1,4 +1,4 @@
-import React, { useState, forwardRef, useImperativeHandle } from 'react'
+import React, { useState, forwardRef, useImperativeHandle, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { Input, Button, Modal, Spin } from 'antd'
 import classnames from 'classnames'
@@ -7,6 +7,7 @@ import { zeroStringIfNullish } from '../../general/helpers'
 import { IRootState } from '../../reducers/RootState'
 import { IDetails, SelectedMarketDetails, GeneralDetails } from './type'
 import { getMaxAmount, handleEnable, handleBorrow, handleRepay } from '../../utils/compoundTool'
+import StatusDialog from './StatusDialog'
 import './dialog.styl'
 
 const TabPanel = (props: any): JSX.Element | null => {
@@ -43,7 +44,8 @@ const DialogBorrowLimitSection2 = (props: {
                 <div className="label">{`Borrow Balance`}</div>
                 <div className="value">
                     <span>{`$${props.generalDetails.totalBorrowBalance?.toFixed(2)}`}</span>
-                    {/* {props.borrowAmount || props.repayAmount ? (
+                    &gt;
+                    {props.borrowAmount || props.repayAmount ? (
                         <span>
                             {`$${zeroStringIfNullish(
                                 getNewBorrowBalance(
@@ -55,14 +57,15 @@ const DialogBorrowLimitSection2 = (props: {
                                 2
                             )}`}
                         </span>
-                    ) : null} */}
+                    ) : null}
                 </div>
             </div>
             <div className="content">
                 <div className="label">{`Borrow Limit Used`}</div>
                 <div className="value">
                     <span>{`${zeroStringIfNullish(props.generalDetails.totalBorrowLimitUsedPercent?.toFixed(2), 2)}%`}</span>
-                    {/* {props.borrowAmount || props.repayAmount ? (
+                    &gt;
+                    {props.borrowAmount || props.repayAmount ? (
                         <span>
                             {`${zeroStringIfNullish(
                                 getNewBorrowBalance(
@@ -77,7 +80,7 @@ const DialogBorrowLimitSection2 = (props: {
                                 2
                             )}%`}
                         </span>
-                    ) : null} */}
+                    ) : null}
                 </div>
             </div>
         </div>
@@ -121,13 +124,10 @@ const BorrowDialog = forwardRef((props: IDetails, ref) => {
     const [repayValidationMessage, setRepayValidationMessage] = useState('')
     const [borrowDialogOpen, setBorrowDialogOpen] = useState(false)
     const { gasPrice, globalInfo } = useSelector((store: IRootState) => store.base)
-    const [loading, setLoading] = useState(false)
+    const StatusDialogRef = useRef<any>(null)
 
     const handleBorrowAmountChange = (amount): void => {
         setBorrowAmount(amount)
-
-        console.log(amount, +props.selectedMarketDetails.underlyingPrice, +props.generalDetails.totalBorrowLimit)
-
         if (amount <= 0) {
             setBorrowValidationMessage('Amount must be > 0')
         } else if (amount * +props.selectedMarketDetails.underlyingPrice > +props.generalDetails.totalBorrowLimit) {
@@ -172,8 +172,15 @@ const BorrowDialog = forwardRef((props: IDetails, ref) => {
     }
 
     return props.selectedMarketDetails.symbol ? (
-        <Modal visible={borrowDialogOpen} onCancel={() => setBorrowDialogOpen(false)} footer={null} wrapClassName="modal" centered>
-            <Spin spinning={loading}>
+        <>
+            <Modal
+                visible={borrowDialogOpen}
+                onCancel={() => setBorrowDialogOpen(false)}
+                footer={null}
+                wrapClassName="modal"
+                centered
+                destroyOnClose={true}
+            >
                 <div className="modalTitle">{`${props.selectedMarketDetails.symbol}`}</div>
                 <div className="tab">
                     <div className={classnames('item', { cur: tabValue === 0 })} onClick={() => setTabValue(0)}>
@@ -212,7 +219,8 @@ const BorrowDialog = forwardRef((props: IDetails, ref) => {
                     <Button
                         disabled={!borrowAmount || !!borrowValidationMessage}
                         onClick={async () => {
-                            setLoading(true)
+                            setBorrowDialogOpen(false)
+                            StatusDialogRef.current.show({ type: 'loading', title: '确认交易', text: '请在钱包中确认' })
                             const res = await handleBorrow(
                                 props.selectedMarketDetails.underlyingAddress,
                                 props.selectedMarketDetails.pTokenAddress,
@@ -220,13 +228,15 @@ const BorrowDialog = forwardRef((props: IDetails, ref) => {
                                 props.selectedMarketDetails.decimals,
                                 props.selectedMarketDetails.symbol,
                                 globalInfo.library,
-                                gasPrice
+                                gasPrice,
+                                () => StatusDialogRef.current.reset({ type: 'pending', title: '确认交易', text: '等待钱包确认，请稍后' })
                             )
                             if (res) {
                                 props.handleUpdateData()
-                                setBorrowDialogOpen(false)
+                                StatusDialogRef.current.hide({ type: 'confirm', title: '确认交易', text: '确认交易' })
+                            } else {
+                                StatusDialogRef.current.hide({ type: 'error', title: '交易错误', text: '交易错误' })
                             }
-                            setLoading(false)
                         }}
                     >
                         Borrow
@@ -284,7 +294,8 @@ const BorrowDialog = forwardRef((props: IDetails, ref) => {
                         <Button
                             disabled={!repayAmount || !!repayValidationMessage}
                             onClick={async () => {
-                                setLoading(true)
+                                setBorrowDialogOpen(false)
+                                StatusDialogRef.current.show({ type: 'loading', title: '确认交易', text: '请在钱包中确认' })
                                 const res = await handleRepay(
                                     globalInfo.account,
                                     props.selectedMarketDetails.underlyingAddress,
@@ -294,13 +305,15 @@ const BorrowDialog = forwardRef((props: IDetails, ref) => {
                                     props.selectedMarketDetails.decimals,
                                     props.selectedMarketDetails.symbol,
                                     globalInfo.library,
-                                    gasPrice
+                                    gasPrice,
+                                    () => StatusDialogRef.current.reset({ type: 'pending', title: '确认交易', text: '等待钱包确认，请稍后' })
                                 )
                                 if (res) {
                                     props.handleUpdateData()
-                                    setBorrowDialogOpen(false)
+                                    StatusDialogRef.current.hide({ type: 'confirm', title: '确认交易', text: '确认交易' })
+                                } else {
+                                    StatusDialogRef.current.hide({ type: 'error', title: '交易错误', text: '交易错误' })
                                 }
-                                setLoading(false)
                             }}
                         >
                             Repay
@@ -308,27 +321,31 @@ const BorrowDialog = forwardRef((props: IDetails, ref) => {
                     ) : (
                         <Button
                             onClick={async () => {
-                                setLoading(true)
+                                setBorrowDialogOpen(false)
+                                StatusDialogRef.current.show({ type: 'loading', title: '确认交易', text: '请在钱包中确认' })
                                 const res = await handleEnable(
                                     props.selectedMarketDetails.underlyingAddress,
                                     props.selectedMarketDetails.pTokenAddress,
                                     props.selectedMarketDetails.symbol,
                                     globalInfo.library,
-                                    gasPrice
+                                    gasPrice,
+                                    () => StatusDialogRef.current.reset({ type: 'pending', title: '确认交易', text: '等待钱包确认，请稍后' })
                                 )
                                 if (res) {
                                     props.handleUpdateData()
-                                    setBorrowDialogOpen(false)
+                                    StatusDialogRef.current.hide({ type: 'confirm', title: '确认交易', text: '确认交易' })
+                                } else {
+                                    StatusDialogRef.current.hide({ type: 'error', title: '交易错误', text: '交易错误' })
                                 }
-                                setLoading(false)
                             }}
                         >
                             Access To Wallet
                         </Button>
                     )}
                 </TabPanel>
-            </Spin>
-        </Modal>
+            </Modal>
+            <StatusDialog ref={StatusDialogRef} />
+        </>
     ) : null
 })
 

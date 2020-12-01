@@ -77,9 +77,8 @@ export async function getMarkets(library, account): Promise<any> {
 
         const supplyApy = await getSupplyApy(library, pTokenAddress)
         const borrowApy = await getBorrowApy(library, pTokenAddress)
-        console.log(+supplyAndBorrowBalance?.supplyBalance, +supplyAndBorrowBalance?.borrowBalance, +supplyApy)
-        yearSupplyInterest = yearSupplyInterest.plus(supplyAndBorrowBalance?.supplyBalance.times(supplyApy).div(100))
-        yearBorrowInterest = yearBorrowInterest.plus(supplyAndBorrowBalance?.borrowBalance.times(borrowApy).div(100))
+        yearSupplyInterest = yearSupplyInterest.plus(supplyAndBorrowBalance?.supplyBalance.times(supplyApy))
+        yearBorrowInterest = yearBorrowInterest.plus(supplyAndBorrowBalance?.borrowBalance.times(borrowApy))
 
         const underlyingAmount = await getUnderlyingAmount(library, pTokenAddress, decimals)
 
@@ -123,6 +122,7 @@ export async function getMarkets(library, account): Promise<any> {
             }
         })
     )
+    console.log('apr', +yearSupplyInterest, +yearBorrowInterest, +totalSupplyBalance)
     return {
         allMarketDetails,
         generalDetails: {

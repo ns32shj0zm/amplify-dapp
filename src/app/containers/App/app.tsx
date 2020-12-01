@@ -3,7 +3,6 @@ import { useState, useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import { Spin } from 'antd'
-import { Table } from 'react-bootstrap'
 import classnames from 'classnames'
 import { useTranslation } from 'react-i18next'
 import { useWeb3React } from '@web3-react/core'
@@ -90,28 +89,30 @@ function Home(props: IProps): JSX.Element {
                                         <i></i>
                                     </div>
                                     <div className="blockMain">
-                                        <Table responsive hover>
-                                            <thead>
-                                                <tr>
-                                                    <th>{t('Asset')}</th>
-                                                    <th></th>
-                                                    <th>{t('APY')}</th>
-                                                    <th>{t('You Supplied')}</th>
-                                                    <th>{t('Wallet')}</th>
-                                                    <th>{t('Use As Collateral')}</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {mySupplyDetails.map((details, index) => (
-                                                    <SupplyMarketRow
-                                                        key={index}
-                                                        details={details}
-                                                        handleClick={() => handleShowSupply(details)}
-                                                        handleSwitchClick={() => handleShowEnterMarket(details)}
-                                                    />
-                                                ))}
-                                            </tbody>
-                                        </Table>
+                                        <div className="table-responsive">
+                                            <table className="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>{t('Asset')}</th>
+                                                        <th></th>
+                                                        <th>{t('APY')}</th>
+                                                        <th>{t('You Supplied')}</th>
+                                                        <th>{t('Wallet')}</th>
+                                                        <th>{t('Use As Collateral')}</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {mySupplyDetails.map((details, index) => (
+                                                        <SupplyMarketRow
+                                                            key={index}
+                                                            details={details}
+                                                            handleClick={() => handleShowSupply(details)}
+                                                            handleSwitchClick={() => handleShowEnterMarket(details)}
+                                                        />
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             ) : null}
@@ -122,28 +123,30 @@ function Home(props: IProps): JSX.Element {
                                         <i></i>
                                     </div>
                                     <div className="blockMain">
-                                        <Table responsive hover>
-                                            <thead>
-                                                <tr>
-                                                    <th>{t('Asset')}</th>
-                                                    <th></th>
-                                                    <th>{t('APY')}</th>
-                                                    <th>{t('You Supplied')}</th>
-                                                    <th>{t('Wallet')}</th>
-                                                    <th>{t('Use As Collateral')}</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {supplyMarketDetails.map((details, index) => (
-                                                    <SupplyMarketRow
-                                                        key={index}
-                                                        details={details}
-                                                        handleClick={() => handleShowSupply(details)}
-                                                        handleSwitchClick={() => handleShowEnterMarket(details)}
-                                                    />
-                                                ))}
-                                            </tbody>
-                                        </Table>
+                                        <div className="table-responsive">
+                                            <table className="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>{t('Asset')}</th>
+                                                        <th></th>
+                                                        <th>{t('APY')}</th>
+                                                        <th>{t('You Supplied')}</th>
+                                                        <th>{t('Wallet')}</th>
+                                                        <th>{t('Use As Collateral')}</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {supplyMarketDetails.map((details, index) => (
+                                                        <SupplyMarketRow
+                                                            key={index}
+                                                            details={details}
+                                                            handleClick={() => handleShowSupply(details)}
+                                                            handleSwitchClick={() => handleShowEnterMarket(details)}
+                                                        />
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             ) : null}
@@ -156,24 +159,30 @@ function Home(props: IProps): JSX.Element {
                                         <i></i>
                                     </div>
                                     <div className="blockMain">
-                                        <Table responsive hover>
-                                            <thead>
-                                                <tr>
-                                                    <th>{t('Asset')}</th>
-                                                    <th></th>
-                                                    <th>{t('APY')}</th>
-                                                    <th>{t('You Borrowed')}</th>
-                                                    <th>{t('Total Borrowed')}</th>
-                                                    <th>{t('Wallet')}</th>
-                                                    <th>{t('Liquidity')}</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {myBorrowDetails.map((details, index) => (
-                                                    <BorrowMarketRow key={index} details={details} handleClick={() => handleShowBorrow(details)} />
-                                                ))}
-                                            </tbody>
-                                        </Table>
+                                        <div className="table-responsive">
+                                            <table className="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>{t('Asset')}</th>
+                                                        <th></th>
+                                                        <th>{t('APY')}</th>
+                                                        <th>{t('You Borrowed')}</th>
+                                                        <th>{t('Total Borrowed')}</th>
+                                                        <th>{t('Wallet')}</th>
+                                                        <th>{t('Liquidity')}</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {myBorrowDetails.map((details, index) => (
+                                                        <BorrowMarketRow
+                                                            key={index}
+                                                            details={details}
+                                                            handleClick={() => handleShowBorrow(details)}
+                                                        />
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             ) : null}
@@ -184,24 +193,30 @@ function Home(props: IProps): JSX.Element {
                                         <i></i>
                                     </div>
                                     <div className="blockMain">
-                                        <Table responsive hover>
-                                            <thead>
-                                                <tr>
-                                                    <th>{t('Asset')}</th>
-                                                    <th></th>
-                                                    <th>{t('APY')}</th>
-                                                    <th>{t('You Borrowed')}</th>
-                                                    <th>{t('Total Borrowed')}</th>
-                                                    <th>{t('Wallet')}</th>
-                                                    <th>{t('Liquidity')}</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {borrowMarketDetails.map((details, index) => (
-                                                    <BorrowMarketRow key={index} details={details} handleClick={() => handleShowBorrow(details)} />
-                                                ))}
-                                            </tbody>
-                                        </Table>
+                                        <div className="table-responsive">
+                                            <table className="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>{t('Asset')}</th>
+                                                        <th></th>
+                                                        <th>{t('APY')}</th>
+                                                        <th>{t('You Borrowed')}</th>
+                                                        <th>{t('Total Borrowed')}</th>
+                                                        <th>{t('Wallet')}</th>
+                                                        <th>{t('Liquidity')}</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {borrowMarketDetails.map((details, index) => (
+                                                        <BorrowMarketRow
+                                                            key={index}
+                                                            details={details}
+                                                            handleClick={() => handleShowBorrow(details)}
+                                                        />
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             ) : null}

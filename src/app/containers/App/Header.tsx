@@ -13,12 +13,12 @@ const Header = (props: { generalDetails: GeneralDetails }): JSX.Element => {
         <div className="appHeader">
             <div className="block">
                 <div className="blockItem supply">
-                    <div className="blockTitle">Your Supply Balance</div>
+                    <div className="blockTitle">{t('Your Supply Balance')}</div>
                     <div className="blockNumber">{`$${zeroStringIfNullish(generalDetails.totalSupplyBalance?.toFixed(2), 2)}`}</div>
                 </div>
                 <Circle percentNum={zeroStringIfNullish(generalDetails.netApy?.times(100).toFixed(2), 2)} />
                 <div className="blockItem borrow">
-                    <div className="blockTitle">Your Borrow Balance</div>
+                    <div className="blockTitle">{'Your Borrow Balance'}</div>
                     <div className="blockNumber">{`$${zeroStringIfNullish(generalDetails.totalBorrowBalance?.toFixed(2), 2)}`}</div>
                 </div>
             </div>

@@ -86,7 +86,7 @@ function Home(props: IProps): JSX.Element {
                             {mySupplyDetails.length ? (
                                 <div className="blockItem blockAccount">
                                     <div className="blockTitle">
-                                        <span>当前存款</span>
+                                        <span>{t('The current account')}</span>
                                         <i></i>
                                     </div>
                                     <div className="blockMain">
@@ -122,7 +122,7 @@ function Home(props: IProps): JSX.Element {
                             {supplyMarketDetails.length ? (
                                 <div className="blockItem">
                                     <div className="blockTitle">
-                                        <span>存款市场</span>
+                                        <span>{t('Supply Market')}</span>
                                         <i></i>
                                     </div>
                                     <div className="blockMain">
@@ -160,7 +160,7 @@ function Home(props: IProps): JSX.Element {
                             {myBorrowDetails.length ? (
                                 <div className="blockItem blockAccount">
                                     <div className="blockTitle">
-                                        <span>当前贷款</span>
+                                        <span>{t('The current loan')}</span>
                                         <i></i>
                                     </div>
                                     <div className="blockMain">
@@ -190,7 +190,7 @@ function Home(props: IProps): JSX.Element {
                             {borrowMarketDetails.length ? (
                                 <div className="blockItem">
                                     <div className="blockTitle">
-                                        <span>贷款市场</span>
+                                        <span>{t('Borrow Market')}</span>
                                         <i></i>
                                     </div>
                                     <div className="blockMain">

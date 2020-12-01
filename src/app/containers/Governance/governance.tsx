@@ -20,7 +20,27 @@ function Home(props: IProps): JSX.Element {
         <Layout className={classnames('page-governance')}>
             <Header />
             <div className="lt-main">
-                <div className="content">治理功能暂未开放，敬请期待！</div>
+                <div className="header">我的票数</div>
+                <div className="content">
+                    <div className="block left">
+                        <div className="blockTitle">钱包</div>
+                        <div className="blockMain">
+                            <div className="item">AMPT余额</div>
+                            <div className="item">挖矿收益</div>
+                            <div className="item">委托</div>
+                            <div className="item">受托票数</div>
+                        </div>
+                    </div>
+                    <div className="block right">
+                        <div className="blockTitle">治理提案</div>
+                        <div className="blockMain">
+                            <div className="item">
+                                <div className="title">Delegate UNI 2</div>
+                                已通过 投 票
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </Layout>
     )

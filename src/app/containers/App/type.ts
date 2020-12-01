@@ -2,6 +2,7 @@ import { BigNumber } from 'bignumber.js'
 export interface IDetails {
     generalDetails: GeneralDetails
     selectedMarketDetails: SelectedMarketDetails
+    mySupplyDetails: SelectedMarketDetails[]
     handleUpdateData(): void
 }
 

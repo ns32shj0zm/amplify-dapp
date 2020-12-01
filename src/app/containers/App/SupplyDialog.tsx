@@ -299,6 +299,17 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
                                 handleWithdrawAmountChange(event.target.value)
                             }}
                         />
+                        <div
+                            className="max"
+                            onClick={() => {
+                                const arr = props.mySupplyDetails.filter(item => item.isEnterMarket)
+                                arr.forEach(item => console.log(item.supplyBalance))
+
+                                // handleWithdrawAmountChange()
+                            }}
+                        >
+                            {t('Max')}
+                        </div>
                     </div>
                     <div className="inputInfo">
                         <div className="msg">{withdrawValidationMessage}</div>

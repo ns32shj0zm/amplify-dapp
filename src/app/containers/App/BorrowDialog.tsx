@@ -211,6 +211,14 @@ const BorrowDialog = forwardRef((props: IDetails, ref) => {
                                 handleBorrowAmountChange(event.target.value)
                             }}
                         />
+                        <div
+                            className="max"
+                            onClick={() => {
+                                handleBorrowAmountChange(+props.generalDetails.totalBorrowLimit)
+                            }}
+                        >
+                            {t('Max')}
+                        </div>
                     </div>
                     <div className="inputInfo">
                         <div className="msg">{borrowValidationMessage}</div>

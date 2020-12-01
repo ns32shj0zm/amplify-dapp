@@ -1,26 +1,11 @@
 import * as React from 'react'
-import { useState } from 'react'
-import { withStyles } from '@material-ui/core/styles'
-import Switch from '@material-ui/core/Switch'
+import { Switch } from 'antd'
 
 type IProps = {
     details: any
     handleClick(): void
     handleSwitchClick(): void
 }
-
-const StyledSwitch = withStyles({
-    switchBase: {
-        '&$checked': {
-            color: '#40c4ff'
-        },
-        '&$checked + $track': {
-            backgroundColor: '#40c4ff'
-        }
-    },
-    checked: {},
-    track: {}
-})(Switch)
 
 function SupplyMarketRow(props: IProps): JSX.Element {
     return (
@@ -51,10 +36,12 @@ function SupplyMarketRow(props: IProps): JSX.Element {
                 </h6>
             </td>
             <td>
-                <StyledSwitch
+                <Switch
                     checked={props.details.isEnterMarket}
-                    onChange={() => {
+                    size="small"
+                    onClick={(c, e) => {
                         props?.handleSwitchClick()
+                        e.stopPropagation()
                     }}
                 />
             </td>

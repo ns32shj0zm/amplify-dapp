@@ -217,7 +217,11 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
                             disabled={!supplyAmount || !!supplyValidationMessage}
                             onClick={async () => {
                                 setSupplyDialogOpen(false)
-                                StatusDialogRef.current.show({ type: 'loading', title: '确认交易', text: '请在钱包中确认' })
+                                StatusDialogRef.current.show({
+                                    type: 'loading',
+                                    title: t('Transaction Confirmed'),
+                                    text: t('Please confirm the transaction in your wallet')
+                                })
                                 const res = await handleSupply(
                                     props.selectedMarketDetails.underlyingAddress,
                                     props.selectedMarketDetails.pTokenAddress,
@@ -226,13 +230,22 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
                                     props.selectedMarketDetails.symbol,
                                     globalInfo.library,
                                     gasPrice,
-                                    () => StatusDialogRef.current.reset({ type: 'pending', title: '确认交易', text: '等待钱包确认，请稍后' })
+                                    () =>
+                                        StatusDialogRef.current.reset({
+                                            type: 'pending',
+                                            title: t('Transaction Confirmed'),
+                                            text: t('Transaction Pending')
+                                        })
                                 )
                                 if (res) {
                                     props.handleUpdateData()
-                                    StatusDialogRef.current.hide({ type: 'confirm', title: '确认交易', text: '确认交易' })
+                                    StatusDialogRef.current.hide({
+                                        type: 'confirm',
+                                        title: t('Transaction Confirmed'),
+                                        text: t('Transaction Confirmed')
+                                    })
                                 } else {
-                                    StatusDialogRef.current.hide({ type: 'error', title: '交易错误', text: '交易错误' })
+                                    StatusDialogRef.current.hide({ type: 'error', title: t('Transaction Error'), text: t('Transaction Error') })
                                 }
                             }}
                         >
@@ -242,20 +255,33 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
                         <Button
                             onClick={async () => {
                                 setSupplyDialogOpen(false)
-                                StatusDialogRef.current.show({ type: 'loading', title: '确认交易', text: '请在钱包中确认' })
+                                StatusDialogRef.current.show({
+                                    type: 'loading',
+                                    title: t('Transaction Confirmed'),
+                                    text: t('Please confirm the transaction in your wallet')
+                                })
                                 const res = await handleEnable(
                                     props.selectedMarketDetails.underlyingAddress,
                                     props.selectedMarketDetails.pTokenAddress,
                                     props.selectedMarketDetails.symbol,
                                     globalInfo.library,
                                     gasPrice,
-                                    () => StatusDialogRef.current.reset({ type: 'pending', title: '确认交易', text: '等待钱包确认，请稍后' })
+                                    () =>
+                                        StatusDialogRef.current.reset({
+                                            type: 'pending',
+                                            title: t('Transaction Confirmed'),
+                                            text: t('Transaction Pending')
+                                        })
                                 )
                                 if (res) {
                                     props.handleUpdateData()
-                                    StatusDialogRef.current.hide({ type: 'confirm', title: '确认交易', text: '确认交易' })
+                                    StatusDialogRef.current.hide({
+                                        type: 'confirm',
+                                        title: t('Transaction Confirmed'),
+                                        text: t('Transaction Confirmed')
+                                    })
                                 } else {
-                                    StatusDialogRef.current.hide({ type: 'error', title: '交易错误', text: '交易错误' })
+                                    StatusDialogRef.current.hide({ type: 'error', title: t('Transaction Error'), text: t('Transaction Error') })
                                 }
                             }}
                         >
@@ -265,7 +291,7 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
                 </TabPanel>
                 <TabPanel value={tabValue} index={1}>
                     <div className={classnames('input', { error: !!withdrawValidationMessage })}>
-                        <div className="label">Withdraw Amount</div>
+                        <div className="label">{t('Withdraw Amount')}</div>
                         <Input
                             bordered={false}
                             value={withdrawAmount}
@@ -288,7 +314,11 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
                         disabled={!withdrawAmount || !!withdrawValidationMessage}
                         onClick={async () => {
                             setSupplyDialogOpen(false)
-                            StatusDialogRef.current.show({ type: 'loading', title: '确认交易', text: '请在钱包中确认' })
+                            StatusDialogRef.current.show({
+                                type: 'loading',
+                                title: t('Transaction Confirmed'),
+                                text: t('Please confirm the transaction in your wallet')
+                            })
                             const res = await handleWithdraw(
                                 props.selectedMarketDetails.underlyingAddress,
                                 props.selectedMarketDetails.pTokenAddress,
@@ -297,13 +327,22 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
                                 props.selectedMarketDetails.symbol,
                                 globalInfo.library,
                                 gasPrice,
-                                () => StatusDialogRef.current.reset({ type: 'pending', title: '确认交易', text: '等待钱包确认，请稍后' })
+                                () =>
+                                    StatusDialogRef.current.reset({
+                                        type: 'pending',
+                                        title: t('Transaction Confirmed'),
+                                        text: t('Transaction Pending')
+                                    })
                             )
                             if (res) {
                                 props.handleUpdateData()
-                                StatusDialogRef.current.hide({ type: 'confirm', title: '确认交易', text: '确认交易' })
+                                StatusDialogRef.current.hide({
+                                    type: 'confirm',
+                                    title: t('Transaction Confirmed'),
+                                    text: t('Transaction Confirmed')
+                                })
                             } else {
-                                StatusDialogRef.current.hide({ type: 'error', title: '交易错误', text: '交易错误' })
+                                StatusDialogRef.current.hide({ type: 'error', title: t('Transaction Error'), text: t('Transaction Error') })
                             }
                         }}
                     >

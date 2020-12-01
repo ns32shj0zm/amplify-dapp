@@ -18,7 +18,7 @@ const Header = (props: { generalDetails: GeneralDetails }): JSX.Element => {
                 </div>
                 <Circle percentNum={zeroStringIfNullish(generalDetails.netApy?.times(100).toFixed(2), 2)} />
                 <div className="blockItem borrow">
-                    <div className="blockTitle">{'Your Borrow Balance'}</div>
+                    <div className="blockTitle">{t('Your Borrow Balance')}</div>
                     <div className="blockNumber">{`$${zeroStringIfNullish(generalDetails.totalBorrowBalance?.toFixed(2), 2)}`}</div>
                 </div>
             </div>

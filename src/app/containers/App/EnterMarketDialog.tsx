@@ -48,7 +48,9 @@ const EnterMarketDialog = forwardRef((props: IDetails, ref) => {
     return props.selectedMarketDetails.symbol ? (
         <>
             <Modal visible={enterMarketDialogOpen} onCancel={() => setEnterMarketDialogOpen(false)} footer={null} wrapClassName="modal" centered>
-                <div className="modalTitle">{`${props.selectedMarketDetails.isEnterMarket ? 'Disable as Collateral' : 'Enable as Collateral'}`}</div>
+                <div className="modalTitle">
+                    {t(`${props.selectedMarketDetails.isEnterMarket ? 'Disable as Collateral' : 'Enable as Collateral'}`)}
+                </div>
                 <div className="tabContent">
                     <div className="text">
                         {props.selectedMarketDetails.isEnterMarket
@@ -64,15 +66,27 @@ const EnterMarketDialog = forwardRef((props: IDetails, ref) => {
                         <Button
                             onClick={async () => {
                                 setEnterMarketDialogOpen(false)
-                                StatusDialogRef.current.show({ type: 'loading', title: '确认交易', text: '请在钱包中确认' })
+                                StatusDialogRef.current.show({
+                                    type: 'loading',
+                                    title: t('Transaction Confirmed'),
+                                    text: t('Please confirm the transaction in your wallet')
+                                })
                                 const res = await handleExitMarket(props.selectedMarketDetails.pTokenAddress, globalInfo.library, gasPrice, () =>
-                                    StatusDialogRef.current.reset({ type: 'pending', title: '确认交易', text: '等待钱包确认，请稍后' })
+                                    StatusDialogRef.current.reset({
+                                        type: 'pending',
+                                        title: t('Transaction Confirmed'),
+                                        text: t('Transaction Pending')
+                                    })
                                 )
                                 if (res) {
                                     props.handleUpdateData()
-                                    StatusDialogRef.current.hide({ type: 'confirm', title: '确认交易', text: '确认交易' })
+                                    StatusDialogRef.current.hide({
+                                        type: 'confirm',
+                                        title: t('Transaction Confirmed'),
+                                        text: t('Transaction Confirmed')
+                                    })
                                 } else {
-                                    StatusDialogRef.current.hide({ type: 'error', title: '交易错误', text: '交易错误' })
+                                    StatusDialogRef.current.hide({ type: 'error', title: t('Transaction Error'), text: t('Transaction Error') })
                                 }
                             }}
                         >
@@ -82,19 +96,31 @@ const EnterMarketDialog = forwardRef((props: IDetails, ref) => {
                         <Button
                             onClick={async () => {
                                 setEnterMarketDialogOpen(false)
-                                StatusDialogRef.current.show({ type: 'loading', title: '确认交易', text: '请在钱包中确认' })
+                                StatusDialogRef.current.show({
+                                    type: 'loading',
+                                    title: t('Transaction Confirmed'),
+                                    text: t('Please confirm the transaction in your wallet')
+                                })
                                 const res = await handleEnterMarket(props.selectedMarketDetails.pTokenAddress, globalInfo.library, gasPrice, () =>
-                                    StatusDialogRef.current.reset({ type: 'pending', title: '确认交易', text: '等待钱包确认，请稍后' })
+                                    StatusDialogRef.current.reset({
+                                        type: 'pending',
+                                        title: t('Transaction Confirmed'),
+                                        text: t('Transaction Pending')
+                                    })
                                 )
                                 if (res) {
                                     props.handleUpdateData()
-                                    StatusDialogRef.current.hide({ type: 'confirm', title: '确认交易', text: '确认交易' })
+                                    StatusDialogRef.current.hide({
+                                        type: 'confirm',
+                                        title: t('Transaction Confirmed'),
+                                        text: t('Transaction Confirmed')
+                                    })
                                 } else {
-                                    StatusDialogRef.current.hide({ type: 'error', title: '交易错误', text: '交易错误' })
+                                    StatusDialogRef.current.hide({ type: 'error', title: t('Transaction Error'), text: t('Transaction Error') })
                                 }
                             }}
                         >
-                            {t('`Use {{symbol}} as Collateral`', { symbol: props.selectedMarketDetails.symbol })}
+                            {t('Use {{symbol}} as Collateral', { symbol: props.selectedMarketDetails.symbol })}
                         </Button>
                     )}
                 </div>

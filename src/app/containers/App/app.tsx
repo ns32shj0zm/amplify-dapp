@@ -39,7 +39,6 @@ function Home(props: IProps): JSX.Element {
     const [selectedMarketDetails, setSelectedMarketDetails] = useState<SelectedMarketDetails>({} as SelectedMarketDetails)
 
     useEffect(() => {
-        console.log(library, account)
         if (library && account) {
             dispatch(basicAction.setGlobalInfo({ library, account }))
             updateData()
@@ -87,23 +86,19 @@ function Home(props: IProps): JSX.Element {
                             {mySupplyDetails.length ? (
                                 <div className="blockItem blockAccount">
                                     <div className="blockTitle">
-                                        <span>{t('The current account')}</span>
+                                        <span>{t('Current Supply')}</span>
                                         <i></i>
                                     </div>
                                     <div className="blockMain">
                                         <Table responsive hover>
                                             <thead>
                                                 <tr>
-                                                    <th>Asset</th>
+                                                    <th>{t('Asset')}</th>
                                                     <th></th>
-                                                    <th>
-                                                        <div>APY</div>
-                                                    </th>
-                                                    <th>You Supplied</th>
-                                                    <th>Wallet</th>
-                                                    <th>
-                                                        <div>Use As Collateral</div>
-                                                    </th>
+                                                    <th>{t('APY')}</th>
+                                                    <th>{t('You Supplied')}</th>
+                                                    <th>{t('Wallet')}</th>
+                                                    <th>{t('Use As Collateral')}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -123,23 +118,19 @@ function Home(props: IProps): JSX.Element {
                             {supplyMarketDetails.length ? (
                                 <div className="blockItem">
                                     <div className="blockTitle">
-                                        <span>{t('Supply Market')}</span>
+                                        <span>{t('Supply Markets')}</span>
                                         <i></i>
                                     </div>
                                     <div className="blockMain">
                                         <Table responsive hover>
                                             <thead>
                                                 <tr>
-                                                    <th>Asset</th>
+                                                    <th>{t('Asset')}</th>
                                                     <th></th>
-                                                    <th>
-                                                        <div>APY</div>
-                                                    </th>
-                                                    <th>You Supplied</th>
-                                                    <th>Wallet</th>
-                                                    <th>
-                                                        <div>Use As Collateral</div>
-                                                    </th>
+                                                    <th>{t('APY')}</th>
+                                                    <th>{t('You Supplied')}</th>
+                                                    <th>{t('Wallet')}</th>
+                                                    <th>{t('Use As Collateral')}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -161,22 +152,20 @@ function Home(props: IProps): JSX.Element {
                             {myBorrowDetails.length ? (
                                 <div className="blockItem blockAccount">
                                     <div className="blockTitle">
-                                        <span>{t('The current loan')}</span>
+                                        <span>{t('Current Borrow')}</span>
                                         <i></i>
                                     </div>
                                     <div className="blockMain">
                                         <Table responsive hover>
                                             <thead>
                                                 <tr>
-                                                    <th>Asset</th>
+                                                    <th>{t('Asset')}</th>
                                                     <th></th>
-                                                    <th>APY</th>
-                                                    <th>You Borrowed</th>
-                                                    <th>Total Borrowed</th>
-                                                    <th>Wallet</th>
-                                                    <th>
-                                                        <div>Liquidity</div>
-                                                    </th>
+                                                    <th>{t('APY')}</th>
+                                                    <th>{t('You Borrowed')}</th>
+                                                    <th>{t('Total Borrowed')}</th>
+                                                    <th>{t('Wallet')}</th>
+                                                    <th>{t('Liquidity')}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -191,22 +180,20 @@ function Home(props: IProps): JSX.Element {
                             {borrowMarketDetails.length ? (
                                 <div className="blockItem">
                                     <div className="blockTitle">
-                                        <span>{t('Borrow Market')}</span>
+                                        <span>{t('Borrow Markets')}</span>
                                         <i></i>
                                     </div>
                                     <div className="blockMain">
                                         <Table responsive hover>
                                             <thead>
                                                 <tr>
-                                                    <th>Asset</th>
+                                                    <th>{t('Asset')}</th>
                                                     <th></th>
-                                                    <th>APY</th>
-                                                    <th>You Borrowed</th>
-                                                    <th>Total Borrowed</th>
-                                                    <th>Wallet</th>
-                                                    <th>
-                                                        <div>Liquidity</div>
-                                                    </th>
+                                                    <th>{t('APY')}</th>
+                                                    <th>{t('You Borrowed')}</th>
+                                                    <th>{t('Total Borrowed')}</th>
+                                                    <th>{t('Wallet')}</th>
+                                                    <th>{t('Liquidity')}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

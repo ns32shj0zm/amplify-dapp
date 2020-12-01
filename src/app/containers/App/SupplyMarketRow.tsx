@@ -31,16 +31,13 @@ function SupplyMarketRow(props: IProps): JSX.Element {
             }}
         >
             <td>
-                <img className="rounded-circle" style={{ width: '40px' }} src={`/${props.details.symbol}.png`} alt="" />
+                <img className="rounded-circle" style={{ width: '30px' }} src={`/${props.details.symbol}.png`} alt="" />
             </td>
             <td>
                 <h6 className="mb-1">{props.details.symbol}</h6>
             </td>
             <td>
-                <h6 className="text-muted">
-                    {`${props.details.supplyApy?.times(100).toFixed(2)}%`}
-                    {props.details.supplyPctApy?.isGreaterThan(0) ? <div>{`+ ${props.details.supplyPctApy?.times(100).toFixed(2)}% PCT`}</div> : null}
-                </h6>
+                <h6 className="text-muted">{`${props.details.supplyApy?.times(100).toFixed(2)}%`}</h6>
             </td>
             <td>
                 <h6 className="text-muted">{props.details.supplyBalanceInTokenUnit.decimalPlaces(4).toString()}</h6>

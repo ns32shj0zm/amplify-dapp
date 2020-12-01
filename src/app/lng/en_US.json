@@ -66,6 +66,7 @@
     "Enable as Collateral": "Enable as Collateral",
     "Disable {{symbol}} as Collateral": "Disable {{symbol}} as Collateral",
     "Use {{symbol}} as Collateral": "Use {{symbol}} as Collateral",
+    "Transaction Confirmation": "Transaction Confirmation",
     "Transaction Confirmed": "Transaction Confirmed",
     "Please confirm the transaction in your wallet": "Please confirm the transaction in your wallet",
     "Transaction Pending": "Transaction Pending",

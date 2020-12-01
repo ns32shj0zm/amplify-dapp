@@ -1,5 +1,6 @@
 import React, { useState, forwardRef, useImperativeHandle, useRef } from 'react'
 import { useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import { Input, Button, Modal } from 'antd'
 import classnames from 'classnames'
 import { BigNumber } from 'bignumber.js'
@@ -16,11 +17,12 @@ const TabPanel = (props: any): JSX.Element | null => {
 }
 
 const DialogSupplyRatesSection = (props: { selectedMarketDetails: SelectedMarketDetails }): JSX.Element => {
+    const [t] = useTranslation()
     return (
         <div className="listItem">
-            <div className="title">Rate</div>
+            <div className="title">{t('Rate')}</div>
             <div className="content">
-                <div className="label">{`Supply APY`}</div>
+                <div className="label">{t('Supply APY')}</div>
                 <div className="value">
                     <span className="number">{`${props.selectedMarketDetails?.supplyApy?.times(100).toFixed(2)}%`}</span>
                 </div>
@@ -31,11 +33,12 @@ const DialogSupplyRatesSection = (props: { selectedMarketDetails: SelectedMarket
 
 const DialogBorrowLimitSection = (props: { generalDetails: GeneralDetails; newBorrowLimit: BigNumber }): JSX.Element => {
     const { newBorrowLimit } = props
+    const [t] = useTranslation()
     return (
         <div className="listItem">
-            <div className="title">Limit</div>
+            <div className="title">{t('Limit')}</div>
             <div className="content">
-                <div className="label">{`Borrow Limit`}</div>
+                <div className="label">{t('Borrow Limit')}</div>
                 <div className="value">
                     <span className="number">{`$${props.generalDetails.totalBorrowLimit?.toFixed(2)}`}</span>
                     <span className="icon"></span>
@@ -43,7 +46,7 @@ const DialogBorrowLimitSection = (props: { generalDetails: GeneralDetails; newBo
                 </div>
             </div>
             <div className="content">
-                <div className="label">{`Borrow Limit Used`}</div>
+                <div className="label">{t('Borrow Limit Used')}</div>
                 <div className="value">
                     <span className="number">{`${zeroStringIfNullish(props.generalDetails.totalBorrowLimitUsedPercent?.toFixed(2), 2)}%`}</span>
                     <span className="icon"></span>
@@ -59,17 +62,18 @@ const DialogBorrowLimitSection = (props: { generalDetails: GeneralDetails; newBo
 }
 
 const DialogMarketInfoSection = (props: { selectedMarketDetails: SelectedMarketDetails }): JSX.Element => {
+    const [t] = useTranslation()
     return (
         <div className="listItem">
-            <div className="title">Market Info</div>
+            <div className="title">{t('Market Info')}</div>
             <div className="content">
-                <div className="label">Loan-to-Value</div>
+                <div className="label">{t('Loan-to-Value')}</div>
                 <div className="value">
                     <span className="number">{`${props.selectedMarketDetails?.collateralFactor?.times(100).toFixed(0)}%`}</span>
                 </div>
             </div>
             <div className="content">
-                <div className="label">{`% of Supply Borrowed`}</div>
+                <div className="label">{t('% of Supply Borrowed')}</div>
                 <div className="value">
                     <span className="number">
                         {`${zeroStringIfNullish(
@@ -97,14 +101,15 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
     const [supplyDialogOpen, setSupplyDialogOpen] = useState(false)
     const { gasPrice, globalInfo } = useSelector((store: IRootState) => store.base)
     const StatusDialogRef = useRef<any>(null)
+    const [t] = useTranslation()
 
     const handleSupplyAmountChange = (amount): void => {
         setSupplyAmount(amount)
 
         if (amount <= 0) {
-            setSupplyValidationMessage('Amount must be > 0')
+            setSupplyValidationMessage(t('Amount must be > 0'))
         } else if (amount > +props.selectedMarketDetails.walletBalance) {
-            setSupplyValidationMessage('Amount must be <= balance')
+            setSupplyValidationMessage(t('Amount must be <= balance'))
         } else {
             setSupplyValidationMessage('')
         }
@@ -124,11 +129,11 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
         setWithdrawAmount(amount)
 
         if (amount <= 0) {
-            setWithdrawValidationMessage('Amount must be > 0')
+            setWithdrawValidationMessage(t('Amount must be > 0'))
         } else if (amount > +props.selectedMarketDetails.supplyBalanceInTokenUnit) {
-            setWithdrawValidationMessage('Amount must be <= your supply balance')
+            setWithdrawValidationMessage(t('Amount must be <= your supply balance'))
         } else if (amount > +props.selectedMarketDetails.underlyingAmount) {
-            setWithdrawValidationMessage('Amount must be <= liquidity')
+            setWithdrawValidationMessage(t('Amount must be <= liquidity'))
         } else {
             setWithdrawValidationMessage('')
         }
@@ -169,15 +174,15 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
                 </div>
                 <div className="tab">
                     <div className={classnames('item', { cur: tabValue === 0 })} onClick={() => setTabValue(0)}>
-                        Supply
+                        {t('Supply')}
                     </div>
                     <div className={classnames('item', { cur: tabValue === 1 })} onClick={() => setTabValue(1)}>
-                        Withdraw
+                        {t('Withdraw')}
                     </div>
                 </div>
                 <TabPanel value={tabValue} index={0}>
                     <div className={classnames('input', { error: !!supplyValidationMessage })}>
-                        <div className="label">Supply Amount</div>
+                        <div className="label">{t('Supply Amount')}</div>
                         <Input
                             bordered={false}
                             value={supplyAmount}
@@ -193,13 +198,13 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
                                 )
                             }}
                         >
-                            Max
+                            {t('Max')}
                         </div>
                     </div>
                     <div className="inputInfo">
                         <div className="msg">{supplyValidationMessage}</div>
                         <div className="balance">
-                            Wallet Balance:
+                            {t('Wallet Balance')}:
                             {` ${props.selectedMarketDetails.walletBalance?.decimalPlaces(4).toString()} ${props.selectedMarketDetails.symbol}`}
                         </div>
                     </div>
@@ -231,7 +236,7 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
                                 }
                             }}
                         >
-                            Supply
+                            {t('Supply')}
                         </Button>
                     ) : (
                         <Button
@@ -254,7 +259,7 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
                                 }
                             }}
                         >
-                            Access To Wallet
+                            {t('Access To Wallet')}
                         </Button>
                     )}
                 </TabPanel>
@@ -272,7 +277,7 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
                     <div className="inputInfo">
                         <div className="msg">{withdrawValidationMessage}</div>
                         <div className="balance">
-                            You Supplied:
+                            {t('You Supplied')}:
                             {`${props.selectedMarketDetails.supplyBalanceInTokenUnit?.decimalPlaces(4)} ${props.selectedMarketDetails.symbol}`}
                         </div>
                     </div>
@@ -302,7 +307,7 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
                             }
                         }}
                     >
-                        Withdraw
+                        {t('Withdraw')}
                     </Button>
                 </TabPanel>
             </Modal>

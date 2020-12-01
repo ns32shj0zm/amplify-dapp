@@ -2,6 +2,7 @@ import storage from '../utils/storage'
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
+import sprintf from 'i18next-sprintf-postprocessor'
 import resources from '../lng'
 import language from './language'
 
@@ -14,6 +15,7 @@ if (!resources[lng]) {
 
 i18n.use(LanguageDetector)
     .use(initReactI18next) // passes i18n down to react-i18next
+    .use(sprintf)
     .init({
         fallbackLng: 'zh_CN',
         resources,

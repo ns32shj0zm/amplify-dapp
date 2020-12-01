@@ -24,9 +24,14 @@ const gasLimitBorrowDai = '729897'
 const gasLimitRepayDai = '535024'
 const gasLimitRepaySusd = '400000'
 const gasLimitEnterMarket = '112020'
-const comptrollerAddress = '0x54188bBeDD7b68228fa89CbDDa5e3e930459C6c6'
-const priceFeedAddress = '0xe23874df0276AdA49D58751E8d6E088581121f1B'
-const maxiMillionAddress = '0xE0a38ab2951B6525C33f20D5E637Ab24DFEF9bcB'
+
+const comptrollerAddress = '0x62f83Be5100ce06e27FEF5aa3BF80C866bc32B42'
+const priceFeedAddress = '0x1bDf9Ac287De6F8753CC793FF59211F5BBCe9e3A'
+const maxiMillionAddress = '0x89cf05a3F7b97bC8190B545693Fc2CE4BBd7A25F'
+
+// const comptrollerAddress = '0x54188bBeDD7b68228fa89CbDDa5e3e930459C6c6'
+// const priceFeedAddress = '0xe23874df0276AdA49D58751E8d6E088581121f1B'
+// const maxiMillionAddress = '0xE0a38ab2951B6525C33f20D5E637Ab24DFEF9bcB'
 
 // const comptrollerAddress = '0xf47dD16553A934064509C40DC5466BBfB999528B'
 // const priceFeedAddress = '0x21A6297114853aEF193c83FC0271dEf69EA1b93d'
@@ -181,11 +186,11 @@ export async function getUnderlyingTokenAddress(library, pTokenAddress): Promise
             } // [optional] call options, provider, network, ethers.js "overrides"
         )
     } catch (error) {
-        if (error.error.code === 'UNPREDICTABLE_GAS_LIMIT') {
-            return ethDummyAddress
-        } else {
-            console.log('getUnderlyingTokenAddress: ', error)
-        }
+        //if (error.error.code === 'UNPREDICTABLE_GAS_LIMIT') {
+        return ethDummyAddress
+        // } else {
+        //     console.log('getUnderlyingTokenAddress: ', error)
+        // }
     }
 }
 

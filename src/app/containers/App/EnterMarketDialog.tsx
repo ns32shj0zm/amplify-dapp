@@ -68,13 +68,13 @@ const EnterMarketDialog = forwardRef((props: IDetails, ref) => {
                                 setEnterMarketDialogOpen(false)
                                 StatusDialogRef.current.show({
                                     type: 'loading',
-                                    title: t('Transaction Confirmed'),
+                                    title: t('Transaction Confirmation'),
                                     text: t('Please confirm the transaction in your wallet')
                                 })
                                 const res = await handleExitMarket(props.selectedMarketDetails.pTokenAddress, globalInfo.library, gasPrice, () =>
                                     StatusDialogRef.current.reset({
                                         type: 'pending',
-                                        title: t('Transaction Confirmed'),
+                                        title: t('Transaction Confirmation'),
                                         text: t('Transaction Pending')
                                     })
                                 )
@@ -82,7 +82,7 @@ const EnterMarketDialog = forwardRef((props: IDetails, ref) => {
                                     props.handleUpdateData()
                                     StatusDialogRef.current.hide({
                                         type: 'confirm',
-                                        title: t('Transaction Confirmed'),
+                                        title: t('Transaction Confirmation'),
                                         text: t('Transaction Confirmed')
                                     })
                                 } else {
@@ -98,13 +98,13 @@ const EnterMarketDialog = forwardRef((props: IDetails, ref) => {
                                 setEnterMarketDialogOpen(false)
                                 StatusDialogRef.current.show({
                                     type: 'loading',
-                                    title: t('Transaction Confirmed'),
+                                    title: t('Transaction Confirmation'),
                                     text: t('Please confirm the transaction in your wallet')
                                 })
                                 const res = await handleEnterMarket(props.selectedMarketDetails.pTokenAddress, globalInfo.library, gasPrice, () =>
                                     StatusDialogRef.current.reset({
                                         type: 'pending',
-                                        title: t('Transaction Confirmed'),
+                                        title: t('Transaction Confirmation'),
                                         text: t('Transaction Pending')
                                     })
                                 )
@@ -112,7 +112,7 @@ const EnterMarketDialog = forwardRef((props: IDetails, ref) => {
                                     props.handleUpdateData()
                                     StatusDialogRef.current.hide({
                                         type: 'confirm',
-                                        title: t('Transaction Confirmed'),
+                                        title: t('Transaction Confirmation'),
                                         text: t('Transaction Confirmed')
                                     })
                                 } else {

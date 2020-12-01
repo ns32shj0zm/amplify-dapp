@@ -8,7 +8,7 @@ import { Web3ReactProvider } from '@web3-react/core'
 import { Web3Provider } from '@ethersproject/providers'
 import systemRouter from './systemRouter'
 import ScrollToTop from '../components/ScrollToTop'
-import Home from '../containers/Home'
+import App from '../containers/App'
 import NotFound from '../containers/NotFound'
 
 function getLibrary(provider): Web3Provider {
@@ -32,7 +32,7 @@ const AppRoute = (props: RouteComponentProps): JSX.Element => {
                     {systemRouter.map((r, key) => {
                         return <Route render={() => <r.component />} key={r.router + key} path={r.router} />
                     })}
-                    <Route exact={true} path="/" component={Home} />
+                    <Route exact={true} path="/" component={App} />
                     <Route path="*" component={NotFound} />
                 </Switch>
             </ScrollToTop>

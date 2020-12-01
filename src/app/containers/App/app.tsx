@@ -39,6 +39,7 @@ function Home(props: IProps): JSX.Element {
     const [selectedMarketDetails, setSelectedMarketDetails] = useState<SelectedMarketDetails>({} as SelectedMarketDetails)
 
     useEffect(() => {
+        console.log(library, account)
         if (library && account) {
             dispatch(basicAction.setGlobalInfo({ library, account }))
             updateData()

@@ -51,7 +51,7 @@ const Header: React.FunctionComponent<IProps> = (props: IProps): React.ReactElem
                 </div>
                 {/* {props.children} */}
                 <div className="nav">
-                    <div className={classnames({ cur: /app/gi.test(pathname) })} onClick={() => jump('/app')}>
+                    <div className={classnames({ cur: pathname === '/' })} onClick={() => jump('/')}>
                         App
                     </div>
                     <div className={classnames({ cur: /governance/gi.test(pathname) })} onClick={() => jump('/governance')}>
@@ -68,7 +68,7 @@ const Header: React.FunctionComponent<IProps> = (props: IProps): React.ReactElem
                             English
                         </span>
                     </div>
-                    {pathname !== '/' ? <Login /> : null}
+                    <Login />
                 </div>
             </div>
             <div className="mobile">
@@ -87,7 +87,7 @@ const Header: React.FunctionComponent<IProps> = (props: IProps): React.ReactElem
                 </div>
             </div>
             <Drawer placement="right" closable={false} onClose={() => setVisible(false)} visible={visible} width={150} className="Drawer">
-                {pathname !== '/' ? <Login /> : null}
+                <Login />
                 <div className={classnames('item', { cur: /app/gi.test(pathname) })} onClick={() => jump('/app')}>
                     App
                 </div>

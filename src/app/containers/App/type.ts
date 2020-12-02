@@ -29,6 +29,7 @@ export interface SelectedMarketDetails {
     supplyApy: BigNumber
     borrowApy: BigNumber
     underlyingAllowance: BigNumber
+    supplyCTokenBalance: BigNumber
     walletBalance: BigNumber
     supplyBalanceInTokenUnit: BigNumber
     supplyBalance: string

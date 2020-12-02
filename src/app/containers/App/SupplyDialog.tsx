@@ -1,4 +1,4 @@
-import React, { useState, forwardRef, useImperativeHandle, useRef } from 'react'
+import React, { useState, forwardRef, useImperativeHandle, useRef, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Input, Button, Modal } from 'antd'
@@ -7,7 +7,7 @@ import { BigNumber } from 'bignumber.js'
 import { eX, zeroStringIfNullish } from '../../general/helpers'
 import { IRootState } from '../../reducers/RootState'
 import { IDetails, SelectedMarketDetails, GeneralDetails } from './type'
-import { getMaxAmount, handleEnable, handleWithdraw, handleSupply } from '../../utils/compoundTool'
+import { getMaxAmount, handleEnable, handleWithdraw, handleSupply, cTokenDecimals } from '../../utils/compoundTool'
 import StatusDialog from './StatusDialog'
 import './dialog.styl'
 
@@ -93,7 +93,7 @@ const DialogMarketInfoSection = (props: { selectedMarketDetails: SelectedMarketD
 const SupplyDialog = forwardRef((props: IDetails, ref) => {
     const [tabValue, setTabValue] = useState(0)
     const [supplyAmount, setSupplyAmount] = useState(0)
-    const [withdrawAmount, setWithdrawAmount] = useState('')
+    const [withdrawAmount, setWithdrawAmount] = useState(0)
     const [newBorrowLimit1, setNewBorrowLimit1] = useState<BigNumber>(new BigNumber(0))
     const [newBorrowLimit2, setNewBorrowLimit2] = useState<BigNumber>(new BigNumber(0))
     const [supplyValidationMessage, setSupplyValidationMessage] = useState('')
@@ -101,6 +101,7 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
     const [supplyDialogOpen, setSupplyDialogOpen] = useState(false)
     const { gasPrice, globalInfo } = useSelector((store: IRootState) => store.base)
     const StatusDialogRef = useRef<any>(null)
+    const [isWithdrawMax, setIsWithdrawMax] = useState(false)
     const [t] = useTranslation()
 
     const handleSupplyAmountChange = (amount): void => {
@@ -157,6 +158,18 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
             setSupplyDialogOpen(false)
         }
     }))
+
+    useEffect(() => {
+        if (!supplyDialogOpen) {
+            setTabValue(0)
+            setSupplyAmount(0)
+            setWithdrawAmount('')
+            setSupplyValidationMessage('')
+            setWithdrawValidationMessage('')
+            setIsWithdrawMax(false)
+        }
+        return () => {}
+    }, [supplyDialogOpen])
 
     return props.selectedMarketDetails.symbol ? (
         <>
@@ -296,16 +309,21 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
                             bordered={false}
                             value={withdrawAmount}
                             onChange={event => {
+                                setIsWithdrawMax(false)
                                 handleWithdrawAmountChange(event.target.value)
                             }}
                         />
                         <div
                             className="max"
                             onClick={() => {
-                                const arr = props.mySupplyDetails.filter(item => item.isEnterMarket)
-                                arr.forEach(item => console.log(item.supplyBalance))
-
-                                // handleWithdrawAmountChange()
+                                let amount
+                                if (+props.selectedMarketDetails.supplyBalanceInTokenUnit > +props.selectedMarketDetails.underlyingAmount) {
+                                    amount = props.selectedMarketDetails.underlyingAmount
+                                } else {
+                                    amount = props.selectedMarketDetails.supplyBalanceInTokenUnit
+                                }
+                                handleWithdrawAmountChange(amount)
+                                setIsWithdrawMax(true)
                             }}
                         >
                             {t('Max')}
@@ -330,21 +348,42 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
                                 title: t('Transaction Confirmation'),
                                 text: t('Please confirm the transaction in your wallet')
                             })
-                            const res = await handleWithdraw(
-                                props.selectedMarketDetails.underlyingAddress,
-                                props.selectedMarketDetails.pTokenAddress,
-                                withdrawAmount,
-                                props.selectedMarketDetails.decimals,
-                                props.selectedMarketDetails.symbol,
-                                globalInfo.library,
-                                gasPrice,
-                                () =>
-                                    StatusDialogRef.current.reset({
-                                        type: 'pending',
-                                        title: t('Transaction Confirmation'),
-                                        text: t('Transaction Pending')
-                                    })
-                            )
+                            let res
+                            if (isWithdrawMax) {
+                                res = await handleWithdraw(
+                                    props.selectedMarketDetails.underlyingAddress,
+                                    props.selectedMarketDetails.pTokenAddress,
+                                    +props.selectedMarketDetails.supplyCTokenBalance,
+                                    cTokenDecimals,
+                                    props.selectedMarketDetails.symbol,
+                                    globalInfo.library,
+                                    gasPrice,
+                                    () =>
+                                        StatusDialogRef.current.reset({
+                                            type: 'pending',
+                                            title: t('Transaction Confirmation'),
+                                            text: t('Transaction Pending')
+                                        }),
+                                    true
+                                )
+                            } else {
+                                res = await handleWithdraw(
+                                    props.selectedMarketDetails.underlyingAddress,
+                                    props.selectedMarketDetails.pTokenAddress,
+                                    withdrawAmount,
+                                    props.selectedMarketDetails.decimals,
+                                    props.selectedMarketDetails.symbol,
+                                    globalInfo.library,
+                                    gasPrice,
+                                    () =>
+                                        StatusDialogRef.current.reset({
+                                            type: 'pending',
+                                            title: t('Transaction Confirmation'),
+                                            text: t('Transaction Pending')
+                                        }),
+                                    false
+                                )
+                            }
                             if (res) {
                                 props.handleUpdateData()
                                 StatusDialogRef.current.hide({

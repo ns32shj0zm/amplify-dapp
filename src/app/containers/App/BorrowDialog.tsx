@@ -241,7 +241,7 @@ const BorrowDialog = forwardRef((props: IDetails, ref) => {
                             setBorrowDialogOpen(false)
                             StatusDialogRef.current.show({
                                 type: 'loading',
-                                title: t('Transaction Confirmed'),
+                                title: t('Transaction Confirmation'),
                                 text: t('Please confirm the transaction in your wallet')
                             })
                             const res = await handleBorrow(
@@ -255,13 +255,13 @@ const BorrowDialog = forwardRef((props: IDetails, ref) => {
                                 () =>
                                     StatusDialogRef.current.reset({
                                         type: 'pending',
-                                        title: t('Transaction Confirmed'),
+                                        title: t('Transaction Confirmation'),
                                         text: t('Transaction Pending')
                                     })
                             )
                             if (res) {
                                 props.handleUpdateData()
-                                StatusDialogRef.current.hide({ type: 'confirm', title: t('Transaction Confirmed'), text: t('Transaction Confirmed') })
+                                StatusDialogRef.current.hide({ type: 'confirm', title: t('Transaction Confirmation'), text: t('Transaction Confirmed') })
                             } else {
                                 StatusDialogRef.current.hide({ type: 'error', title: t('Transaction Error'), text: t('Transaction Error') })
                             }
@@ -325,7 +325,7 @@ const BorrowDialog = forwardRef((props: IDetails, ref) => {
                                 setBorrowDialogOpen(false)
                                 StatusDialogRef.current.show({
                                     type: 'loading',
-                                    title: t('Transaction Confirmed'),
+                                    title: t('Transaction Confirmation'),
                                     text: t('Please confirm the transaction in your wallet')
                                 })
                                 const res = await handleRepay(
@@ -341,7 +341,7 @@ const BorrowDialog = forwardRef((props: IDetails, ref) => {
                                     () =>
                                         StatusDialogRef.current.reset({
                                             type: 'pending',
-                                            title: t('Transaction Confirmed'),
+                                            title: t('Transaction Confirmation'),
                                             text: t('Transaction Pending')
                                         })
                                 )
@@ -349,7 +349,7 @@ const BorrowDialog = forwardRef((props: IDetails, ref) => {
                                     props.handleUpdateData()
                                     StatusDialogRef.current.hide({
                                         type: 'confirm',
-                                        title: t('Transaction Confirmed'),
+                                        title: t('Transaction Confirmation'),
                                         text: t('Transaction Confirmed')
                                     })
                                 } else {
@@ -365,7 +365,7 @@ const BorrowDialog = forwardRef((props: IDetails, ref) => {
                                 setBorrowDialogOpen(false)
                                 StatusDialogRef.current.show({
                                     type: 'loading',
-                                    title: t('Transaction Confirmed'),
+                                    title: t('Transaction Confirmation'),
                                     text: t('Please confirm the transaction in your wallet')
                                 })
                                 const res = await handleEnable(
@@ -377,7 +377,7 @@ const BorrowDialog = forwardRef((props: IDetails, ref) => {
                                     () =>
                                         StatusDialogRef.current.reset({
                                             type: 'pending',
-                                            title: t('Transaction Confirmed'),
+                                            title: t('Transaction Confirmation'),
                                             text: t('Transaction Pending')
                                         })
                                 )
@@ -385,7 +385,7 @@ const BorrowDialog = forwardRef((props: IDetails, ref) => {
                                     props.handleUpdateData()
                                     StatusDialogRef.current.hide({
                                         type: 'confirm',
-                                        title: t('Transaction Confirmed'),
+                                        title: t('Transaction Confirmation'),
                                         text: t('Transaction Confirmed')
                                     })
                                 } else {

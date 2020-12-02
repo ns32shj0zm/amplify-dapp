@@ -51,8 +51,8 @@ const production = {
         new webpack.optimize.ModuleConcatenationPlugin(), // Scope Hoisting
         new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn|en-gb/),
         new MiniCssExtractPlugin({
-            filename: 'css/main.[chunkhash:5].css',
-            chunkFilename: 'css/main.[contenthash:5].css' // 多加目录的话，待 CDN 部署时测试
+            filename: 'main.[chunkhash:5].css',
+            chunkFilename: 'main.[contenthash:5].css' // 多加目录的话，待 CDN 部署时测试
             // filename: 'main.[chunkhash:5].css',
             // chunkFilename: 'main.[contenthash:5].css'
         }),

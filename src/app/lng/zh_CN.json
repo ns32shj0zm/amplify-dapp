@@ -66,7 +66,8 @@
     "Enable as Collateral": "启用抵押",
     "Disable {{symbol}} as Collateral": "禁用 {{symbol}} 作为抵押品",
     "Use {{symbol}} as Collateral": "启用 {{symbol}} 作为抵押品",
-    "Transaction Confirmed": "确认交易",
+    "Transaction Confirmation": "确认交易",
+    "Transaction Confirmed": "交易已确认",
     "Please confirm the transaction in your wallet": "请在钱包中确认交易",
     "Transaction Pending": "等待钱包确认，请稍候",
     "Transaction Error": "交易错误"

@@ -219,7 +219,7 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
                                 setSupplyDialogOpen(false)
                                 StatusDialogRef.current.show({
                                     type: 'loading',
-                                    title: t('Transaction Confirmed'),
+                                    title: t('Transaction Confirmation'),
                                     text: t('Please confirm the transaction in your wallet')
                                 })
                                 const res = await handleSupply(
@@ -233,7 +233,7 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
                                     () =>
                                         StatusDialogRef.current.reset({
                                             type: 'pending',
-                                            title: t('Transaction Confirmed'),
+                                            title: t('Transaction Confirmation'),
                                             text: t('Transaction Pending')
                                         })
                                 )
@@ -241,7 +241,7 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
                                     props.handleUpdateData()
                                     StatusDialogRef.current.hide({
                                         type: 'confirm',
-                                        title: t('Transaction Confirmed'),
+                                        title: t('Transaction Confirmation'),
                                         text: t('Transaction Confirmed')
                                     })
                                 } else {
@@ -257,7 +257,7 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
                                 setSupplyDialogOpen(false)
                                 StatusDialogRef.current.show({
                                     type: 'loading',
-                                    title: t('Transaction Confirmed'),
+                                    title: t('Transaction Confirmation'),
                                     text: t('Please confirm the transaction in your wallet')
                                 })
                                 const res = await handleEnable(
@@ -269,7 +269,7 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
                                     () =>
                                         StatusDialogRef.current.reset({
                                             type: 'pending',
-                                            title: t('Transaction Confirmed'),
+                                            title: t('Transaction Confirmation'),
                                             text: t('Transaction Pending')
                                         })
                                 )
@@ -277,7 +277,7 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
                                     props.handleUpdateData()
                                     StatusDialogRef.current.hide({
                                         type: 'confirm',
-                                        title: t('Transaction Confirmed'),
+                                        title: t('Transaction Confirmation'),
                                         text: t('Transaction Confirmed')
                                     })
                                 } else {
@@ -327,7 +327,7 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
                             setSupplyDialogOpen(false)
                             StatusDialogRef.current.show({
                                 type: 'loading',
-                                title: t('Transaction Confirmed'),
+                                title: t('Transaction Confirmation'),
                                 text: t('Please confirm the transaction in your wallet')
                             })
                             const res = await handleWithdraw(
@@ -341,7 +341,7 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
                                 () =>
                                     StatusDialogRef.current.reset({
                                         type: 'pending',
-                                        title: t('Transaction Confirmed'),
+                                        title: t('Transaction Confirmation'),
                                         text: t('Transaction Pending')
                                     })
                             )
@@ -349,7 +349,7 @@ const SupplyDialog = forwardRef((props: IDetails, ref) => {
                                 props.handleUpdateData()
                                 StatusDialogRef.current.hide({
                                     type: 'confirm',
-                                    title: t('Transaction Confirmed'),
+                                    title: t('Transaction Confirmation'),
                                     text: t('Transaction Confirmed')
                                 })
                             } else {

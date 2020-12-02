@@ -1,0 +1,65 @@
+.voteDialog
+    .ant-modal-body
+        padding: 0
+
+    .voteTitle
+        height: 48px
+        line-height: @height
+        margin: 0 10px
+        padding: 0 18px
+        font-weight: bold
+        color: #4F5F6F
+        font-size: 20px
+        border-bottom: 1px solid #E1E7F0
+
+    .voteContent
+        padding: 30px
+
+        .title
+            justifyContentSpaceBetween()
+            font-size: 14px
+            padding: 0 0 15px
+
+            .text
+                height: 34px
+                line-height: @height
+
+            .switch
+                display: flex
+                border: 1px solid #DFDFE6
+                box-shadow: 0px 1px 3px 0px rgba(230, 230, 232, 0.3)
+                border-radius: 3px
+                color: #B5B5BA
+                padding: 3px
+
+                .item
+                    padding: 2px 10px
+                    cursor: pointer
+
+                    &.cur
+                        background: linear-gradient(0deg, #4B74DD, #5B87F7)
+                        color: #fff
+                        border-radius: 3px
+
+        .ant-input
+            height: 40px
+            line-height: @height
+
+        .btn
+            margin: 30px 15px 0
+            flex: 1
+            text-align: center
+            font-size: 14px
+            color: #fff
+            height: 40px
+            line-height: @height
+            border-radius: 4px
+            cursor: pointer
+            background: #5B87F7
+            width: calc(100% - 30px)
+            display: block
+            padding: 0
+
+            &:disabled
+                background: rgba(#5B87F7, 0.5)
+                cursor: not-allowed

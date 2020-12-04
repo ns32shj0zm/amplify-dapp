@@ -51,7 +51,7 @@
     "Supply Amount": "Supply Amount",
     "Max": "Max",
     "Wallet Balance": "Wallet Balance",
-    "Access To Wallet": "Apporve",
+    "Access To Wallet": "Approve",
     "Borrow Balance": "Borrow Balance",
     "Amount must be <= borrow limit": "Amount must be <= borrow limit",
     "Amount must be <= your borrow balance": "Amount must be <= your borrow balance",

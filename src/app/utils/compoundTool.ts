@@ -26,15 +26,15 @@ const gasLimitRepaySusd = '400000'
 const gasLimitEnterMarket = '112020'
 const gasLimitAMPT = '400000'
 const gasLimitAMPTDelegate = '200000'
-const amptDecimals = 18
+export const amptDecimals = 18
 
 const comptrollerAddress = '0x62f83Be5100ce06e27FEF5aa3BF80C866bc32B42'
 const priceFeedAddress = '0x1bDf9Ac287De6F8753CC793FF59211F5BBCe9e3A'
 const maxiMillionAddress = '0x89cf05a3F7b97bC8190B545693Fc2CE4BBd7A25F'
 
 const AMPTTokenAddress = '0xfb8a79916a252420c4e68014121642c1765e1b14'
-const TimeLockAddress = '0xfb8a79916a252420c4e68014121642c1765e1b14'
-const GvernorAlphaAddress = '0xfb8a79916a252420c4e68014121642c1765e1b14'
+const TimeLockAddress = '0x6DB4152971E5C27f4e2273edC7dC656D510c5960'
+const GvernorAlphaAddress = '0xc403535B86048526521Fb2538630D3722fAD9502'
 
 // const comptrollerAddress = '0x54188bBeDD7b68228fa89CbDDa5e3e930459C6c6'
 // const priceFeedAddress = '0xe23874df0276AdA49D58751E8d6E088581121f1B'
@@ -814,7 +814,7 @@ export async function getProposals(library, uint): Promise<any> {
     try {
         return await Compound.eth.read(
             GvernorAlphaAddress,
-            'function proposals(uint256) view returns (uint256, address, uint256, uint256, uint256, uint256, uint256, bool, bool)',
+            'function proposals(uint) returns (uint256, address, uint256, uint256, uint256, uint256, uint256, bool, bool)',
             [uint], // [optional] parameters
             {
                 network: chainIdToName[parseInt(library?.provider?.chainId)],
@@ -830,7 +830,7 @@ export async function getState(library, uint): Promise<any> {
     try {
         return await Compound.eth.read(
             GvernorAlphaAddress,
-            'function state(uint) returns (state)',
+            'function state(uint) returns (uint)',
             [uint], // [optional] parameters
             {
                 network: chainIdToName[parseInt(library?.provider?.chainId)],
@@ -855,5 +855,29 @@ export async function castVote(library, uint, bool): Promise<any> {
         )
     } catch (error) {
         console.log('castVote: ', error)
+    }
+}
+
+export async function getCompAccrued(address): Promise<any> {
+    try {
+        return await Compound.comp.getCompAccrued(address)
+    } catch (error) {
+        console.log('getCompAccrued: ', error)
+    }
+}
+
+export async function getBlockNumber(library, address): Promise<any> {
+    try {
+        return await Compound.eth.read(
+            comptrollerAddress,
+            'function getBlockNumber() returns (uint256)',
+            [], // [optional] parameters
+            {
+                network: chainIdToName[parseInt(library?.provider?.chainId)],
+                _compoundProvider: library
+            } // [optional] call options, provider, network, ethers.js "overrides"
+        )
+    } catch (error) {
+        console.log('getBlockNumber: ', error)
     }
 }

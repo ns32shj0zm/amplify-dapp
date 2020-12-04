@@ -1,1 +1,1 @@
-export const baseService = 'http://0.0.0.0:9000'
+export const baseService = 'http://amplify.dev.depool.io'

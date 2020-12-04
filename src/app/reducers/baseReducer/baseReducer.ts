@@ -2,6 +2,7 @@ import produce from 'immer'
 import { errorHandle } from '../../utils'
 import { eX } from '../../general/helpers'
 import { BigNumber } from 'bignumber.js'
+import { IGetProposals } from '../../services/baseServer/commonServer'
 
 export enum BASE {
     SET_VIEW_WIDTH = 'SET_VIEW_WIDTH',
@@ -17,7 +18,7 @@ export interface IBaseState {
         account: any
         library: any
     }
-    proposals: []
+    proposals: Array<IGetProposals>
 }
 
 export const baseState: IBaseState = {
@@ -27,7 +28,7 @@ export const baseState: IBaseState = {
         account: null,
         library: null
     },
-    proposals: []
+    proposals: [] as Array<IGetProposals>
 }
 
 export default {
@@ -51,7 +52,7 @@ export default {
     },
     [BASE.SET_PROPOSALS]: {
         next: produce((draft: IBaseState, action: IAction) => {
-            draft.proposals = action.payload.results
+            draft.proposals = action.payload.data.results
         }),
         throw: (state, action) => errorHandle(state, action)
     }

@@ -1,4 +1,4 @@
-import React, { useState, forwardRef, useImperativeHandle, useRef } from 'react'
+import React, { useState, forwardRef, useImperativeHandle, useRef, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Input, Button, Modal, Spin } from 'antd'
@@ -170,6 +170,18 @@ const BorrowDialog = forwardRef((props: IDetails, ref) => {
         }
     }))
 
+    useEffect(() => {
+        if (!borrowDialogOpen) {
+            setTabValue(0)
+            setBorrowAmount(0)
+            setRepayAmount(0)
+            setIsFullRepay(false)
+            setBorrowValidationMessage('')
+            setRepayValidationMessage('')
+        }
+        return () => {}
+    }, [borrowDialogOpen])
+
     const getMaxRepayAmount = (symbol, borrowBalanceInTokenUnit, borrowApy): BigNumber => {
         const maxRepayFactor = new BigNumber(1).plus(borrowApy / 100) // e.g. Borrow APY = 2% => maxRepayFactor = 1.0002
         if (symbol === 'ETH') {
@@ -211,6 +223,14 @@ const BorrowDialog = forwardRef((props: IDetails, ref) => {
                                 handleBorrowAmountChange(event.target.value)
                             }}
                         />
+                        <div
+                            className="max"
+                            onClick={() => {
+                                handleBorrowAmountChange(+props.generalDetails.totalBorrowLimit)
+                            }}
+                        >
+                            {t('Max')}
+                        </div>
                     </div>
                     <div className="inputInfo">
                         <div className="msg">{borrowValidationMessage}</div>
@@ -253,7 +273,11 @@ const BorrowDialog = forwardRef((props: IDetails, ref) => {
                             )
                             if (res) {
                                 props.handleUpdateData()
-                                StatusDialogRef.current.hide({ type: 'confirm', title: t('Transaction Confirmation'), text: t('Transaction Confirmed') })
+                                StatusDialogRef.current.hide({
+                                    type: 'confirm',
+                                    title: t('Transaction Confirmation'),
+                                    text: t('Transaction Confirmed')
+                                })
                             } else {
                                 StatusDialogRef.current.hide({ type: 'error', title: t('Transaction Error'), text: t('Transaction Error') })
                             }

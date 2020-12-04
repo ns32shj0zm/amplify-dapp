@@ -37,6 +37,8 @@ const maxiMillionAddress = '0x89cf05a3F7b97bC8190B545693Fc2CE4BBd7A25F'
 // const priceFeedAddress = '0x21A6297114853aEF193c83FC0271dEf69EA1b93d'
 // const maxiMillionAddress = '0xf859A1AD94BcF445A406B892eF0d3082f4174088'
 
+export const cTokenDecimals = 8
+
 export async function getMarkets(library, account): Promise<any> {
     let totalSupplyBalance = new BigNumber(0)
     let totalBorrowBalance = new BigNumber(0)
@@ -96,6 +98,7 @@ export async function getMarkets(library, account): Promise<any> {
             borrowApy,
             underlyingAllowance: await getAllowance(library, underlyingAddress, decimals, account, pTokenAddress),
             walletBalance: await getBalanceOf(library, underlyingAddress, decimals, account),
+            supplyCTokenBalance: await getBalanceOf(library, pTokenAddress, cTokenDecimals, account),
             supplyBalanceInTokenUnit: supplyAndBorrowBalance?.supplyBalanceInTokenUnit,
             supplyBalance: supplyAndBorrowBalance?.supplyBalance,
             marketTotalSupply: (await getMarketTotalSupplyInTokenUnit(library, pTokenAddress, decimals))?.times(underlyingPrice),
@@ -122,7 +125,6 @@ export async function getMarkets(library, account): Promise<any> {
             }
         })
     )
-    console.log('apr', +yearSupplyInterest, +yearBorrowInterest, +totalSupplyBalance)
     return {
         allMarketDetails,
         generalDetails: {
@@ -473,7 +475,7 @@ export const handleEnable = async (underlyingAddress, pTokenAddress, symbol, lib
     }
 }
 
-export const handleWithdraw = async (underlyingAddress, pTokenAddress, amount, decimals, symbol, library, gasPrice, callback) => {
+export const handleWithdraw = async (underlyingAddress, pTokenAddress, amount, decimals, symbol, library, gasPrice, callback, isRedeem?) => {
     const options = {
         network: chainIdToName[parseInt(library.provider.chainId)],
         provider: library.provider,
@@ -492,7 +494,7 @@ export const handleWithdraw = async (underlyingAddress, pTokenAddress, amount, d
     try {
         const tx = await Compound.eth.trx(
             pTokenAddress,
-            'redeemUnderlying',
+            isRedeem ? 'redeem' : 'redeemUnderlying',
             [eX(amount, decimals).toString()], // [optional] parameters
             options // [optional] call options, provider, network, ethers.js "overrides"
         )

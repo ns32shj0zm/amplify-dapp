@@ -2,6 +2,7 @@ import { BigNumber } from 'bignumber.js'
 export interface IDetails {
     generalDetails: GeneralDetails
     selectedMarketDetails: SelectedMarketDetails
+    mySupplyDetails: SelectedMarketDetails[]
     handleUpdateData(): void
 }
 
@@ -28,6 +29,7 @@ export interface SelectedMarketDetails {
     supplyApy: BigNumber
     borrowApy: BigNumber
     underlyingAllowance: BigNumber
+    supplyCTokenBalance: BigNumber
     walletBalance: BigNumber
     supplyBalanceInTokenUnit: BigNumber
     supplyBalance: string

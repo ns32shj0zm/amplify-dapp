@@ -226,6 +226,7 @@ function Home(props: IProps): JSX.Element {
                 <SupplyDialog
                     generalDetails={generalDetails}
                     selectedMarketDetails={selectedMarketDetails}
+                    mySupplyDetails={mySupplyDetails}
                     ref={SupplyDialogRef}
                     handleUpdateData={() => updateData()}
                 />

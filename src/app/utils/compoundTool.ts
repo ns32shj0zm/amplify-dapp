@@ -24,10 +24,17 @@ const gasLimitBorrowDai = '729897'
 const gasLimitRepayDai = '535024'
 const gasLimitRepaySusd = '400000'
 const gasLimitEnterMarket = '112020'
+const gasLimitAMPT = '400000'
+const gasLimitAMPTDelegate = '200000'
+const amptDecimals = 18
 
 const comptrollerAddress = '0x62f83Be5100ce06e27FEF5aa3BF80C866bc32B42'
 const priceFeedAddress = '0x1bDf9Ac287De6F8753CC793FF59211F5BBCe9e3A'
 const maxiMillionAddress = '0x89cf05a3F7b97bC8190B545693Fc2CE4BBd7A25F'
+
+const AMPTTokenAddress = '0xfb8a79916a252420c4e68014121642c1765e1b14'
+const TimeLockAddress = '0xfb8a79916a252420c4e68014121642c1765e1b14'
+const GvernorAlphaAddress = '0xfb8a79916a252420c4e68014121642c1765e1b14'
 
 // const comptrollerAddress = '0x54188bBeDD7b68228fa89CbDDa5e3e930459C6c6'
 // const priceFeedAddress = '0xe23874df0276AdA49D58751E8d6E088581121f1B'
@@ -684,5 +691,169 @@ export const handleEnterMarket = async (pTokenAddress, library, gasPrice, callba
         return true
     } catch (e) {
         return false
+    }
+}
+
+/* 治理部分 */
+export async function getCurrentVotes(library, address): Promise<any> {
+    try {
+        return await Compound.eth.read(
+            AMPTTokenAddress,
+            'function getCurrentVotes(address) returns (uint96)',
+            [address], // [optional] parameters
+            {
+                network: chainIdToName[parseInt(library?.provider?.chainId)],
+                _compoundProvider: library
+            } // [optional] call options, provider, network, ethers.js "overrides"
+        )
+    } catch (error) {
+        console.log('getCurrentVotes: ', error)
+    }
+}
+
+export async function getAMPTBalanceOf(library, address): Promise<any> {
+    try {
+        return await getBalanceOf(library, AMPTTokenAddress, amptDecimals, address)
+    } catch (error) {
+        console.log('getCurrentVotes: ', error)
+    }
+}
+
+export async function getDelegates(library, address): Promise<any> {
+    try {
+        return await Compound.eth.read(
+            AMPTTokenAddress,
+            'function delegates(address) returns (address)',
+            [address], // [optional] parameters
+            {
+                network: chainIdToName[parseInt(library?.provider?.chainId)],
+                _compoundProvider: library
+            } // [optional] call options, provider, network, ethers.js "overrides"
+        )
+    } catch (error) {
+        console.log('getDelegates: ', error)
+    }
+}
+
+export async function delegate(library, address, gasPrice, callback): Promise<any> {
+    try {
+        const options: any = {
+            network: chainIdToName[parseInt(library.provider.chainId)],
+            provider: library.provider,
+            gasLimit: gasLimitAMPTDelegate,
+            gasPrice: gasPrice.toString()
+        }
+        await Compound.eth.trx(
+            AMPTTokenAddress,
+            {
+                inputs: [
+                    {
+                        internalType: 'address',
+                        name: 'delegatee',
+                        type: 'address'
+                    }
+                ],
+                name: 'delegate',
+                outputs: [],
+                stateMutability: 'nonpayable',
+                type: 'function'
+            } as any,
+            [address], // [optional] parameters
+            options
+        )
+        if (callback) {
+            callback()
+        }
+        return true
+    } catch (error) {
+        console.log('getDelegates: ', error)
+        return false
+    }
+}
+
+export async function getClaimComp(library, address, gasPrice, callback): Promise<any> {
+    try {
+        const options: any = {
+            network: chainIdToName[parseInt(library.provider.chainId)],
+            provider: library.provider,
+            gasLimit: gasLimitAMPT,
+            gasPrice: gasPrice.toString()
+        }
+        const tx = await Compound.eth.trx(
+            comptrollerAddress,
+            {
+                constant: false,
+                inputs: [
+                    {
+                        internalType: 'address',
+                        name: 'holder',
+                        type: 'address'
+                    }
+                ],
+                name: 'claimComp',
+                outputs: [],
+                payable: false,
+                stateMutability: 'nonpayable',
+                type: 'function'
+            } as any,
+            [address], // [optional] parameters
+            options
+        )
+        if (callback) {
+            callback()
+        }
+        await getTransactionStatus(library, tx.hash)
+        return true
+    } catch (error) {
+        console.log('getClaimComp: ', error)
+        return false
+    }
+}
+
+export async function getProposals(library, uint): Promise<any> {
+    try {
+        return await Compound.eth.read(
+            GvernorAlphaAddress,
+            'function proposals(uint256) view returns (uint256, address, uint256, uint256, uint256, uint256, uint256, bool, bool)',
+            [uint], // [optional] parameters
+            {
+                network: chainIdToName[parseInt(library?.provider?.chainId)],
+                _compoundProvider: library
+            } // [optional] call options, provider, network, ethers.js "overrides"
+        )
+    } catch (error) {
+        console.log('getProposals: ', error)
+    }
+}
+
+export async function getState(library, uint): Promise<any> {
+    try {
+        return await Compound.eth.read(
+            GvernorAlphaAddress,
+            'function state(uint) returns (state)',
+            [uint], // [optional] parameters
+            {
+                network: chainIdToName[parseInt(library?.provider?.chainId)],
+                _compoundProvider: library
+            } // [optional] call options, provider, network, ethers.js "overrides"
+        )
+    } catch (error) {
+        console.log('getState: ', error)
+    }
+}
+
+export async function castVote(library, uint, bool): Promise<any> {
+    try {
+        return await Compound.eth.read(
+            GvernorAlphaAddress,
+            'function castVote(uint, bool) returns (state)',
+            [uint, bool], // [optional] parameters
+            {
+                network: chainIdToName[parseInt(library?.provider?.chainId)],
+                _compoundProvider: library
+            } // [optional] call options, provider, network, ethers.js "overrides"
+        )
+    } catch (error) {
+        console.log('castVote: ', error)
     }
 }

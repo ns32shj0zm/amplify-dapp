@@ -7,18 +7,13 @@ import { Drawer } from 'antd'
 import { useWeb3React } from '@web3-react/core'
 import { injected } from '../../general/connectors'
 import { useEagerConnect, useInactiveListener } from '../../general/hooks'
+import { getShortenAddress } from '../../utils/'
 import './header.styl'
 
 interface IProps extends RouteComponentProps {
     type?: string[]
     systemName?: string
     children?: React.ReactNode
-}
-
-function getShortenAddress(address): string {
-    const firstCharacters = address.substring(0, 6)
-    const lastCharacters = address.substring(address.length - 4, address.length)
-    return `${firstCharacters}...${lastCharacters}`
 }
 
 const Login = (): React.ReactElement => {

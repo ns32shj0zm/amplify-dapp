@@ -1,0 +1,92 @@
+.page-governanceDetail
+    background: url('./img/bg_banner.png') no-repeat top center
+    background-size: 100% 400px
+
+    @media screen and (max-width: 1200px)
+        background: rgb(233, 244, 255)
+
+    .header
+        margin: 0 auto
+        max-width: 840px
+
+        .wrap
+            .title
+                color: #000
+                margin: 0 0 15px
+
+            .main
+                justifyContentSpaceBetween()
+
+                .left
+                    display: flex
+
+                    .btn
+                        color: #0C7E5C
+                        border: 1px solid #0C7E5C
+                        border-radius: 2px
+                        padding: 0 2px
+                        margin: 0 10px 0 0
+                        height: 22px
+                        line-height: @height
+
+                    .text
+                        color: #8D8D8D
+
+                .right
+                    .btn
+                        color: #fff
+                        background: #346BF0
+                        border-radius: 2px
+                        height: 22px
+                        line-height: @height
+                        width: 80px
+                        text-align: center
+
+                    .text
+                        background: url('./img/dot.png') no-repeat left center
+                        height: 22px
+                        line-height: @height
+                        padding: 0 0 0 24px
+                        color: #8D8D8D
+
+    .content
+        margin: 0 auto
+        max-width: 870px
+        clear: both
+
+        .block
+            background: #fff
+            float: left
+            width: calc(50% - 30px)
+            margin: 0 15px 15px
+            box-shadow: 0px 4px 4px 2px rgba(0, 0, 0, 0.1)
+            border-radius: 2px
+
+            &.agree
+                .title
+                    border-bottom: 1px solid #1BA27A
+                    padding: 0 0 0 30px
+
+            &.against
+                .title
+                    border-bottom: 1px solid #E84D4D
+                    height: 46px
+                    line-height: @height 
+                    padding: 0 0 0 30px
+                    
+
+            &.detail
+                .title
+                    background: #F9FAFB;
+                    border: 1px solid #E4EBF1;
+                    height: 46px
+                    line-height: @height 
+                    padding: 0 30px
+
+            &.histroy
+                .title
+                    background: #F9FAFB;
+                    border: 1px solid #E4EBF1;
+                    height: 46px
+                    line-height: @height 
+                    padding: 0 30px

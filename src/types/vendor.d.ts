@@ -28,7 +28,8 @@ interface Window {
 interface IContent<T> {
     current_page: number
     total: number
-    data: T
+    data?: T
+    results?: T
 }
 
 interface IAction {

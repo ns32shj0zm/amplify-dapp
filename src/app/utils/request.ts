@@ -14,13 +14,6 @@ function checkStatus(response: AxiosResponse): AxiosResponse {
 }
 
 export async function request(reqUrl: string, options: AxiosRequestConfig = { method: 'GET' }): Promise<AxiosResponse> {
-    let acNum = ''
-    if (reqUrl.indexOf('do') !== -1) {
-        acNum = reqUrl.split('&')[2].split('=')[1]
-    }
-    if (!(acNum === '112' || acNum === '111')) {
-        axios.defaults.headers.common['authKey'] = storage.get('token') ? storage.get('token') : ''
-    }
     const response = await axios(reqUrl, options)
         .then(checkStatus)
         .catch(err => {

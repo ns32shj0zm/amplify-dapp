@@ -49,3 +49,7 @@ export const compareSymbol = (a, b) => {
     }
     return 0
 }
+
+export const compareId = (a, b) => {
+    return b.id - a.id
+}

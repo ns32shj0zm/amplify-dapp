@@ -91,7 +91,8 @@ function Governance(props: IProps): JSX.Element {
                     const time = +curTime.minus(diff.times(13.2)).times(1000)
                     console.log(id, time, +diff)
                     return {
-                        id,
+                        idStr: id,
+                        id: item.id,
                         name: item.name,
                         description: item.detail,
                         uri: item.uri,
@@ -187,7 +188,7 @@ function Governance(props: IProps): JSX.Element {
                                                 <div className="left">
                                                     {item.status ? <div className="btn">{STATUS[key][item.status]}</div> : null}
                                                     <div className="text">
-                                                        {item.id} {item.time}
+                                                        {item.idStr} {item.time}
                                                     </div>
                                                 </div>
                                                 <div className="right">

@@ -842,19 +842,27 @@ export async function getState(library, uint): Promise<any> {
     }
 }
 
-export async function castVote(library, uint, bool): Promise<any> {
+export async function castVote(library, uint, bool, callback): Promise<any> {
     try {
-        return await Compound.eth.read(
+        const tx = await Compound.eth.trx(
             GvernorAlphaAddress,
-            'function castVote(uint, bool) returns (state)',
-            [uint, bool], // [optional] parameters
+            'castVote',
+            [uint, bool],
             {
                 network: chainIdToName[parseInt(library?.provider?.chainId)],
-                _compoundProvider: library
+                // _compoundProvider: library.provider,
+                provider: library.provider,
+                abi: compoundConstants.abi.GovernorAlpha
             } // [optional] call options, provider, network, ethers.js "overrides"
         )
+        await getTransactionStatus(library, tx.hash)
+        if (callback) {
+            callback()
+        }
+        return true
     } catch (error) {
         console.log('castVote: ', error)
+        return false
     }
 }
 

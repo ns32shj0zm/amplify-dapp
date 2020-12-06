@@ -21,7 +21,8 @@ import {
     getProposals,
     getState,
     amptDecimals,
-    getBlockNumber
+    getBlockNumber,
+    getGovReceipts
 } from '../../utils/compoundTool'
 import StatusDialog from '../App/StatusDialog'
 import { IRootState } from '../../reducers/RootState'
@@ -80,6 +81,7 @@ function Governance(props: IProps): JSX.Element {
                 try {
                     const status = await getState(library, item.id)
                     const proposal = await getProposals(library, item.id)
+                    const receipt = await getGovReceipts(library, account, item.id)
                     let id = item.id
                     if (id < 10) {
                         id = `00${id}`
@@ -89,7 +91,6 @@ function Governance(props: IProps): JSX.Element {
                     const diff = new BigNumber(+blockNumber).minus(+proposal[4])
                     const curTime = new BigNumber(dayjs().unix())
                     const time = +curTime.minus(diff.times(13.2)).times(1000)
-                    console.log(id, time, +diff)
                     return {
                         idStr: id,
                         id: item.id,
@@ -98,6 +99,7 @@ function Governance(props: IProps): JSX.Element {
                         uri: item.uri,
                         status: status === undefined ? undefined : +status,
                         proposal,
+                        hasVoted: receipt[0][1],
                         time: dayjs(new Date(`${new Date(time)}Z`)).format('YYYY-MM-DD HH:mm:ss')
                     }
                 } catch (ex) {
@@ -122,7 +124,7 @@ function Governance(props: IProps): JSX.Element {
         setInfo({
             votes: +votes,
             delegates: +delegates === 0 ? null : delegates,
-            balance: +balance,
+            balance: isNaN(+balance) ? 0 : +balance,
             compAccrued: +new BigNumber(compAccrued).dividedBy(new BigNumber(10).pow(amptDecimals))
         })
         setLoading(false)
@@ -179,25 +181,27 @@ function Governance(props: IProps): JSX.Element {
                         <div className="block right">
                             <div className="blockTitle">治理提案</div>
                             <div className="blockMain">
-                                {list.map((item, index) => {
-                                    const key = i18n.language === 'en_US' ? 'en' : 'zh'
-                                    return item.name ? (
-                                        <div className="item" key={`${item.id}${index}`} onClick={() => confirmRef.current.show(item)}>
-                                            <div className="title">{item.name[key]}</div>
-                                            <div className="main">
-                                                <div className="left">
-                                                    {item.status ? <div className="btn">{STATUS[key][item.status]}</div> : null}
-                                                    <div className="text">
-                                                        {item.idStr} {item.time}
-                                                    </div>
-                                                </div>
-                                                <div className="right">
-                                                    {item.status === 1 ? <div className="btn">投票</div> : <div className="text">没有投票</div>}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ) : null
-                                })}
+                                {list.length
+                                    ? list.map((item, index) => {
+                                          const key = i18n.language === 'en_US' ? 'en' : 'zh'
+                                          return item.name ? (
+                                              <div className="item" key={`${item.id}${index}`} onClick={() => confirmRef.current.show(item)}>
+                                                  <div className="title">{item.name[key]}</div>
+                                                  <div className="main">
+                                                      <div className="left">
+                                                          {item.status ? <div className="btn">{STATUS[key][item.status]}</div> : null}
+                                                          <div className="text">
+                                                              {item.idStr} {item.time}
+                                                          </div>
+                                                      </div>
+                                                      <div className="right">
+                                                          {item.status === 1 ? <div className="btn">投票</div> : <div className="text">没有投票</div>}
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          ) : null
+                                      })
+                                    : '暂无数据'}
                             </div>
                         </div>
                     </div>

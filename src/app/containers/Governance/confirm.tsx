@@ -16,6 +16,7 @@ interface IProps {
     status: undefined | number
     proposal: Array<any>
     time: string
+    hasVoted: boolean
 }
 
 const ConfirmDialog = forwardRef((props, ref) => {
@@ -92,14 +93,16 @@ const ConfirmDialog = forwardRef((props, ref) => {
                         <div className="against">{+new BigNumber(+params.proposal[6]).dividedBy(new BigNumber(10).pow(amptDecimals))}</div>
                     </div>
                 </div>
-                <div className="confirmBtn">
-                    <Button className="btn agree" onClick={() => handleVote(true)}>
-                        赞成
-                    </Button>
-                    <Button className="btn against" onClick={() => handleVote(false)}>
-                        反对
-                    </Button>
-                </div>
+                {params.status === 1 && !params.hasVoted ? (
+                    <div className="confirmBtn">
+                        <Button className="btn agree" onClick={() => handleVote(true)}>
+                            赞成
+                        </Button>
+                        <Button className="btn against" onClick={() => handleVote(false)}>
+                            反对
+                        </Button>
+                    </div>
+                ) : null}
             </Modal>
             <StatusDialog ref={StatusDialogRef} />
         </>

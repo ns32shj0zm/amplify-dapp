@@ -35,6 +35,7 @@ const maxiMillionAddress = '0x89cf05a3F7b97bC8190B545693Fc2CE4BBd7A25F'
 const AMPTTokenAddress = '0xfb8a79916a252420c4e68014121642c1765e1b14'
 const TimeLockAddress = '0x6DB4152971E5C27f4e2273edC7dC656D510c5960'
 const GvernorAlphaAddress = '0xc403535B86048526521Fb2538630D3722fAD9502'
+const CompoundLensAddress = '0x1ADa633D2577997DDd32EF5833Ec816AbA568Dea'
 
 // const comptrollerAddress = '0x54188bBeDD7b68228fa89CbDDa5e3e930459C6c6'
 // const priceFeedAddress = '0xe23874df0276AdA49D58751E8d6E088581121f1B'
@@ -887,5 +888,45 @@ export async function getBlockNumber(library, address): Promise<any> {
         )
     } catch (error) {
         console.log('getBlockNumber: ', error)
+    }
+}
+
+export async function getGovReceipts(library, voter, proposalId): Promise<any> {
+    try {
+        return await Compound.eth.read(
+            CompoundLensAddress,
+            {
+                constant: true,
+                inputs: [
+                    { internalType: 'contract GovernorAlpha', name: 'governor', type: 'address' },
+                    { internalType: 'address', name: 'voter', type: 'address' },
+                    { internalType: 'uint256[]', name: 'proposalIds', type: 'uint256[]' }
+                ],
+                name: 'getGovReceipts',
+                outputs: [
+                    {
+                        components: [
+                            { internalType: 'uint256', name: 'proposalId', type: 'uint256' },
+                            { internalType: 'bool', name: 'hasVoted', type: 'bool' },
+                            { internalType: 'bool', name: 'support', type: 'bool' },
+                            { internalType: 'uint96', name: 'votes', type: 'uint96' }
+                        ],
+                        internalType: 'struct CompoundLens.GovReceipt[]',
+                        name: '',
+                        type: 'tuple[]'
+                    }
+                ],
+                payable: false,
+                stateMutability: 'view',
+                type: 'function'
+            } as any,
+            [GvernorAlphaAddress, voter, [proposalId]], // [optional] parameters
+            {
+                network: chainIdToName[parseInt(library?.provider?.chainId)],
+                provider: library.provider
+            } // [optional] call options, provider, network, ethers.js "overrides"
+        )
+    } catch (error) {
+        console.log('getGovReceipts: ', error)
     }
 }

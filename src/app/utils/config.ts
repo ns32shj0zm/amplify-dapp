@@ -1,1 +1,1 @@
-export const baseService = 'http://amplify.dev.depool.io'
+export const baseService = 'https://ampt-test-api.bitaicloud.com'

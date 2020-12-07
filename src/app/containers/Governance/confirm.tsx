@@ -66,6 +66,8 @@ const ConfirmDialog = forwardRef((props, ref) => {
         setKey(i18n.language === 'en_US' ? 'en' : 'zh')
     }, [i18n.language])
 
+    console.log(params)
+
     return params.id ? (
         <>
             <Modal
@@ -77,14 +79,14 @@ const ConfirmDialog = forwardRef((props, ref) => {
                 width={380}
                 maskClosable={false}
             >
-                <div className="confirmTitle">投票确认</div>
+                <div className="confirmTitle">{t('Vote')}</div>
                 <div className="confirmContent">
                     <img src={require('./img/logo.png')} alt="" />
                     <div className="title">{params.name ? params.name[key] : null}</div>
                     <div className="content">{params.description ? params.description[key] : null}</div>
                     <div className="link">
                         <a href={params.uri} target="__blank">
-                            在Etherscan上查看
+                            {t('View on Etherscan')}
                         </a>
                     </div>
                     <div className="number">
@@ -96,10 +98,10 @@ const ConfirmDialog = forwardRef((props, ref) => {
                 {params.status === 1 && !params.hasVoted ? (
                     <div className="confirmBtn">
                         <Button className="btn agree" onClick={() => handleVote(true)}>
-                            赞成
+                            {t('Agree')}
                         </Button>
                         <Button className="btn against" onClick={() => handleVote(false)}>
-                            反对
+                            {t('Against')}
                         </Button>
                     </div>
                 ) : null}

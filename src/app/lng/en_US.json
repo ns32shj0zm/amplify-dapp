@@ -70,5 +70,20 @@
     "Transaction Confirmed": "Transaction Confirmed",
     "Please confirm the transaction in your wallet": "Please confirm the transaction in your wallet",
     "Transaction Pending": "Transaction Pending",
-    "Transaction Error": "Transaction Error"
+    "Transaction Error": "Transaction Error",
+
+    "钱包":"钱包",
+    "治理提案":"治理提案",
+    "余额":"余额",
+    "挖矿收益":"挖矿收益",
+    "收集":"收集",
+    "委托":"委托",
+    "委托投票": "委托投票",
+    "委托给": "委托给",
+    "自己": "自己",
+    "他人": "他人",
+    "受托票数":"受托票数",
+    "暂无委托":"暂无委托",
+    "没有投票":"没有投票",
+    "在Etherscan上查看": "在Etherscan上查看"
 }

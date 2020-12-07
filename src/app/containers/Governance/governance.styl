@@ -109,6 +109,9 @@
                                 color: #fff
                                 padding: 0
 
+                                @media screen and (max-width: 1200px)
+                                    font-size: 12px
+
                                 &:disabled
                                     background: rgba(#346BF0, .5)
                                     cursor not-allowed
@@ -138,6 +141,9 @@
                         .main
                             justifyContentSpaceBetween()
 
+                            @media screen and (max-width: 1200px)
+                                font-size: 12px
+
                             .left
                                 display: flex
 
@@ -154,6 +160,8 @@
 
                                 .text
                                     color: #8D8D8D
+                                    height: 24px
+                                    line-height: @height
 
                             .right
                                 .btn

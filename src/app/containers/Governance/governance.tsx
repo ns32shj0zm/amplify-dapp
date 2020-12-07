@@ -181,27 +181,29 @@ function Governance(props: IProps): JSX.Element {
                         <div className="block right">
                             <div className="blockTitle">治理提案</div>
                             <div className="blockMain">
-                                {list.length
-                                    ? list.map((item, index) => {
-                                          const key = i18n.language === 'en_US' ? 'en' : 'zh'
-                                          return item.name ? (
-                                              <div className="item" key={`${item.id}${index}`} onClick={() => confirmRef.current.show(item)}>
-                                                  <div className="title">{item.name[key]}</div>
-                                                  <div className="main">
-                                                      <div className="left">
-                                                          {item.status ? <div className="btn">{STATUS[key][item.status]}</div> : null}
-                                                          <div className="text">
-                                                              {item.idStr} {item.time}
-                                                          </div>
-                                                      </div>
-                                                      <div className="right">
-                                                          {item.status === 1 ? <div className="btn">投票</div> : <div className="text">没有投票</div>}
-                                                      </div>
-                                                  </div>
-                                              </div>
-                                          ) : null
-                                      })
-                                    : '暂无数据'}
+                                {list.length ? (
+                                    list.map((item, index) => {
+                                        const key = i18n.language === 'en_US' ? 'en' : 'zh'
+                                        return item.name ? (
+                                            <div className="item" key={`${item.id}${index}`} onClick={() => confirmRef.current.show(item)}>
+                                                <div className="title">{item.name[key]}</div>
+                                                <div className="main">
+                                                    <div className="left">
+                                                        {item.status ? <div className="btn">{STATUS[key][item.status]}</div> : null}
+                                                        <div className="text">
+                                                            {item.idStr} {item.time}
+                                                        </div>
+                                                    </div>
+                                                    <div className="right">
+                                                        {item.status === 1 ? <div className="btn">投票</div> : <div className="text">没有投票</div>}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ) : null
+                                    })
+                                ) : (
+                                    <div>暂无数据</div>
+                                )}
                             </div>
                         </div>
                     </div>

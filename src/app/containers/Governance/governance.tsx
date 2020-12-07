@@ -95,7 +95,7 @@ function Governance(props: IProps): JSX.Element {
                         idStr: id,
                         id: item.id,
                         name: item.name,
-                        description: item.detail,
+                        description: item.description,
                         uri: item.uri,
                         status: status === undefined ? undefined : +status,
                         proposal,
@@ -144,34 +144,34 @@ function Governance(props: IProps): JSX.Element {
                 <Spin spinning={loading} size="large">
                     <div className="content">
                         <div className="block left">
-                            <div className="blockTitle">钱包</div>
+                            <div className="blockTitle">{t('Wallet')}</div>
                             <div className="blockMain">
                                 <div className="item">
-                                    <div className="title">AMPT余额</div>
+                                    <div className="title">{t('AMPT Balance')}</div>
                                     <div className="main">
                                         <div className="number">{info.balance}</div>
                                     </div>
                                 </div>
                                 <div className="item">
-                                    <div className="title">挖矿收益</div>
+                                    <div className="title">{t('AMPT Earned')}</div>
                                     <div className="main">
                                         <div className="number">{info.compAccrued}</div>
                                         <Button disabled={!(library && account)} className="btn" onClick={() => handleGetClaimComp()}>
-                                            收集
+                                            {t('Collect')}
                                         </Button>
                                     </div>
                                 </div>
                                 <div className="item">
-                                    <div className="title">委托</div>
+                                    <div className="title">{t('Delegate')}</div>
                                     <div className="main">
-                                        <div>{info.delegates ? getShortenAddress(info.delegates) : '暂无委托'}</div>
+                                        <div>{info.delegates ? getShortenAddress(info.delegates) : t('No Delegate')}</div>
                                         <Button disabled={!(library && account)} className="btn" onClick={() => voteRef.current.show()}>
-                                            委托
+                                            {t('Delegate')}
                                         </Button>
                                     </div>
                                 </div>
                                 <div className="item">
-                                    <div className="title">受托票数</div>
+                                    <div className="title">{t('Votes')}</div>
                                     <div className="main">
                                         <div>{info.votes ? +new BigNumber(info.votes).dividedBy(new BigNumber(10).pow(amptDecimals)) : 0}</div>
                                     </div>
@@ -179,7 +179,7 @@ function Governance(props: IProps): JSX.Element {
                             </div>
                         </div>
                         <div className="block right">
-                            <div className="blockTitle">治理提案</div>
+                            <div className="blockTitle">{t('Proposal')}</div>
                             <div className="blockMain">
                                 {list.length ? (
                                     list.map((item, index) => {
@@ -195,14 +195,18 @@ function Governance(props: IProps): JSX.Element {
                                                         </div>
                                                     </div>
                                                     <div className="right">
-                                                        {item.status === 1 ? <div className="btn">投票</div> : <div className="text">没有投票</div>}
+                                                        {item.status === 1 ? (
+                                                            <div className="btn">{t('Vote')}</div>
+                                                        ) : (
+                                                            <div className="text">{t('No Votes')}</div>
+                                                        )}
                                                     </div>
                                                 </div>
                                             </div>
                                         ) : null
                                     })
                                 ) : (
-                                    <div className="noData">暂无数据</div>
+                                    <div className="noData">{t('No data available')}</div>
                                 )}
                             </div>
                         </div>

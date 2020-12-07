@@ -40,10 +40,10 @@ const VoteDialog = forwardRef((props, ref) => {
     return (
         <>
             <Modal visible={show} onCancel={() => setShow(false)} footer={null} wrapClassName="voteDialog" centered width={380} maskClosable={false}>
-                <div className="voteTitle">委托投票</div>
+                <div className="voteTitle">{t('Delegate')}</div>
                 <div className="voteContent">
                     <div className="title">
-                        <div className="text">委托给</div>
+                        <div className="text">{t('Delegate To')}</div>
                         <div className="switch">
                             <div
                                 className={classnames('item', { cur: type === 0 })}
@@ -54,7 +54,7 @@ const VoteDialog = forwardRef((props, ref) => {
                                     }
                                 }}
                             >
-                                自己
+                                {t('Self')}
                             </div>
                             <div
                                 className={classnames('item', { cur: type === 1 })}
@@ -63,13 +63,13 @@ const VoteDialog = forwardRef((props, ref) => {
                                     setAddress('')
                                 }}
                             >
-                                他人
+                                {t('Others')}
                             </div>
                         </div>
                     </div>
                     <Input
                         disabled={type === 0}
-                        placeholder="输入一个OX地址"
+                        placeholder={t('Please enter the correct Ethereum address')}
                         value={address}
                         onChange={event => {
                             setAddress(event.target.value)
@@ -102,7 +102,7 @@ const VoteDialog = forwardRef((props, ref) => {
                             }
                         }}
                     >
-                        委托
+                        {t('Delegate')}
                     </Button>
                 </div>
             </Modal>

@@ -202,7 +202,7 @@ function Governance(props: IProps): JSX.Element {
                                         ) : null
                                     })
                                 ) : (
-                                    <div>暂无数据</div>
+                                    <div className="noData">暂无数据</div>
                                 )}
                             </div>
                         </div>

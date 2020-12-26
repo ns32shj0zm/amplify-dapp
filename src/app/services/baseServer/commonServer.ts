@@ -16,8 +16,31 @@ export interface IGasPrice {
     gasPriceRange: { [key: string]: number }
 }
 
+export interface IGetProposals {
+    code: number
+    results: Result[]
+}
+
+export interface Result {
+    id: number
+    name: Description
+    description: Description
+    uri: string
+}
+
+export interface Description {
+    zh: string
+    en: string
+}
+
 export function updateGasPrice(): Promise<AxiosResponse<IGasPrice>> {
     return request('https://ethgasstation.info/api/ethgasAPI.json', {
+        method: 'GET'
+    })
+}
+
+export function getProposals(): Promise<AxiosResponse<IGetProposals>> {
+    return request('/api/proposals', {
         method: 'GET'
     })
 }

@@ -70,5 +70,24 @@
     "Transaction Confirmed": "交易已确认",
     "Please confirm the transaction in your wallet": "请在钱包中确认交易",
     "Transaction Pending": "等待钱包确认，请稍候",
-    "Transaction Error": "交易错误"
+    "Transaction Error": "交易错误",
+
+    "Proposal":"治理提案",
+    "Balance":"余额",
+    "AMPT Balance":"AMPT余额",
+    "AMPT Earned":"挖矿收益",
+    "Collect":"收集",
+    "Delegate":"委托",
+    "Delegate To": "委托给",
+    "Self": "自己",
+    "Others": "他人",
+    "Votes":"委托票数",
+    "No Delegate":"暂无委托",
+    "Vote": "投票",
+    "No Votes":"没有投票",
+    "View on Etherscan": "在Etherscan上查看",
+    "No data available":"暂无数据",
+    "Please enter the correct Ethereum address": "请输入正确的以太坊地址",
+    "Agree": "赞成",
+    "Against": "反对"
 }

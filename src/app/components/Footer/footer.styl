@@ -12,17 +12,18 @@
 
     .contact
         width: 220px
-        display: flex
+        display: flex;
+        flex-wrap: wrap;
 
         @media screen and (max-width: 1200px)
             display: flex
             width: 100%
 
         .item
-            width: 40px
-            height: @width
-            position: relative
-            margin: 14px 30px 0 0
+            width: 40px;
+            height: 40px;
+            position: relative;
+            margin: 12px 20px 15px 0;
 
             img
                 cursor: pointer
@@ -30,12 +31,7 @@
                 top: 50%
                 left: 50%
                 transform: translate(-50%, -50%)
-
-                &.email
-                    width: 40px
-
-                &.twitter
-                    height: 40px
+                width: 40px
 
     .copyright
         font-size: 20px

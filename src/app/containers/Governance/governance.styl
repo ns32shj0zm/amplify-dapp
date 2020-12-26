@@ -12,12 +12,44 @@
         border: 1px solid #E4EBF1
         margin: 0 auto
         box-shadow: 0px 4px 4px 2px rgba(0, 0, 0, 0.1)
+        display: flex
+
+        &:before
+            width: 100px
+            height: @width
+            display: block
+            content: ' '
+            background: #f9f9fb url('./img/icon.png') no-repeat center
+            background-size: 48px 48px
+            border: 1px solid #E4EBF1
+
+        .main
+            flex: 1
+            padding: 30px
+
+            .number
+                color: #546A79
+
+                i
+                    font-size: 25px
+
+                em
+                    font-size: 20px
+
+            .text
+                color: #B4BFD1
+                padding: 5px 0 0
 
     .content
-        padding: 100px 0 300px
+        padding: 100px 0 50px
         display: flex
         margin: 0 auto
         width: 1000px
+
+        @media screen and (max-width: 1200px)
+            display: block
+            width: auto
+            padding: 10px
 
         .block
             box-shadow: 0px 4px 4px 2px rgba(0, 0, 0, 0.1)
@@ -29,13 +61,70 @@
                 background: #F9FAFB
                 border: 1px solid #E4EBF1
                 padding: 0 30px
+                font-size: 16px
+
+                @media screen and (max-width: 1200px)
+                    padding: 0 10px
 
             &.left
                 width: 380px
 
+                @media screen and (max-width: 1200px)
+                    width: auto
+
+                    .blockMain
+
+                        .item
+                            padding: 10px
+
+                .blockMain
+                    padding: 10px
+
+                    .item
+                        border-bottom: 1px dotted #f1f1f1
+                        padding: 15px 20px
+
+                        .title
+                            font-size: 14px
+                            padding: 0 0 15px
+
+                        .main
+                            justifyContentSpaceBetween()
+                            line-height: 22px
+                            padding: 0 0 0 8px
+
+                            .number
+                                background: url('./img/logoSmall.png') no-repeat left center
+                                background-size: 12px 12px
+                                font-size: 12px
+                                padding: 0 0 0 17px
+
+                            .btn
+                                width: 70px
+                                height: 22px
+                                line-height: @height
+                                background: #346BF0
+                                border-radius: 2px
+                                text-align: center
+                                color: #fff
+                                padding: 0
+
+                                @media screen and (max-width: 1200px)
+                                    font-size: 12px
+
+                                &:disabled
+                                    background: rgba(#346BF0, .5)
+                                    cursor not-allowed
+
             &.right
                 flex: 1
                 margin: 0 0 0 32px
+
+                @media screen and (max-width: 1200px)
+                    margin: 20px 0 0
+
+                    .blockMain
+                        padding: 0 10px
 
                 .blockMain
                     padding: 0 30px 30px
@@ -43,6 +132,7 @@
                     .item
                         padding: 10px
                         border-bottom: 1px solid #F8F8F8
+                        cursor pointer
 
                         .title
                             color: #000
@@ -50,6 +140,9 @@
 
                         .main
                             justifyContentSpaceBetween()
+
+                            @media screen and (max-width: 1200px)
+                                font-size: 12px
 
                             .left
                                 display: flex
@@ -62,9 +155,13 @@
                                     margin: 0 10px 0 0
                                     height: 22px
                                     line-height: @height
+                                    cursor: pointer
+                                    
 
                                 .text
                                     color: #8D8D8D
+                                    height: 24px
+                                    line-height: @height
 
                             .right
                                 .btn
@@ -77,8 +174,10 @@
                                     text-align: center
 
                                 .text
-                                    background: url(./img/dot.png) no-repeat left  center
+                                    background: url('./img/dot.png') no-repeat left center
                                     height: 22px
                                     line-height: @height
                                     padding: 0 0 0 24px
                                     color: #8D8D8D
+                    .noData
+                        padding: 30px 0

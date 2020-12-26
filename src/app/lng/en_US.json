@@ -70,5 +70,24 @@
     "Transaction Confirmed": "Transaction Confirmed",
     "Please confirm the transaction in your wallet": "Please confirm the transaction in your wallet",
     "Transaction Pending": "Transaction Pending",
-    "Transaction Error": "Transaction Error"
+    "Transaction Error": "Transaction Error",
+
+    "Proposal":"Proposal",
+    "Balance":"Balance",
+    "AMPT Balance":"AMPT Balance",
+    "AMPT Earned":"AMPT Earned",
+    "Collect":"Collect",
+    "Delegate":"Delegate",
+    "Delegate To": "Delegate To",
+    "Self": "Self",
+    "Others": "Others",
+    "Votes":"Votes",
+    "No Delegate":"No Delegate",
+    "Vote": "Vote",
+    "No Votes":"No Votes",
+    "View on Etherscan": "View on Etherscan",
+    "No data available":"No data available",
+    "Please enter the correct Ethereum address": "Please enter the correct Ethereum address",
+    "Agree": "Agree",
+    "Against": "Against"
 }

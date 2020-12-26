@@ -47,7 +47,7 @@ const Header: React.FunctionComponent<IProps> = (props: IProps): React.ReactElem
                 {/* {props.children} */}
                 <div className="nav">
                     <div className={classnames({ cur: pathname === '/' })} onClick={() => jump('/')}>
-                        App
+                        Amplify Lend
                     </div>
                     <div className={classnames({ cur: /governance/gi.test(pathname) })} onClick={() => jump('/governance')}>
                         Governance

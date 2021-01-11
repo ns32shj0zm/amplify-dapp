@@ -17,13 +17,14 @@ interface IProps extends RouteComponentProps {
 }
 
 const Login = (): React.ReactElement => {
+    const [t] = useTranslation()
     const { account, library, activate, deactivate, active } = useWeb3React()
     const triedEager = useEagerConnect()
     const onConnectClick = (): void => {
         activate(injected)
     }
     useInactiveListener(!triedEager)
-    return <div className="login">{active ? <div>{getShortenAddress(account)}</div> : <div onClick={onConnectClick}>登录</div>}</div>
+    return <div className="login">{active ? <div>{getShortenAddress(account)}</div> : <div onClick={onConnectClick}>{t('Login')}</div>}</div>
 }
 
 const Header: React.FunctionComponent<IProps> = (props: IProps): React.ReactElement => {
@@ -84,7 +85,7 @@ const Header: React.FunctionComponent<IProps> = (props: IProps): React.ReactElem
             <Drawer placement="right" closable={false} onClose={() => setVisible(false)} visible={visible} width={150} className="Drawer">
                 <Login />
                 <div className={classnames('item', { cur: /app/gi.test(pathname) })} onClick={() => jump('/app')}>
-                    App
+                    Amplify Lend
                 </div>
                 <div className={classnames('item', { cur: /governance/gi.test(pathname) })} onClick={() => jump('/governance')}>
                     Governance

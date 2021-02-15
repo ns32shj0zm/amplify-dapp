@@ -1,12 +1,12 @@
-## 安装
+## Install
 
     npm install
 
-## 开发
+## Run
 
     npm start
 
 
-## 发布
+## Production
 
     npm run build:prod

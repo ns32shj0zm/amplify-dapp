@@ -1,1 +1,1 @@
-export const baseService = 'https://ampt-test-api.bitaicloud.com'
+export const baseService = 'https://app-test.ampt.tech'

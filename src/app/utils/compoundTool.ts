@@ -29,13 +29,14 @@ const gasLimitAMPTDelegate = '200000'
 export const amptDecimals = 18
 
 const comptrollerAddress = '0x62Ee7e6Cf3759eaBEc01A6237a000bA06b76c25F'
-const priceFeedAddress = ''
+// Pranav: testnet putting simple price Oracle.  
+const priceFeedAddress = '0x320F00f51a1A906ec3aE2380b93bfCA60842c961'
 const maxiMillionAddress = '0x1c2ff6D543B189583C6f80a0CC230d060039BD57'
 
 const AMPTTokenAddress = '0x0F7e1038b0F4e16908E1531462e2ff69C1f6B312'
 const TimeLockAddress = '0x7963991712D404674C4d3Dd567210E7BC25B441E'
 const GvernorAlphaAddress = '0x9Dde6D7Fa9393dDe8eC1f0fA947De27A2b055b5f'
-const CompoundLensAddress = ''
+const CompoundLensAddress = '0x6e658e12A01FC2Bf9c16e8a1B1a16CAA4a806c58'
 
 // const comptrollerAddress = '0x54188bBeDD7b68228fa89CbDDa5e3e930459C6c6'
 // const priceFeedAddress = '0xe23874df0276AdA49D58751E8d6E088581121f1B'

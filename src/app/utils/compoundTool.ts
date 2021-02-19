@@ -28,14 +28,14 @@ const gasLimitAMPT = '400000'
 const gasLimitAMPTDelegate = '200000'
 export const amptDecimals = 18
 
-const comptrollerAddress = '0x62f83Be5100ce06e27FEF5aa3BF80C866bc32B42'
-const priceFeedAddress = '0x1bDf9Ac287De6F8753CC793FF59211F5BBCe9e3A'
-const maxiMillionAddress = '0x89cf05a3F7b97bC8190B545693Fc2CE4BBd7A25F'
+const comptrollerAddress = '0x62Ee7e6Cf3759eaBEc01A6237a000bA06b76c25F'
+const priceFeedAddress = ''
+const maxiMillionAddress = '0x1c2ff6D543B189583C6f80a0CC230d060039BD57'
 
-const AMPTTokenAddress = '0xfb8a79916a252420c4e68014121642c1765e1b14'
-const TimeLockAddress = '0x6DB4152971E5C27f4e2273edC7dC656D510c5960'
-const GvernorAlphaAddress = '0xc403535B86048526521Fb2538630D3722fAD9502'
-const CompoundLensAddress = '0x1ADa633D2577997DDd32EF5833Ec816AbA568Dea'
+const AMPTTokenAddress = '0x0F7e1038b0F4e16908E1531462e2ff69C1f6B312'
+const TimeLockAddress = '0x7963991712D404674C4d3Dd567210E7BC25B441E'
+const GvernorAlphaAddress = '0x9Dde6D7Fa9393dDe8eC1f0fA947De27A2b055b5f'
+const CompoundLensAddress = ''
 
 // const comptrollerAddress = '0x54188bBeDD7b68228fa89CbDDa5e3e930459C6c6'
 // const priceFeedAddress = '0xe23874df0276AdA49D58751E8d6E088581121f1B'
